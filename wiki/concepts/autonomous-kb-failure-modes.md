@@ -19,6 +19,12 @@ sources:
   - path: raw/papers/multiagent-debate-factuality.md
     type: paper
     quality: primary
+  - path: raw/papers/model-collapse-recursive-training.md
+    type: paper
+    quality: primary
+  - path: raw/papers/wikipedia-era-llms-risks.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [meta-kb, failure-analysis, safety, original-insight]
@@ -36,6 +42,10 @@ An LLM-operated KB without human intervention degrades silently over ~30 days th
 ### Failure Mode 1: Semantic Convergence (Week 1-2)
 
 **Mechanism:** Self-enhancement bias (CALM: 16.1% error) + unsupervised /review = LLM rewrites articles in its preferred style each review cycle. "Convert vague to precise" and "deduplicate" are opportunities to homogenize.
+
+**Academic formalization: Model Collapse** (Shumailov et al., Nature 2024). Recursive self-consumption destroys distributional diversity — "tails of the original content distribution disappear." Applied to KBs: when an LLM compiles wiki from its own synthesis, diversity narrows and nuance disappears. The mitigation from the paper: "if data accumulates and models train on a mixture of real and synthetic data, model collapse no longer occurs." For us: /review must always re-read raw/ (real data), never operate only on wiki/ (synthetic data).
+
+**Empirical validation: Wikipedia risks** (Huang et al., 2025). "AI-revised Wikipedia content lowered RAG performance, particularly in factual accuracy." Stylistic homogenization detected at Wikipedia scale: sentences becoming "more AI-like, with longer, more complex sentences." Our KB is a micro-scale version of the same phenomenon.
 
 **Why invisible:** Wiki gets *more consistent*, not less. All /review metrics stay green. Problem is qualitative: wiki loses perspective diversity that justifies having multiple sources.
 
@@ -116,6 +126,10 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 
 **Tension with single-agent:** Tim Kellogg documents Cognition's critique that multi-agent creates "fragile systems" with "dispersed decision-making." Multiagent debate fixes bias but adds coordination cost and context fragmentation. Neither single-agent nor multi-agent /review dominates — the choice depends on whether bias risk (single) or coordination fragility (multi) is the bigger threat for the specific article being reviewed.
 
+## Interpretação
+
+Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretativo está inline por razões de coesão narrativa.
+
 ## Conexões
 
 - [[llm-as-judge]] — self-enhancement bias (16.1%) and authority bias are the root causes
@@ -132,4 +146,6 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 - [JudgeBench](../../raw/papers/judgebench-evaluating-llm-judges.md) — self-assessment near random on hard tasks, reliability inflated by benchmark difficulty
 - [Reflexion](../../raw/papers/reflexion-verbal-reinforcement-learning.md) — without independent grounding, self-reflection degrades to 52%
 - [ERL](../../raw/papers/erl-experiential-reflective-learning.md) — random inclusion degrades after 40-60; indiscriminate growth is counterproductive
+- [Model Collapse](../../raw/papers/model-collapse-recursive-training.md) — recursive self-consumption destroys diversity (Nature 2024); mixture of real+synthetic data prevents collapse
+- [Wikipedia Risks](../../raw/papers/wikipedia-era-llms-risks.md) — AI-revised content lowers RAG performance; stylistic homogenization detected empirically
 - [Synapse](../../raw/papers/synapse-episodic-semantic-memory.md) — Cognitive Tunneling: hub suppression as analogy for convergence

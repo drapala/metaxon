@@ -139,7 +139,7 @@ Models autonomously generate training tasks and improve reasoning via RL. Code e
 
 **Relevance:** A self-improving KB could use self-play: agent generates questions about its own wiki → attempts to answer → evaluates against raw/ → uses feedback to improve articles and retrieval. This would automate the /ask → evaluate → /review cycle entirely.
 
-### Relevance to This Knowledge Base (⚠️ our design analogies, not source claims)
+## Interpretação
 
 Our pipeline loosely parallels self-improvement patterns:
 - **Patch system** (`> [!patch]`) resembles manual Reflexion: identify error → verbal feedback → incorporate

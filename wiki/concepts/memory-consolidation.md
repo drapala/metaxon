@@ -75,6 +75,10 @@ The system does not store:
 
 Principle: if it's derivable from current state, don't persist it.
 
+## Interpretação
+
+Nenhuma interpretação significativa neste artigo — conteúdo é factual direto das fontes.
+
 ## Conexões
 
 - [[context-management]] — memory consolidation is cross-session context management

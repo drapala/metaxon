@@ -52,1004 +52,541 @@ Be harsh. The purpose is to find what's wrong, not to confirm the wiki is good. 
 ---
 
 ## Articles and Sources to Review
-=== ARTICLE: agent-memory-architectures ===
+=== ARTICLE: kb-architecture-patterns (post-fix) ===
 
 ---
-title: "Agent Memory Architectures"
+title: "KB Architecture Patterns"
 sources:
-  - path: raw/papers/memgpt-llms-as-operating-systems.md
-    type: paper
-    quality: primary
-  - path: raw/papers/synapse-episodic-semantic-memory.md
-    type: paper
-    quality: primary
-  - path: raw/articles/tim-kellogg-layers-memory-compression.md
+  - path: raw/articles/karpathy-llm-knowledge-bases.md
+    type: note
+    quality: tertiary
+  - path: raw/articles/elvis-personal-kb-agents.md
+    type: note
+    quality: tertiary
+  - path: raw/articles/paulo-silveira-open-claw-pkm.md
     type: article
     quality: secondary
-  - path: raw/papers/memory-age-ai-agents-survey.md
-    type: paper
+  - path: raw/articles/claude-code-internals-harness-engineering.md
+    type: article
     quality: primary
-  - path: raw/papers/hipporag-neurobiological-memory.md
-    type: paper
-    quality: primary
-  - path: raw/papers/coala-cognitive-architectures-language-agents.md
-    type: paper
-    quality: primary
-  - path: raw/papers/em-llm-human-episodic-memory.md
-    type: paper
-    quality: primary
-created: 2026-04-03
-updated: 2026-04-03
-tags: [memory, architecture, agent-design, cognitive-science]
-source_quality: high
-interpretation_confidence: high
-resolved_patches: []
----
-
-## Resumo
-
-Agent memory architectures define how persistent knowledge is structured, stored, and accessed across sessions. Three dominant patterns have emerged: hierarchical tiers (MemGPT/Letta), dynamic graphs (Synapse), and layered compression (Letta/Kellogg). All solve the same fundamental problem — operating within finite context windows — but differ in how they trade fidelity for space.
-
-## Conteúdo
-
-### Pattern 1: Hierarchical Tiers (MemGPT → Letta)
-
-MemGPT (2023) introduced virtual context management inspired by OS memory hierarchies. The LLM agent manages its own memory through self-directed function calls.
-
-**Memory hierarchy:**
-
-| Tier | OS Analogy | Contents | Access |
-|------|-----------|----------|--------|
-| System Instructions | ROM | Prompt, function schemas | Read-only |
-| Working Context | Registers | Key facts, preferences, persona | Read-write via functions |
-| FIFO Queue | RAM | Rolling message history + summaries | Managed by queue manager |
-| Recall Storage | SSD | Full message database, searchable | Function calls |
-| Archival Storage | Disk | Arbitrary text, unbounded | Function calls |
-
-**Key mechanisms:**
-- Memory pressure warnings at 70% context capacity
-- Queue eviction at 100%: flush 50%, generate recursive summary
-- Agent decides what to store/retrieve/forget — self-directed, not pipeline-driven
-- Heartbeat events allow autonomous internal processing chains
-
-**Critical limitation:** Eviction is mechanical (FIFO + pressure-based), not experience-driven. A memory that caused 3 consecutive retrieval failures is treated identically to one that never failed. MemGPT has no mechanism to learn from retrieval errors — it manages *space*, not *quality*. See [[reflexion-weighted-knowledge-graphs]] for a proposed architecture that addresses this gap by combining Reflexion's failure feedback with graph topology.
-
-**Evolution to Letta (4 blocks):**
-- Core Memory (always in context) → Working Context
-- Message Buffer (rolling window) → FIFO Queue
-- Archival Memory (unbounded) → Archival Storage
-- Recall Memory (on-demand rehydration) → Recall Storage
-
-### Pattern 2: Dynamic Graph (Synapse)
-
-Synapse (2026) models memory as a graph where relevance emerges from spreading activation rather than static vector similarity.
-
-**Two node types:**
-- **Episodic nodes**: discrete interaction turns (text + embeddings + timestamps)
-- **Semantic nodes**: abstract concepts extracted every N=5 turns (dedup at τ=0.92)
-
-**Three edge types:** temporal (sequential), abstraction (episode↔concept), association (concept↔concept)
-
-**Spreading activation (4 phases):**
-1. Initialize: BM25 + dense retrieval anchor query nodes
-2. Propagate: activation flows through edges with fan-effect normalization (prevents hub flooding)
-3. Lateral inhibition: winner-take-all suppresses competing nodes (β=0.15, top-M=7)
-4. Sigmoid activation: convergence in T=3 iterations
-
-**Triple Hybrid Retrieval:** S(v) = 0.5·semantic + 0.3·activation + 0.2·PageRank
-
-**Results (LoCoMo benchmark):**
-- Avg F1: 40.5 (vs GraphRAG 18.3, MemGPT 28.0, Zep 39.7)
-- 95% token reduction vs full-context methods
-- 11× cost reduction, 4× faster
-
-**Solves "Contextual Isolation":** standard RAG fails when causally related memories share no semantic overlap. Graph topology enables multi-hop traversal through "Bridge Nodes."
-
-**Trade-off:** Lateral inhibition can suppress minor details when hub nodes activate strongly (Cognitive Tunneling).
-
-### Pattern 3: Layered Compression (Rate-Distortion Framework)
-
-Tim Kellogg (2025) frames agent memory as a rate-distortion problem: maximize useful signal within fixed context windows while minimizing information loss.
-
-**Letta's 4 blocks as CPU cache analogy:**
-
-| Block | Analogy | Capacity | Fidelity |
-|-------|---------|----------|----------|
-| Core Memory | L1 cache | Minimal | Zero distortion |
-| Message Buffer | L2 cache | Fixed window | Lossy over time |
-| Archival Memory | Disk | Unbounded | High distortion |
-| Recall Memory | DMA | On-demand | Rehydration |
-
-**Key insight:** "Compression becomes cognitive work: summarizing before archival forces understanding; searching archives requires reasoning about importance."
-
-**Single-agent vs multi-agent compression:**
-- Single-agent (Letta/Cognition): one entity manages compressed memories. Maintains coherent reasoning thread. Cognition recommends dedicated compression model.
-- Multi-agent (Anthropic): parallel subagents each compress different aspects. Lead agent integrates. Reduces path-dependence. Outperforms single-agent on broad queries.
-- Coordination challenge (Cognition critique): context can't be shared thoroughly across agents → "decision-making becomes too dispersed"
-
-**Conclusion:** "Extending AI cognition requires engineering intentional forgetting. Memory becomes meaningful precisely because it isn't perfect recording."
-
-### The Canonical Taxonomy (Memory Survey, 2025)
-
-The "Memory in the Age of AI Agents" survey (47 authors, Dec 2025) provides the most comprehensive taxonomy:
-
-**Key distinctions:**
-- Agent memory ≠ LLM memory (parametric weights)
-- Agent memory ≠ RAG (retrieval technique, not full lifecycle)
-- Agent memory ≠ Context engineering (prompt management, not persistence)
-
-**Forms (what carries memory):**
-
-| Form | Description | Examples |
-|------|-------------|---------|
-| Token-level | Explicit text in context (flat/planar/hierarchical) | Chat history, MemGPT tiers, RAPTOR trees |
-| Parametric | Encoded in model weights | Fine-tuning, LoRA adapters |
-| Latent | Compressed representations | Embeddings, hidden states |
-
-**Functions (why memory exists):**
-
-| Function | What it stores |
-|----------|---------------|
-| Factual | World knowledge, user preferences, entity states |
-| Experiential | Past solutions, strategies, skills (case/strategy/skill-based) |
-| Working | Active processing buffer for current task |
-
-**Dynamics (how memory operates):**
-
-| Dynamic | Process |
-|---------|---------|
-| Formation | Summarization, distillation, graph construction, embedding, fine-tuning |
-| Evolution | Consolidation, updating, forgetting (Ebbinghaus decay) |
-| Retrieval | Vector similarity, graph traversal, activation-based, hybrid |
-
-### Pattern 4: Knowledge Graph Retrieval (HippoRAG)
-
-HippoRAG (NeurIPS 2024) models memory as a knowledge graph with Personalized PageRank retrieval, inspired by hippocampal memory indexing theory.
-
-**Architecture:**
-1. Offline: LLM OpenIE → noun phrase nodes + relation edges → schemaless KG + synonymy edges
-2. Online: extract query entities → map to KG → Personalized PageRank → rank passages
-
-**Key advantage:** incrementally adds edges (no rebuild needed, unlike RAPTOR's tree re-clustering). 10-30× cheaper, 6-13× faster than iterative methods.
-
-**Connection to wikilinks:** Our wiki's `[[wikilinks]]` are a manually-built HippoRAG graph. Entities = articles, edges = links, retrieval = following paths from query-relevant articles.
-
-### Decision Framework: Compression vs. Associative Structure
-
-When should an agent compress aggressively (MemGPT-style) vs. preserve full associative structure (HippoRAG-style)? The papers converge on four decision axes:
-
-| Axis | Compress (MemGPT/Letta) | Preserve (HippoRAG/Synapse) |
-|------|------------------------|----------------------------|
-| **Context budget** | Tight (fixed window, no external storage) | Flexible (can page in from KG) |
-| **Query pattern** | Mostly single-hop, factual recall | Multi-hop reasoning across distant memories |
-| **Knowledge growth** | Slow or batch (can rebuild) | Continuous, incremental (needs edge addition) |
-| **Failure cost** | Low (generic answers acceptable) | High (wrong associations cause cascading errors) |
-
-**Hybrid position (Synapse):** 95% token reduction WITH graph topology preserved. Spreading activation + lateral inhibition achieves compression without losing associative paths. Trade-off: cognitive tunneling — hub nodes suppress minor details (β=0.15).
-
-**Rate-distortion lens (Kellogg):** The decision is fundamentally a rate-distortion trade-off — at what compression ratio does the loss of associative structure exceed the token cost of preserving it? Aggressive compression is correct when the distortion budget is high (generic recall); structure preservation is correct when distortion must be minimized (multi-hop reasoning, causal chains).
-
-**Practical heuristic for this KB:**
-- At current scale (~16 articles): HippoRAG-style — wikilinks preserve full associative structure, context budget is not a constraint
-- At 200+ articles with sub-indices: Synapse-style — spreading activation via index hierarchy provides compression with topology
-- MemGPT-style compression is appropriate for ephemeral conversational memory (KAIROS/Dream), NOT for compiled knowledge (wiki articles)
-
-### Tension: Engineering Taxonomy vs. Cognitive Science Taxonomy
-
-CoALA (Sumers et al., 2023) bridges classical cognitive architectures (SOAR, ACT-R) with modern LLM agents, formalizing memory types from cognitive science:
-
-| Cognitive Science (CoALA) | Engineering (Memory Survey) | Tension |
-|--------------------------|---------------------------|---------|
-| Episodic (specific events) | Experiential (case-based) | Overlapping but not identical — episodic is autobiographical, experiential includes abstract strategies |
-| Semantic (general knowledge) | Factual (world knowledge) | Close match, but semantic memory includes learned associations, not just facts |
-| Procedural (how to do things) | Experiential (skill-based) | Procedural is implicit; engineering "skills" are explicit action sequences |
-| Working (active processing) | Working (current buffer) | Same concept, same name, compatible |
-
-The cognitive science categories have decades of experimental validation. The engineering categories are pragmatic but ungrounded. Neither is wrong — they optimize for different things (explaining cognition vs. building systems).
-
-### Tension: Concept Segmentation vs. Surprise Segmentation
-
-EM-LLM (Fountas et al., 2024) applies human episodic memory principles to segment information not by concept (our /ingest approach) but by Bayesian surprise — points where prediction error exceeds a threshold.
-
-| Segmentation Method | Basis | Validation |
-|--------------------|-------|-----------|
-| Concept-based (our /ingest) | LLM judgment: "is this a new concept?" | Pragmatic, untested against human cognition |
-| Surprise-based (EM-LLM) | Statistical: `-log P(xt\|x1...xt-1) > T` | 25-35x improvement in event boundary alignment with human perception |
-
-EM-LLM's finding: "LLM-perceived surprise can serve as a proxy for cognitive signals that drive human event segmentation." Results: 40% improvement on retrieval tasks, 30.5% over RAG on LongBench.
-
-**Implication for this KB:** Our /ingest segments sources by concept (LLM decides where one idea ends and another begins). EM-LLM suggests segmenting by surprise (where the content shifts unexpectedly) would better match how humans organize information. These aren't mutually exclusive — concepts could be refined using surprise as a secondary signal.
-
-### Mapping to This Knowledge Base
-
-| Architecture | KB Equivalent |
-|-------------|---------------|
-| MemGPT Working Context | CLAUDE.md (always loaded) |
-| MemGPT FIFO Queue | Current conversation context |
-| MemGPT Archival | raw/ (unbounded source storage) |
-| MemGPT Recall | /ask Layer 3 (on-demand raw/ verification) |
-| Synapse Episodic | raw/ sources (timestamped events) |
-| Synapse Semantic | wiki/concepts/ (abstract concepts extracted from episodes) |
-| Synapse Activation | /ask relevance scoring via _index.md |
-| Letta Core Memory | _index.md (always loaded, zero distortion) |
-| Letta Archival | raw/ (unbounded, high distortion via summarization) |
-
-## Conexões
-
-- [[context-management]] — MemGPT's virtual context is the production implementation of bandwidth-aware retrieval; compression decision depends on context budget constraints
-- [[tension-resolution]] — the RAPTOR vs HippoRAG tension (architecture-contingent) is one instance of the compress vs. preserve decision
-- [[memory-consolidation]] — consolidation operates on these architectures (KAIROS on MemGPT-like tiers, Dream on file-based memory)
-- [[hybrid-search]] — Synapse's Triple Hybrid Retrieval parallels QMD's BM25+vector+reranking
-- [[retrieval-augmented-generation]] — Synapse solves Contextual Isolation that standard RAG fails on
-- [[self-improving-agents]] — all architectures enable self-improvement by persisting learned experience
-- [[raptor-vs-flat-retrieval]] — RAPTOR = hierarchical tree, Synapse = dynamic graph, both beat flat retrieval
-
-## Fontes
-
-- [MemGPT](../../raw/papers/memgpt-llms-as-operating-systems.md) — virtual context management, OS-inspired tiers, self-directed memory operations, queue manager
-- [Synapse](../../raw/papers/synapse-episodic-semantic-memory.md) — graph memory with spreading activation, triple hybrid retrieval, 95% token reduction, LoCoMo SOTA
-- [Tim Kellogg — Layers of Memory](../../raw/articles/tim-kellogg-layers-memory-compression.md) — rate-distortion framework, single vs multi-agent compression, "compression is cognition"
-- [Memory in the Age of AI Agents](../../raw/papers/memory-age-ai-agents-survey.md) — canonical taxonomy: forms (token/parametric/latent), functions (factual/experiential/working), dynamics (formation/evolution/retrieval)
-- [HippoRAG](../../raw/papers/hipporag-neurobiological-memory.md) — KG + PageRank retrieval: incremental, 10-30× cheaper, wikilinks as manual KG
-- [CoALA](../../raw/papers/coala-cognitive-architectures-language-agents.md) — cognitive architecture framework: bridges SOAR/ACT-R with LLM agents, formalizes memory types from cognitive science
-- [EM-LLM](../../raw/papers/em-llm-human-episodic-memory.md) — surprise-based segmentation aligned with human event perception, 40% retrieval improvement, 25-35x better boundary alignment
-
-
-=== RAW SOURCE: memgpt ===
----
-source: https://arxiv.org/abs/2310.08560
-authors: Charles Packer, Sarah Wooders, Kevin Lin, Vivian Fang, Shishir G. Patil, Ion Stoica, Joseph E. Gonzalez
-date: 2023-10-12
-type: paper
-arxiv: "2310.08560"
----
-
-# MemGPT: Towards LLMs as Operating Systems
-
-## Abstract
-
-Addresses constrained context windows via "virtual context management" inspired by OS memory hierarchies. Creates the illusion of larger memory through data movement between fast and slow storage. MemGPT manages different memory tiers and uses interrupts for control flow. Demonstrated on document analysis and multi-session chat.
-
-## Core Architecture: Virtual Context Management
-
-Inspired by OS virtual memory: pages are swapped between main memory (context window) and disk (external storage).
-
-### Memory Hierarchy
-
-| Tier | OS Analogy | Contents | Access |
-|------|-----------|----------|--------|
-| **System Instructions** | ROM | MemGPT prompt, function schemas | Read-only, static |
-| **Working Context** | Register file | Key facts, preferences, persona | Read-write via functions |
-| **FIFO Queue** | RAM | Rolling message history + summaries | Read-write via queue manager |
-| **Recall Storage** | SSD/cache | Full message database, searchable | External, via function calls |
-| **Archival Storage** | Disk | Arbitrary-length text objects, unbounded | External, via function calls |
-
-### Memory Management Functions (Self-Directed)
-
-The LLM agent has access to self-directed memory operations:
-- `core_memory_append/replace`: modify working context
-- `archival_memory_insert/search`: store to / retrieve from long-term storage
-- `conversation_search`: search past message history
-- `send_message`: communicate with user (only visible output)
-
-### Queue Manager
-    // ... 1516 lines omitted
-function calls sequentially before returning control to the
-    // ... 1515 lines omitted
-from knowledge accumulated in prior conversations. To
-    // ... 1514 lines omitted
-from the LLM inference, similar to the original retrieverreader setup in Liu et al. (2023a).
-    // ... 1513 lines omitted
-from the user about your prior
-// ... 1512 more lines (total: 1553)
-
-=== RAW SOURCE: synapse ===
----
-source: https://arxiv.org/abs/2601.02744
-authors: Hanqi Jiang, Junhao Chen, Yi Pan, Ling Chen, Weihang You, Yifan Zhou, Ruidong Zhang, Andrea Sikora, Lin Zhao, Yohannes Abate, Tianming Liu
-date: 2026-01-06
-type: paper
-arxiv: "2601.02744"
----
-
-# SYNAPSE: Empowering LLM Agents with Episodic-Semantic Memory via Spreading Activation
-
-## Abstract
-
-Standard RAG systems fail to address the disconnected nature of long-term agentic memory. Synapse models memory as a dynamic graph where relevance emerges from spreading activation rather than pre-computed links. Integrates lateral inhibition and temporal decay. Triple Hybrid Retrieval fuses geometric embeddings with activation-based graph traversal. Significantly outperforms SOTA on LoCoMo benchmark in complex temporal and multi-hop reasoning tasks.
-
-## Architecture: Unified Episodic-Semantic Graph
-
-Graph 𝒢=(𝒱,ℰ) with two node types:
-
-- **Episodic Nodes** (𝒱_E): Discrete interaction turns with textual content, dense embeddings (all-MiniLM-L6-v2), and timestamps
-- **Semantic Nodes** (𝒱_S): Abstract concepts (entities, preferences) extracted via LLM every N=5 turns; dedup at similarity threshold τ_dup=0.92
-
-**Edge Types:**
-1. Temporal Edges: link sequential episodes
-2. Abstraction Edges: bidirectionally connect episodes to concepts
-3. Association Edges: model latent correlations between semantic nodes
-
-Scalability: top-K edge pruning (K=15) and node garbage collection maintain active graph ≤10,000 nodes.
-
-## Spreading Activation Mechanism
-
-4 sequential phases instead of static vector similarity:
-
-### 1. Initialization (Dual Trigger)
-- Lexical Trigger: BM25 sparse retrieval for named entities
-- Semantic Trigger: Dense retrieval for conceptual similarity
-
-### 2. Propagation with Fan Effect
-u_i^(t+1) = (1-δ)·a_i^(t) + Σ_{j∈N(i)} [S·w_{ji}·a_j^(t)]/fan(j)
-- S=0.8 (spreading factor), fan(j) = out-degree normalizes hub influence
-- Temporal decay: w_{ji} = e^{-ρ|τ_i-τ_j|} (ρ=0.01)
-
-### 3. Lateral Inhibition
-Winner-take-all competition suppresses competing nodes (β=0.15, top-M=7). Enforces sparsity and filters noise.
-
-### 4. Sigmoid Activation
-Stability in T=3 iterations with δ=0.5 retention.
-
-## Triple Hybrid Retrieval
-
-S(v_i) = λ_1·sim(h_i, h_q) + λ_2·a_i^(T) + λ_3·PageRank(v_i)
-- λ={0.5, 0.3, 0.2} (Semantic, Activation, Structural)
-- Top-k=30 nodes, reordered topologically
-- Scores cached, updated only during consolidation (N=5 turns)
-
-## The Contextual Isolation Problem
-
-Standard RAG assumes relevance = semantic proximity to query. Fails for causal or transitive reasoning. Example: "Why am I anxious?" — vector search finds "anxiety" mentions but misses a schedule conflict logged weeks prior (the root cause shares no lexical/embedding overlap). Synapse resolves via graph topology: causally connected information through intermediate "Bridge Nodes."
-
-## LoCoMo Benchmark Results
-
-| Method | Multi-Hop F1 | Temporal F1 | Open Domain F1 | Single-Hop F1 | Adversarial F1 | Avg F1 |
-|--------|-------------|------------|----------------|--------------|----------------|--------|
-| **Synapse** | **35.7** | **50.1** | **25.9** | **48.9** | **96.6** | **40.5** |
-| Zep | 35.5 | 48.5 | 23.1 | 48.0 | 65.4 | 39.7 |
-| MemoryOS | 35.3 | 41.2 | 20.0 | 48.6 | — | 38.0 |
-| A-Mem | 27.0 | 45.9 | 12.1 | 44.7 | 50.0 | 33.3 |
-| MemGPT | 26.7 | 25.5 | 9.2 | 41.0 | 43.3 | 28.0 |
-| GraphRAG | 16.5 | 22.4 | 10.1 | 24.5 | 15.2 | 18.3 |
-| Vectors Only | 27.5 | 14.7 | — | — | — | 25.2 |
-
-## Ablation: What Matters Most
-
-| Removed | Avg F1 | Drop |
-|---------|--------|------|
-| Full Synapse | 40.5 | — |
-| (-) Node Decay | 30.7 | -9.8 |
-| (-) Activation Dynamics | 30.5 | -10.0 |
-| (-) Graph Structure | 32.9 | -7.6 |
-| (-) Fan Effect | 36.1 | -4.4 |
-| (-) Lateral Inhibition | 39.4 | -1.1 |
-
-Node decay is the sole temporal reasoning driver. Graph structure outperforms vector-only by 15.3 points.
-
-## Efficiency
-
-| Method | Tokens | Latency | Cost/1k | F1 | Cost Efficiency |
-|--------|--------|---------|---------|-----|-----------------|
-| Synapse | ~814 | 1.9s | $0.24 | 40.5 | 167.3 |
-| MemGPT | ~16,977 | 8.5s | $2.67 | 28.0 | 10.5 |
-
-95% token reduction vs full-context. 11× cost reduction. 4× faster.
-
-## Limitation: Cognitive Tunneling
-
-Lateral inhibition can suppress minor details when hub nodes activate strongly. Trade-off: aggressive sparsity improves complex reasoning but occasionally prunes edge-case facts.
-
-
-=== ARTICLE: retrieval-augmented-generation ===
----
-title: "Retrieval-Augmented Generation"
-sources:
   - path: raw/papers/long-context-vs-rag-evaluation.md
     type: paper
     quality: primary
   - path: raw/papers/raptor-recursive-abstractive-retrieval.md
     type: paper
     quality: primary
-  - path: raw/papers/hipporag-neurobiological-memory.md
-    type: paper
-    quality: primary
-  - path: raw/papers/self-rag-retrieve-generate-critique.md
-    type: paper
-    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
-tags: [retrieval, rag, long-context, evaluation]
+tags: [taxonomy, architecture, patterns]
 source_quality: high
-interpretation_confidence: high
+interpretation_confidence: medium
 resolved_patches: []
 ---
 
 ## Resumo
 
-Retrieval-Augmented Generation (RAG) augments LLM responses by retrieving relevant documents from an external corpus before generation. A December 2024 evaluation of ~13,600 questions found that long context (LC) outperforms RAG overall (56.3% vs 49.0%), but RAG retains irreplaceable value for ~10% of questions — particularly dialogue-based contexts and open-ended queries. Neither approach dominates universally; hybrid strategies are recommended.
+Four distinct architectural patterns for LLM-powered knowledge bases have emerged from practitioners and research. They differ in who controls synthesis (LLM vs human), how retrieval scales (index vs search vs RAG), and where the bottleneck sits (ingest quality vs context budget vs editorial judgment).
 
 ## Conteúdo
 
-### LC vs. RAG: Head-to-Head
+### Pattern 1: LLM-as-Compiler
 
-| Metric | Long Context | RAG |
-|--------|-------------|-----|
-| Overall accuracy | 56.3% | 49.0% |
-| Questions won exclusively | 3,433 | 1,843 |
-| Questions answered exclusively | — | ~10% |
+**Originator:** Karpathy (April 2026)
 
-### When LC Wins
+**Architecture:** `raw/ → LLM compiles wiki/ → LLM does Q&A → outputs filed back`
 
-- Wikipedia and narrative sources (dense, well-structured content)
-- Factual questions ("Who?", "Where?")
-- Content where information is distributed across the full document
+**Key characteristics:**
+- LLM is the sole writer; human rarely touches wiki directly
+- Index files + brief summaries sufficient at ~100 articles / ~400K words
+- Outputs (reports, slides) cycle back to enrich the wiki
+- Linting via periodic LLM health checks
 
-### When RAG Wins
+**Strengths:** Closed loop, incremental, works without RAG at small scale.
+**Weaknesses:** Scale limited by context window. No explicit source verification. Quality depends on ingest prompt.
 
-- Dialogue-based contexts (naturally segmented)
-- General search queries
-- Open-ended questions ("How?")
-- When relevant information is concentrated in specific chunks
+**When to use:** Solo researcher, <200 articles, single domain.
 
-### Retriever Comparison
+### Pattern 2: Agent-as-Curator
 
-| Retriever Type | Accuracy | Example |
-|---------------|----------|---------|
-| Chunk-based | 20-22% | Traditional chunking |
-| Index-based | 30-36% | BM25, sparse retrieval |
-| Summarization-based (RAPTOR) | 38.5% | Hierarchical summarization |
+**Originator:** Elvis/DAIR.ai (April 2026)
 
-RAPTOR (summarization-based) significantly outperformed chunk-based approaches — suggesting that the quality of retrieved content matters more than retrieval method sophistication.
+**Architecture:** `Automated curation → hybrid search (QMD) → MCP visual artifacts → actionable insights`
 
-### RAPTOR: How Summarization-Based Retrieval Works
+**Key characteristics:**
+- Tuned Skill automates paper discovery and filtering
+- [[hybrid-search|QMD]] provides BM25 + vector + reranking over the corpus
+- MCP tools power interactive visualizations inside agent orchestrator
+- Focus on actionability: "research questions are only as good as the insights agents have access to"
 
-RAPTOR (Recursive Abstractive Processing for Tree-Organized Retrieval) constructs a hierarchical tree from documents:
+**Strengths:** Scales to 100s of papers via semantic search. Automated curation removes human bottleneck. Visual artifacts surface non-obvious patterns.
+**Weaknesses:** Complex setup (QMD, MCP, orchestrator). Depends on external tooling.
 
-1. Segment into 100-token chunks → embed with SBERT
-2. Cluster similar chunks via Gaussian Mixture Models (soft clustering — nodes can belong to multiple clusters)
-3. Summarize each cluster via LLM
-4. Re-embed summaries → repeat until no further clustering feasible
+**When to use:** Heavy paper consumption, 200+ sources, need for visual exploration.
 
-This creates a multi-level tree: raw chunks at the bottom, progressively abstract summaries at each level above. Average compression ratio: 0.28 (72% compression per level).
+### Pattern 3: Human-in-the-Loop
 
-**Two retrieval strategies:**
-- **Collapsed Tree** (superior): flatten the tree, retrieve nodes by cosine similarity across all levels
-- **Tree Traversal**: start at root, descend through layers. More structured, less flexible.
+**Originator:** Paulo Silveira / Open Claw (March 2026)
 
-**Results (with GPT-4):**
+**Architecture:** `Multi-modal capture → LLM classifies → human writes final output`
 
-| Dataset | RAPTOR | Previous SOTA | Gain |
-|---------|--------|---------------|------|
-| QuALITY | 82.6% | 62.3% | +20.3 pp |
-| QASPER | 55.7% | 53.9% | +1.8 pp |
-| NarrativeQA | 30.8% ROUGE-L | 23.5% | +7.3 pp |
+**Key characteristics:**
+- Telegram as universal input (voice, text, photos, links)
+- Whisper transcribes audio; Claude Sonnet classifies into concepts
+- Human retains editorial control over final synthesis
+- Anti-slop philosophy: "letting machines generate final drafts creates generic-feeling content"
 
-Non-leaf (summary) nodes contribute 23-57% of retrieved content depending on dataset — confirming that hierarchical summaries capture information that flat chunking misses.
+**Strengths:** Preserves authorial voice. No idea lost. Historical pattern (Zettelkasten, Dostoevsky's dictation).
+**Weaknesses:** Doesn't scale. Synthesis bottleneck is human.
 
-Hallucination rate in tree nodes: only 4% (minor), and hallucinations did not propagate to parent nodes.
+**When to use:** Personal brand writing, high-stakes content, when voice matters more than throughput.
 
-### HippoRAG: Graph-Based Retrieval via PageRank
+### Pattern 4: Bandwidth-Aware Retrieval
 
-HippoRAG (NeurIPS 2024) takes a different approach: instead of summarization trees (RAPTOR), it builds a knowledge graph and retrieves via Personalized PageRank.
+**Originator:** Claude Code internals (March 2026)
 
-**Architecture:**
-1. Offline: LLM extracts (entity, relation, entity) triples → schemaless knowledge graph
-2. Online: extract query entities → map to graph → Personalized PageRank from query nodes → rank passages
+**Architecture:** `Layered retrieval with progressive escalation + circuit breakers`
 
-**Results:** +20% on 2WikiMultiHopQA, 10-30× cheaper and 6-13× faster than iterative methods (IRCoT). Single-step multi-hop retrieval via graph associations.
+**Key characteristics:**
+- 3+ layers: lightweight index (always loaded) → article content (on-demand) → raw sources (spot-check)
+- Progressive compaction: micro → snip → auto → collapse
+- Circuit breakers prevent thrashing (max 3 consecutive failures)
+- Principle: "never read more than you need at each layer"
 
-**Key advantage over RAPTOR:** HippoRAG "can continuously integrate new knowledge by simply adding edges" — no tree rebuild needed. Closer to our /ingest pattern (incremental addition). RAPTOR requires re-clustering on new content.
+**Strengths:** Token-efficient, production-proven. Graceful degradation under pressure.
+**Weaknesses:** Designed for conversations, not knowledge bases. No notion of source quality.
 
-**Relevance to our wiki:** Our [[wikilinks]] are effectively a manually-built HippoRAG knowledge graph. Entities = concept articles, edges = wikilinks, retrieval = following links from query-relevant articles. PageRank could inform a future /search scoring system.
+**When to use:** Any KB retrieval system. This is a universal pattern, not an alternative to the others — it's how retrieval should work within any of the above.
 
-### Self-RAG: Structured Self-Critique During Retrieval
+### Comparison Matrix
 
-Self-RAG (Asai et al., 2023) adds reflection tokens inline during generation:
+| Pattern | Who synthesizes | Retrieval | Scale | Bottleneck |
+|---------|----------------|-----------|-------|------------|
+| LLM-as-Compiler | LLM | Index-based (LC) | ~200 articles | Ingest quality |
+| Agent-as-Curator | LLM + tools | Hybrid search | 1000+ papers | Tooling setup |
+| Human-in-the-Loop | Human | LLM classification | ~50 outputs | Human time |
+| Bandwidth-Aware | (meta-pattern) | Layered escalation | Any | Context budget |
 
-| Token | Question | When |
-|-------|----------|------|
-| [Retrieve] | Should I retrieve now? | Before each generation step |
-| [IsRel] | Is the retrieved passage relevant? | After retrieval |
-| [IsSup] | Is my response supported by the passage? | After generation |
-| [IsUse] | Is the response useful? (1-5) | Final check |
+## Interpretação
 
-The model learns WHEN to retrieve (not always), WHAT is relevant (not all content), and WHETHER its response is supported (not blindly trusting itself).
+### RAPTOR Analogy for _index.md
 
-**Mapping to our /ask:**
-- After Layer 1: "are these the right articles?" → [IsRel] equivalent
-- After Layer 2: "is my synthesis supported by what I read?" → [IsSup] equivalent
-- After Layer 3: "did raw/ verification change my answer?" → structured reflection
+RAPTOR's summary nodes contribute 23-57% of useful retrieved content. Our _index.md with ~150 char pointers serves a similar function — but this is an analogy, not a validation. RAPTOR operates on document chunks with embeddings; our _index operates on concept pointers read by an LLM. The mechanism is different even if the abstraction-level pattern resembles.
 
-Self-RAG formalizes our circuit breaker as explicit checkpoints rather than implicit judgment. A /ask that logged these reflection decisions would make the retrieval process traceable and debuggable.
+| RAPTOR Level | KB Equivalent (analogy) |
+|-------------|--------------------------|
+| Raw chunks (leaf nodes) | raw/ sources |
+| Cluster summaries (mid-level) | wiki/concepts/ articles |
+| Root summaries (top-level) | _index.md pointers |
 
-### Error Patterns
+### ERL's Heuristics Result Applied to KB
 
-**RAG failures:**
-- Retrieval failures (relevant chunks not found)
-- Misinterpretation of fragmented context
-- Information spanning multiple chunks is lost
+ERL shows heuristics (+7.8%) > trajectories (-1.9%) on Gaia2. Our wiki articles resemble heuristics (distilled principles by concept). But ERL tested on agent task execution, not knowledge compilation — the transfer is plausible but not directly validated.
 
-**LC failures:**
-- Question misinterpretation
-- Semantic specificity issues (confusing related but distinct concepts)
-- Noise in long contexts dilutes attention
+### KAIROS-Review Parallel
 
-### The "Context Relevance" Insight
-
-A critical finding: synthetic long contexts (concatenated passages with noise) often mirror RAG pipelines, introducing evaluation bias. Fair comparison requires distinguishing:
-- Realistic long texts (novels, papers)
-- Synthetic contexts (concatenated passages)
-
-### Implications for Knowledge Bases
-
-For an LLM KB at small scale (~100-200 articles):
-- **LC approach works well** — load the index + relevant articles into context
-- **No RAG needed yet** — Karpathy's finding confirmed by this paper
-
-At larger scale:
-- **Hybrid approach** — use [[hybrid-search]] (QMD) to retrieve relevant chunks, then load into context
-- The 3-layer retrieval pattern (index → articles → raw) is effectively a manual RAG with human-designed relevance
-
-### Definition Ambiguity
-
-No consensus on what constitutes "long context":
-- Studies use thresholds from 8K to 128K tokens
-- Model capabilities evolve faster than benchmarks
+The KAIROS cycle (orient → gather → consolidate → prune) resembles a /review cycle. Both consolidate knowledge, but KAIROS operates on ephemeral conversational memory; /review on durable compiled knowledge. The parallel suggests borrowing KAIROS's trigger gates (time-based, session-based) for /review automation.
 
 ## Conexões
 
-- [[llm-knowledge-base]] — the KB uses LC at small scale, needs RAG at larger scale
-- [[hybrid-search]] — QMD implements the hybrid retrieval approach this paper recommends
-- [[context-management]] — compaction strategies are relevant when LC approaches hit token limits
-- [[raptor-vs-flat-retrieval]] — RAPTOR compared against our 3-layer flat pattern
-- [[kb-architecture-patterns]] — RAPTOR validates Pattern 4 and the _index.md summarization layer
+- [[llm-knowledge-base]] — Pattern 1 is the core architecture of this KB
+- [[hybrid-search]] — Pattern 2's retrieval layer; our Fase 2-3 upgrade path
+- [[context-management]] — Pattern 4 formalized; our /ask already implements 3 layers
+- [[memory-consolidation]] — KAIROS cycle parallels /review; trigger gates transferable
+- [[retrieval-augmented-generation]] — Academic evidence that LC > RAG at small scale (Pattern 1 validated)
+- [[self-improving-agents]] — ERL validates concept articles > raw sources; Reflexion parallels our patch system
+- [[tension-resolution]] — framework for detecting and resolving contradictions between articles, informed by 5 papers
 
 ## Fontes
 
-- [Long Context vs. RAG](../../raw/papers/long-context-vs-rag-evaluation.md) — systematic evaluation: ~13,600 questions, 12 QA datasets, retriever comparison, error analysis
-- [RAPTOR](../../raw/papers/raptor-recursive-abstractive-retrieval.md) — hierarchical tree retrieval: recursive clustering + summarization, +20pp on QuALITY, 4% hallucination rate
-- [HippoRAG](../../raw/papers/hipporag-neurobiological-memory.md) — graph-based retrieval: KG + PageRank, +20% on 2WikiMultiHopQA, 10-30× cheaper than iterative, incremental updates
-- [Self-RAG](../../raw/papers/self-rag-retrieve-generate-critique.md) — structured reflection tokens: [Retrieve], [IsRel], [IsSup], [IsUse] — formalizes retrieval self-critique as traceable checkpoints
+- [Karpathy — LLM Knowledge Bases](../../raw/articles/karpathy-llm-knowledge-bases.md) — Pattern 1: the original architecture
+- [Elvis — Personal KB for Agents](../../raw/articles/elvis-personal-kb-agents.md) — Pattern 2: automated curation + QMD + visual artifacts
+- [Paulo Silveira — Open Claw](../../raw/articles/paulo-silveira-open-claw-pkm.md) — Pattern 3: human-in-the-loop, anti-slop philosophy
+- [Claude Code Internals](../../raw/articles/claude-code-internals-harness-engineering.md) — Pattern 4: compaction hierarchy, circuit breakers
+- [LC vs RAG Paper](../../raw/papers/long-context-vs-rag-evaluation.md) — Validates Pattern 1 at small scale (LC 56.3% vs RAG 49.0%)
+- [RAPTOR Paper](../../raw/papers/raptor-recursive-abstractive-retrieval.md) — Validates _index.md as manual RAPTOR tree; summary nodes contribute 23-57% of retrieval
+- [ERL](../../raw/papers/erl-experiential-reflective-learning.md) — Heuristics > trajectories: concept articles validated as superior to raw source dumps
 
-
-=== RAW SOURCE: long-context-vs-rag ===
----
-source: https://arxiv.org/abs/2501.01880
-authors: Xinze Li, Yixin Cao, Yubo Ma, Aixin Sun
-date: 2024-12-27
-type: paper
-arxiv: "2501.01880"
----
-
-# Long Context vs. RAG for LLMs: An Evaluation and Revisits
-
-## Abstract
-
-The paper examines two complementary approaches for incorporating extended external information into language models. The authors revisit recent studies on this topic, highlighting key insights and discrepancies, and conduct a broader evaluation by excluding questions answerable from existing knowledge, identifying superior retrieval techniques, and using expanded benchmark datasets.
-
-Key findings: extended context windows generally surpass RAG in question-answering tasks, particularly for Wikipedia queries. However, RAG shows benefits for dialogue-based and general search queries. The authors emphasize the overlooked importance of context relevance in existing studies.
-
-## Key Contributions
-
-1. Survey of existing studies analyzing implementations and disagreements between LC and RAG research
-2. Fair evaluation framework filtering out questions answerable from parametric knowledge alone
-3. Best retriever identification through systematic comparison of chunk-based, index-based, and summarization-based methods
-4. Dataset expansion from ~2,000 to ~20,000 questions for statistical robustness
-
-## Main Findings
-
-### Performance Results
-
-- LC correctly answers 56.3% of filtered questions versus RAG's 49.0%
-- LC outperforms on 3,433 questions; RAG on 1,843 (loose evaluation)
-- Nearly 10% of questions answered exclusively by RAG, indicating irreplaceable value
-
-### Contextual Strengths
-
-- LC excels with Wikipedia and narrative sources, particularly for dense, well-structured content
-- RAG demonstrates advantages with dialogue-based contexts and naturally segmented information
-- LC performs better for factual questions ("Who," "Where"); RAG comparable for open-ended queries ("How")
-
-### Retriever Analysis
-
-RAPTOR (summarization-based) outperformed alternatives with 38.5% correct answers, exceeding chunk-based retrievers (20-22%) and matching/exceeding index-based approaches (30-36%).
-
-## Critical Discussion Points
-
-### Context Relevance
-
-Distinguishing between realistic long texts (novels, papers) and synthetic contexts (concatenated passages with noise) proves essential. Synthetic long contexts often mirror RAG pipelines, potentially introducing bias.
-
-### Definition Ambiguity
-
-Studies lack consensus on what constitutes "long context," with thresholds ranging from 8K to 128K tokens depending on research focus and model capabilities.
-
-### Framework Considerations
-
-Three key dimensions shape fair comparisons:
-- Context length
-- Context relevance
-- Experimental settings (short RAG vs. long input; long RAG vs. long input; RAG over increasing context)
-
-## Error Analysis
-
-**RAG failures:** Primary issues include retrieval failures and misinterpretation of fragmented context, particularly when relevant information spans multiple chunks.
-
-**LC failures:** Tend toward question misinterpretation and semantic specificity issues, struggling to distinguish between related but distinct concepts in noisy contexts.
-
-## Implications
-
-Neither approach universally dominates. Performance depends heavily on:
-- Knowledge source characteristics
-- Question type and reasoning requirements
-- Information density and segmentation patterns
-- Model architecture and size variations
-
-The authors advocate for hybrid strategies and context-aware selection between approaches rather than blanket adoption of either method.
-
-## Limitations
-
-Focuses exclusively on text-based contexts. Examines only retrievers present in compared papers. Rapid model evolution may alter comparative outcomes.
+=== ARTICLE: autonomous-kb-failure-modes (post-fix) ===
 
 ---
-
-*Nota: conteúdo transcrito via web fetch do HTML do arxiv — consultar PDF original para tabelas, figuras e dados completos.*
-
-
-=== RAW SOURCE: raptor ===
----
-source: https://arxiv.org/abs/2401.18059
-authors: Parth Sarthi, Salman Abdullah, Aditi Tuli, Shubh Khanna, Anna Goldie, Christopher D. Manning
-date: 2024-01-31
-type: paper
-arxiv: "2401.18059"
----
-
-# RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval
-
-## Abstract
-
-RAPTOR addresses limitations in retrieval-augmented language models by proposing a hierarchical approach. Rather than retrieving only brief text segments, the method recursively embeds, clusters, and summarizes document chunks into a multi-level tree structure. At inference time, the system retrieves relevant information across lengthy documents at varying levels of detail. Coupling RAPTOR retrieval with GPT-4 improves the best performance on the QuALITY benchmark by 20% in absolute accuracy.
-
-## Core Method
-
-### Tree Construction Process
-
-1. Segment documents into 100-token chunks, preserving sentence boundaries
-2. Embed chunks using SBERT (multi-qa-mpnet-base-cos-v1)
-3. **Cluster** similar chunks using Gaussian Mixture Models (GMMs) with soft clustering (nodes can belong to multiple clusters)
-4. **Summarize** each cluster via GPT-3.5-turbo
-5. **Re-embed** summaries
-6. **Repeat** until no further clustering is feasible
-
-Bottom-up process creates a multi-layer tree where parent nodes contain summaries of child clusters.
-
-### Clustering Details
-
-- UMAP for dimensionality reduction before GMM
-- Bayesian Information Criterion (BIC) determines optimal cluster numbers
-- Two-step: global clusters first, then local clustering within them
-- Average compression ratio: 0.28 (72% compression — summary/child content)
-
-### Retrieval Strategies
-
-**Collapsed Tree** (superior performance):
-- Flattens entire tree structure
-- Retrieves nodes via cosine similarity to query embedding
-- Accumulates nodes until token limit (default 2000 tokens)
-- Allows flexible selection across all abstraction levels
-
-**Tree Traversal**:
-- Starts at root, selects top-k nodes
-- Progressively descends through child layers
-- More structured but less flexible
-
-## Experimental Results
-
-### Performance
-
-| Dataset | RAPTOR + GPT-4 | Previous SOTA | Improvement |
-|---------|----------------|---------------|-------------|
-| QuALITY (accuracy) | 82.6% | 62.3% (CoLISA) | +20.3 pp |
-| QASPER (F-1) | 55.7% | 53.9% (CoLT5 XL) | +1.8 pp |
-| NarrativeQA (ROUGE-L) | 30.8% | 23.5% (BM25) | +7.3 pp |
-
-### Layer Contribution
-
-Non-leaf nodes contribute substantially to retrieval:
-- NarrativeQA (DPR): 57.4% of retrieved nodes from non-leaf layers
-- QuALITY (DPR): 32.3% from non-leaf layers
-- QASPER (DPR): 23% from non-leaf layers
-
-Performance improved when querying full tree vs single layers, confirming "hierarchical summaries offer benefits that contiguous chunk methods cannot match."
-
-### Hallucination Analysis
-
-Of 150 sampled nodes, only 4% contained minor hallucinations (adding information not in source). Hallucinations did not propagate to parent nodes and had no impact on QA performance.
-
-### Computational Efficiency
-
-- Token expenditure scales linearly with document length
-- Build time increases linearly (feasible on consumer hardware)
-
-## Key Insight
-
-RAPTOR's advantage over flat chunking: "integrating information across lengthy documents at different levels of abstraction." For multi-hop questions requiring synthesis across distant parts of a document, RAPTOR retrieves comprehensive context while traditional retrievers return narrow, localized chunks.
-
-## Relevance to Knowledge Bases
-
-The `_index.md` pattern in an LLM knowledge base is effectively a manual RAPTOR tree:
-- Level 0: raw source chunks (raw/)
-- Level 1: wiki articles with summaries (wiki/concepts/)
-- Level 2: index pointers (~150 chars each) (_index.md)
-
-The key difference: RAPTOR automates the tree construction via clustering + summarization, while a KB relies on LLM-guided concept extraction. Both achieve the same goal — multi-level abstraction for retrieval.
-
-
-=== ARTICLE: self-improving-agents ===
----
-title: "Self-Improving Agents"
+title: "Autonomous KB Failure Modes"
 sources:
+  - path: raw/papers/calm-llm-judge-biases.md
+    type: paper
+    quality: primary
+  - path: raw/papers/judgebench-evaluating-llm-judges.md
+    type: paper
+    quality: primary
   - path: raw/papers/reflexion-verbal-reinforcement-learning.md
     type: paper
     quality: primary
   - path: raw/papers/erl-experiential-reflective-learning.md
     type: paper
     quality: primary
-  - path: raw/papers/self-evolving-agents-survey.md
+  - path: raw/papers/synapse-episodic-semantic-memory.md
     type: paper
     quality: primary
-  - path: raw/papers/textgrad-automatic-differentiation-text.md
+  - path: raw/papers/multiagent-debate-factuality.md
     type: paper
     quality: primary
-  - path: raw/papers/promptbreeder-self-referential-improvement.md
+  - path: raw/papers/model-collapse-recursive-training.md
     type: paper
     quality: primary
-  - path: raw/papers/absolute-zero-reinforced-self-play.md
+  - path: raw/papers/wikipedia-era-llms-risks.md
     type: paper
     quality: primary
 created: 2026-04-03
 updated: 2026-04-03
-tags: [agent-architecture, self-improvement, reflection, learning]
+tags: [meta-kb, failure-analysis, safety, original-insight]
 source_quality: high
-interpretation_confidence: high
+interpretation_confidence: medium
 resolved_patches: []
 ---
 
 ## Resumo
 
-Self-improving agents learn from experience without weight updates, using verbal reflection, heuristic generation, or feedback loops to improve future performance. Two foundational approaches: Reflexion (reflect on failures → store in episodic memory → retry) and ERL (reflect on outcomes → generate reusable heuristics → retrieve for future tasks). A critical finding: abstracted heuristics transfer better than raw trajectories.
+An LLM-operated KB without human intervention degrades silently over ~30 days through 4 failure modes: semantic convergence (articles homogenize), authority bias cascade (errors crystallize via circular validation), index bloat (growth without quality gate), and forced tension resolution (nuance eliminated). The system appears healthy on all automated metrics while quality erodes — the KB equivalent of reward hacking.
 
 ## Conteúdo
 
+### Failure Mode 1: Semantic Convergence (Week 1-2)
+
+**Mechanism:** Self-enhancement bias (CALM: 16.1% error) + unsupervised /review = LLM rewrites articles in its preferred style each review cycle. "Convert vague to precise" and "deduplicate" are opportunities to homogenize.
+
+**Academic formalization: Model Collapse** (Shumailov et al., Nature 2024). Recursive self-consumption destroys distributional diversity — "tails of the original content distribution disappear." Applied to KBs: when an LLM compiles wiki from its own synthesis, diversity narrows and nuance disappears. The mitigation from the paper: "if data accumulates and models train on a mixture of real and synthetic data, model collapse no longer occurs." For us: /review must always re-read raw/ (real data), never operate only on wiki/ (synthetic data).
+
+**Empirical validation: Wikipedia risks** (Huang et al., 2025). "AI-revised Wikipedia content lowered RAG performance, particularly in factual accuracy." Stylistic homogenization detected at Wikipedia scale: sentences becoming "more AI-like, with longer, more complex sentences." Our KB is a micro-scale version of the same phenomenon.
+
+**Why invisible:** Wiki gets *more consistent*, not less. All /review metrics stay green. Problem is qualitative: wiki loses perspective diversity that justifies having multiple sources.
+
+**Evidence:** ERL shows random heuristic inclusion degrades after 40-60 items. When all articles use same formulations, _index.md loses discriminative power. Note: this 40-60 threshold also applies to _index.md scaling — see [[raptor-vs-flat-retrieval]] Gap 3 for the connection between ERL's selection limit and the practical threshold for sub-index migration.
+
+**Breaks:** /ask on subtle topics returns generic answers. Distinctions from original sources (Karpathy writes differently than an academic paper) are lost.
+
+### Failure Mode 2: Authority Bias Cascade (Week 2-3)
+
+**Mechanism:** Authority bias (CALM) makes LLM trust cited claims more. Wiki articles cite raw/. When /ask verifies wiki against raw/ (Layer 3), it tends to *confirm* because raw/ was the original source — circular validation loop.
+
+**Compounding:** Without human reading raw/ with fresh eyes, /ingest misinterpretations crystallize. JudgeBench: self-assessment on difficult problems is near-random. If original interpretation was plausibly wrong, LLM "verifies" and agrees with itself.
+
+**Evidence:** Reflexion ablation — self-reflection without *independent* grounded feedback degrades to 52%. raw/ is grounded but read by the same LLM. Ground truth needs independent evaluator.
+
+### Failure Mode 3: Index Bloat (Week 2-4)
+
+**Mechanism:** Automated /ingest without human quality gate. Confidence scoring (high/medium/low) is self-assessment (failure mode 2 applies). Tertiary sources create low-value articles that occupy _index.md space.
+
+**Breaks:** _index.md approaches migration trigger (~200 entries). /ask spends more tokens on orientation, less on depth. ERL shows indiscriminate inclusion is counterproductive.
+
+**Evidence:** Tim Kellogg — "compression becomes cognitive work." Without human deciding what deserves wiki vs. stays in raw/, agent treats everything as equally important.
+
+### Failure Mode 4: Forced Tension Resolution (Week 3-4)
+
+**Mechanism:** /review item 9 detects tensions and attempts resolution. Without human validating that a tension is *real* (contingent), agent tends to force consistency by eliminating one claim.
+
+**Breaks:** Wiki becomes dogmatic. Loses conditional reasoning ("when to use LC vs RAG?") because the condition was eliminated.
+
+**Evidence:** Tension-resolution protocol says "NEVER force artificial consistency" but agent judges what's "artificial" via self-evaluation (near-random per JudgeBench).
+
+### Degradation Timeline
+
+```
+Day 1-7:   Works well. Same phase benchmarks measure. (Honeymoon)
+Day 7-14:  Semantic convergence starts. Invisible to automated metrics.
+Day 14-21: Authority bias crystallizes errors. Tensions force-resolved.
+Day 21-30: Wiki looks healthy (0 warnings) but /ask answers are generic
+           and occasionally plausibly wrong. Degradation undetectable
+           without external ground truth test.
+```
+
 ### The Core Problem
 
-LLM agents make the same mistakes repeatedly across sessions. Traditional RL requires weight updates (expensive, unstable). Self-improving agents use the LLM's own language capabilities to learn from experience within the context window.
+The system optimizes visible metrics (0 warnings, correct links, cited sources) while real quality erodes. This is the KB equivalent of reward hacking documented by CARMO.
 
-### Reflexion: Learning from Failure via Verbal Reflection
+### Mitigations
 
-**Architecture (3 components):**
-- **Actor**: LLM generates actions
-- **Evaluator**: scores outputs (exact match, heuristics, or LLM-based)
-- **Self-Reflection**: generates verbal feedback analyzing failures → actionable insights
+| Failure | Mitigation | Automatable? |
+|---------|-----------|-------------|
+| Semantic convergence | Style divergence metric: compare article text to raw/ source style | Yes — could be a /review check |
+| Authority cascade | Human re-reads 2-3 random articles/week against raw/ | No — needs independent evaluator |
+| Index bloat | Human quality gate on /ingest, or hard cap on articles per week | Partially — cap is automatic, judgment is not |
+| Forced tension | Require human `> [!patch]` before any tension resolution is applied | Yes — rule change in /review |
 
-**Loop:** trajectory → evaluation → verbal reflection → memory update → retry
+### The Layer 3 Circularity Problem
 
-**Memory:**
-- Short-term: current trajectory (fine-grained)
-- Long-term: stored self-reflections (1-3 experiences, bounded by context)
+The /ask protocol treats raw/ verification (Layer 3) as grounded feedback: "Para claims importantes: vá à fonte original em raw/ para verificar." But this conflates two types of grounding:
 
-**Key insight:** Converts scalar/binary feedback into verbal feedback — "action A_i led to incorrect A_{i+1}" with suggested alternatives. Mimics human learning from mistakes.
+- **Data grounding** (what raw/ provides): the original text is immutable and available
+- **Interpretation grounding** (what raw/ does NOT provide): the same LLM that wrote the wiki reads raw/ and evaluates its own interpretation
 
-**Results:**
-- HumanEval Python: 80.1% (GPT-4) → 91.0% (Reflexion)
-- AlfWorld: +22% absolute over ReAct (130/134 tasks in 12 iterations)
-- HotPotQA: CoT 0.61 → 0.75 (+14%)
+In Reflexion's terms, grounded feedback means **executable tests** — unit tests that pass or fail independently of the agent's judgment. raw/ read by the same LLM is closer to self-reflection without tests (the 52% degradation case). The data is external; the interpretation is not.
 
-**Ablation:** Self-reflection without grounded feedback (tests) degrades to 52%. Trajectory replay without reflection: no improvement. Verbal reflection outperforms episodic memory by 8%. Critically, Reflexion's "grounded feedback" means **executable tests** — not document verification by the same LLM. This distinction matters for KB systems where Layer 3 raw/ verification is read by the same model that wrote the wiki (see [[autonomous-kb-failure-modes]] "The Layer 3 Circularity Problem").
+This means Layer 3 is necessary but insufficient. It catches factual errors (wrong numbers, misattributed claims) but cannot catch interpretive errors (correct facts assembled into wrong conclusions). The /ask protocol should be understood as: Layer 3 provides data verification, not interpretation verification. See [[llm-as-judge]] for why the same model cannot reliably judge its own interpretive work (self-enhancement bias 16.1%).
 
-### ERL: Heuristics > Trajectories
+### Architectural Insight
 
-**Framework (2 stages):**
-1. Post-task: reflect on outcomes → generate structured heuristics with trigger conditions
-2. New task: LLM-based retrieval of relevant heuristics → inject into system prompt
+The blueprint's existing mechanisms (raw/ immutable, patches humanos, retrieval cético, confidence scoring) are correct — but they were designed as **guardrails with human in the loop**. Without human, the agent can satisfy all rules while circumventing their intent: verify raw/ and agree with itself, assign high confidence to own work, resolve tensions "following protocol."
 
-**Critical finding:**
+The fix is not more rules — it's **external ground truth**. At least one verification channel must be independent of the LLM that maintains the wiki. Concretely, this means either: (1) a different model for /review than for /ingest, (2) human spot-checks, or (3) executable validation (tests, type-checks, API calls that return ground truth).
 
-| Approach | Performance |
-|----------|------------|
-| Raw trajectories (few-shot) | -1.9% vs baseline (WORSE) |
-| Heuristics (ERL) | +7.8% vs baseline |
+### Multiagent Debate as Middle Ground
 
-Heuristics provide "distilled strategic principles that generalize across tasks." Trajectories are too specific and can hurt. Example heuristic: "When sending emails to attendees, first resolve names to email addresses via Contacts tool."
+Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instances generate independent evaluations, read each other's responses, and debate across rounds to converge toward consensus. This significantly enhances factual validity and reduces hallucinations.
 
-**Selective retrieval matters:**
-- Random inclusion peaks at 40-60 heuristics then degrades
-- LLM-based retrieval (k=20): 56.1% — best
-- Failure-derived heuristics excel on Search (+14.3%)
-- Success-derived heuristics optimize Execution (+9.0%)
+**Applied to /review:** instead of one LLM evaluating its own wiki, spawn 2-3 independent evaluations of each article, then debate disagreements. This mitigates self-enhancement bias without requiring a human — the "independent evaluator" is another instance of the same model, but with a different conversation history and evaluation context.
 
-### The Spectrum of Self-Improvement
-
-| Method | What's stored | Granularity | Transfer |
-|--------|--------------|-------------|----------|
-| Reflexion | Verbal self-reflections | Per-failure | Same task (retry) |
-| ERL | Abstracted heuristics | Per-outcome | Cross-task |
-| Agent KB | Structured experiences | Per-trajectory | Cross-framework |
-| Agent KB | Structured experiences | Per-trajectory | Cross-framework |
-| KAIROS/Dream | Memory consolidation | Per-session | Cross-session |
-
-### TextGrad: Optimizing via Textual Feedback
-
-TextGrad treats LLM-generated textual feedback as "gradients" flowing backward through a computational graph. Each component (prompt, code, molecule) receives targeted natural language criticism and improves iteratively. Follows PyTorch conventions (Variable, loss function, optimizer).
-
-| PyTorch | TextGrad |
-|---------|----------|
-| Tensor | Variable (text string) |
-| Loss function | Evaluation prompt |
-| Gradient | Textual feedback from LLM |
-| Optimizer.step() | Apply feedback to update variable |
-
-Results: +20% relative gains on coding problems, improved GPT-4o zero-shot QA. Applicable beyond agents — optimizes any text-based component.
-
-**Relevance:** TextGrad automates the evaluate → feedback → update loop. Our patch system is manual TextGrad; a future /lint could implement automated textual gradient feedback on wiki articles.
-
-### The Self-Evolving Agent Taxonomy
-
-The Self-Evolving Agents survey (2025) provides the broadest taxonomy, organizing self-improvement across three dimensions:
-
-**What to evolve:** model parameters, memory, tools/skills, prompts
-
-**When to evolve:**
-- Pre-deployment (training-time adaptation)
-- During execution (in-context learning, reflection) ← Reflexion
-- Post-execution (experience consolidation) ← ERL, KAIROS
-- Continuous (ongoing background evolution) ← auto-dream
-
-**How to evolve:**
-- Self-reflection (Reflexion, ERL)
-- Reinforcement learning (reward-driven)
-- Evolutionary methods (Promptbreeder)
-- Knowledge transfer (cross-domain, Agent KB)
-- Synthetic data generation (Absolute Zero)
-
-Our KB maps to this taxonomy: /ingest = pre-deployment, /ask = during execution, /review = post-execution, /dream = continuous.
-
-### Promptbreeder: Self-Referential Prompt Evolution
-
-Evolutionary approach: population of (task prompt, mutation prompt) pairs. The mutation prompt mutates the task prompt; both are selected by fitness. Self-referential: the system evolves the tools that evolve the prompts, preventing stagnation. Outperforms Chain-of-Thought on reasoning benchmarks.
-
-**Relevance:** Our /ingest and /ask prompts are static (hand-written in CLAUDE.md). Promptbreeder-style evolution could optimize them based on /ask quality metrics. Fase 3 potential.
-
-### Absolute Zero: Self-Play Without Data
-
-Models autonomously generate training tasks and improve reasoning via RL. Code execution provides a cheap, reliable, scalable reward signal — no human annotation needed. Surpasses baselines using tens of thousands of human-annotated examples.
-
-**Relevance:** A self-improving KB could use self-play: agent generates questions about its own wiki → attempts to answer → evaluates against raw/ → uses feedback to improve articles and retrieval. This would automate the /ask → evaluate → /review cycle entirely.
-
-### Relevance to This Knowledge Base
-
-Our pipeline already implements self-improvement patterns:
-- **Patch system** (`> [!patch]`) = manual Reflexion: identify error → verbal feedback → incorporate
-- **/review reescrita ativa** = automated ERL: reflect on wiki state → generate improvements → apply
-- **Heuristics > trajectories** validates our design: concept-based articles (heuristics) > raw source dumps (trajectories)
+**Tension with single-agent:** Tim Kellogg documents Cognition's critique that multi-agent creates "fragile systems" with "dispersed decision-making." Multiagent debate fixes bias but adds coordination cost and context fragmentation. Neither single-agent nor multi-agent /review dominates — the choice depends on whether bias risk (single) or coordination fragility (multi) is the bigger threat for the specific article being reviewed.
 
 ## Conexões
 
-- [[memory-consolidation]] — KAIROS/Dream is self-improvement across sessions; Reflexion is within-task
-- [[kb-architecture-patterns]] — ERL validates Pattern 1 (concept articles > raw sources)
-- [[autonomous-research-agents]] — Deep Research pipeline could use Reflexion for iterative query refinement
-- [[context-management]] — self-reflection memories compete for context budget
-- [[llm-as-judge]] — 12 biases affect self-evaluation loops; self-enhancement (16.1%) is the central risk
-- [[agent-memory-architectures]] — memory structures that enable self-improvement
-- [[multi-agent-orchestration]] — Agent KB enables cross-framework knowledge transfer
+- [[llm-as-judge]] — self-enhancement bias (16.1%) and authority bias are the root causes
+- [[self-improving-agents]] — Reflexion without grounded feedback degrades to 52%; applies to autonomous /review
+- [[tension-resolution]] — forced resolution is failure mode 4; protocol already says "never force" but enforcement requires human
+- [[memory-consolidation]] — /review and /dream operate on the wiki; both susceptible to convergence
+- [[kb-architecture-patterns]] — all 4 patterns assume human-in-the-loop for quality; none designed for full autonomy
+- [[raptor-vs-flat-retrieval]] — ERL's 40-60 item selection limit applies to both semantic convergence detection and index scaling thresholds
+- [[reflexion-weighted-knowledge-graphs]] — adaptive topology could mitigate failure mode 1 if edge weights incorporate external signal
 
 ## Fontes
 
-- [Reflexion](../../raw/papers/reflexion-verbal-reinforcement-learning.md) — verbal RL: 91% HumanEval, +22% AlfWorld, reflection > replay by 8%
-- [ERL](../../raw/papers/erl-experiential-reflective-learning.md) — heuristics > trajectories: +7.8% Gaia2, selective retrieval critical, failure heuristics excel on search
-- [Self-Evolving Agents Survey](../../raw/papers/self-evolving-agents-survey.md) — broadest taxonomy: what/when/how to evolve, covers models, memory, tools, prompts
-- [TextGrad](../../raw/papers/textgrad-automatic-differentiation-text.md) — textual gradients as optimization: PyTorch-style feedback loop, +20% coding gains
-- [Promptbreeder](../../raw/papers/promptbreeder-self-referential-improvement.md) — self-referential prompt evolution: evolves both task prompts and mutation prompts
-- [Absolute Zero](../../raw/papers/absolute-zero-reinforced-self-play.md) — self-play reasoning with zero data: code execution as reward signal, surpasses human-annotated baselines
+- [CALM](../../raw/papers/calm-llm-judge-biases.md) — self-enhancement 16.1%, authority bias, circular validation risk
+- [JudgeBench](../../raw/papers/judgebench-evaluating-llm-judges.md) — self-assessment near random on hard tasks, reliability inflated by benchmark difficulty
+- [Reflexion](../../raw/papers/reflexion-verbal-reinforcement-learning.md) — without independent grounding, self-reflection degrades to 52%
+- [ERL](../../raw/papers/erl-experiential-reflective-learning.md) — random inclusion degrades after 40-60; indiscriminate growth is counterproductive
+- [Model Collapse](../../raw/papers/model-collapse-recursive-training.md) — recursive self-consumption destroys diversity (Nature 2024); mixture of real+synthetic data prevents collapse
+- [Wikipedia Risks](../../raw/papers/wikipedia-era-llms-risks.md) — AI-revised content lowers RAG performance; stylistic homogenization detected empirically
+- [Synapse](../../raw/papers/synapse-episodic-semantic-memory.md) — Cognitive Tunneling: hub suppression as analogy for convergence
 
+=== ARTICLE: llm-knowledge-base (post-fix) ===
 
-=== RAW SOURCE: reflexion ===
 ---
-source: https://arxiv.org/abs/2303.11366
-authors: Noah Shinn, Federico Cassano, Edward Berman, Ashwin Gopinath, Karthik Narasimhan, Shunyu Yao
-date: 2023-03-20
+title: "LLM Knowledge Base"
+sources:
+  - path: raw/articles/karpathy-llm-knowledge-bases.md
+    type: note
+    quality: tertiary
+  - path: raw/articles/elvis-personal-kb-agents.md
+    type: note
+    quality: tertiary
+  - path: raw/articles/paulo-silveira-open-claw-pkm.md
+    type: article
+    quality: secondary
+  - path: raw/papers/wikipedia-era-llms-risks.md
+    type: paper
+    quality: primary
+created: 2026-04-03
+updated: 2026-04-03
+tags: [core-concept, knowledge-management, wiki, obsidian]
+source_quality: medium
+interpretation_confidence: medium
+resolved_patches: []
+---
+
+## Resumo
+
+An LLM Knowledge Base is a personal knowledge system where raw sources are "compiled" by an LLM into an interlinked markdown wiki, then queried via the same LLM for Q&A with source citation. The pattern emerged in April 2026 from practitioners (Karpathy, Elvis/DAIR.ai) who independently converged on the same architecture: raw/ → ingest → wiki/ → ask.
+
+## Conteúdo
+
+### The Core Loop
+
+```
+raw/ (immutable sources)
+  → /ingest (LLM compiles concepts)
+    → wiki/ (interlinked .md articles)
+      → /ask (retrieval + Q&A with citations)
+        → outputs/ (reports, slides, visualizations)
+          → optionally filed back into wiki/
+```
+
+Key insight from Karpathy: "a large fraction of my recent token throughput is going less into manipulating code, and more into manipulating knowledge." The LLM shifts from code tool to knowledge compiler.
+
+### Karpathy's Architecture (April 2026)
+
+- **raw/**: articles, papers, repos, datasets, images indexed into a directory
+- **Wiki**: LLM incrementally "compiles" .md files with summaries, backlinks, concepts, articles, cross-links
+- **Ingest**: Obsidian Web Clipper for articles → markdown; hotkey to download images locally
+- **IDE**: Obsidian as frontend (view raw, wiki, visualizations). "The LLM writes and maintains all of the data of the wiki, I rarely touch it directly."
+- **Q&A**: At ~100 articles / ~400K words, LLM answers complex questions without fancy RAG. Auto-maintained index files + brief summaries sufficient at this scale.
+- **Output**: Markdown files, Marp slides, matplotlib images — all viewable in Obsidian. Outputs often filed back into wiki.
+- **Linting**: LLM health checks find inconsistent data, impute missing data, suggest new article candidates.
+- **Scaling vision**: "synthetic data generation + finetuning to have your LLM 'know' the data in its weights instead of just context windows"
+
+### Elvis/DAIR.ai's Extensions
+
+Elvis builds on the same pattern with key additions:
+
+- **Automated curation**: a tuned Skill that finds high-signal research papers daily, replacing manual review
+- **QMD indexing**: uses Tobi Lütke's [[hybrid-search|QMD]] for semantic search over the paper collection
+- **Visual artifacts**: interactive artifact generator using MCP tools inside an agent orchestrator, visualizing insights from 100s of papers
+- **Actionability focus**: "the research is only as good as the research questions. And the research questions are only as good as the insights the agents have access to."
+- **Strong claim**: "everyone should be building both their own agent harnesses and their personal knowledge bases. Those are going to be a huge differentiator."
+
+### Paulo Silveira's Human-in-the-Loop Variant (Open Claw)
+
+A contrasting approach from Paulo Silveira (March 2026): the LLM assists with capture and classification, but humans maintain editorial control.
+
+**Pipeline:** Telegram (voice/text/photos/links) → Whisper transcription → journaling → Claude Sonnet classification into concepts → drafts for blog posts. Storage in Git vault with Journal + Concepts + Drafts.
+
+**Key philosophical difference:** "Eu poderia tentar deixar essa concatenação de ideias e reestruturação do texto para a máquina... Não farei." Silveira argues that full LLM rewriting creates generic "slop." The LLM organizes; the human writes.
+
+**Historical context:** References Zettelkasten, personal wikis, and Dostoevsky dictating to his wife as stenographer. The pattern is old; the tools are new.
+
+**Trade-off:** Capture time doesn't decrease, but no idea is lost. The bottleneck shifts from capture to synthesis — exactly where human judgment adds the most value.
+
+### The "Ephemeral Wiki" Vision
+
+Karpathy's follow-up: "every question to a frontier grade LLM spawns a team of LLMs to automate the whole thing: iteratively construct an entire ephemeral wiki, lint it, loop a few times, then write a full report. Way beyond a `.decode()`."
+
+This connects to [[autonomous-research-agents]] — a persistent KB is a durable instance of what deep research agents do ephemerally.
+
+### Index-Based Retrieval (Why Not RAG?)
+
+Karpathy's surprising finding: at ~small scale (~100 articles), auto-maintained index files + brief summaries are sufficient. No need for embeddings or vector databases. The LLM "reads all the important related data fairly easily."
+
+This maps to a 3-layer bandwidth-aware retrieval pattern:
+1. Lightweight index (always loaded)
+2. Article content (on-demand)
+3. Raw sources (spot verification)
+
+See [[context-management]] for the formal hierarchy and [[retrieval-augmented-generation]] for when RAG becomes necessary.
+
+### Risks of LLM-Compiled Knowledge (challenging source)
+
+The "Wikipedia in the Era of LLMs" study (Huang et al., 2025) provides empirical evidence that LLM-compiled content degrades the knowledge it compiles:
+
+- AI-revised Wikipedia content **lowered RAG performance**, particularly in factual accuracy
+- Feedback loop risk: "RAG systems could end up retrieving AI-generated information to fact-check AI-generated responses"
+- Stylistic homogenization detected: sentences becoming "more AI-like, with longer, more complex sentences"
+- If the wiki feels too synthetic, the human stops engaging — reducing the human-in-the-loop correction mechanism
+
+This directly challenges the LLM-as-Compiler pattern. The mitigation: raw/ immutability ensures the "real data" is always accessible, but only if /review and /ask always re-read raw/ rather than trusting wiki alone. See [[autonomous-kb-failure-modes]] for the full degradation timeline.
+
+## Conexões
+
+- [[retrieval-augmented-generation]] — the academic framing of when LC vs RAG is needed
+- [[hybrid-search]] — QMD as the upgrade path when flat index retrieval hits limits
+- [[memory-consolidation]] — the KB's /review cycle mirrors the dream consolidation pattern
+- [[autonomous-research-agents]] — KB is persistent deep research; deep research is ephemeral KB
+- [[kb-architecture-patterns]] — taxonomy of 4 KB patterns; this KB implements Pattern 1
+- [[obsidian-agent-workflow]] — the frontend layer for viewing and navigating the wiki
+- [[autonomous-kb-failure-modes]] — what goes wrong when the compilation loop runs unsupervised
+
+## Fontes
+
+- [Karpathy — LLM Knowledge Bases](../../raw/articles/karpathy-llm-knowledge-bases.md) — original tweet defining the architecture: raw/ → compile → wiki/ → Q&A → lint
+- [Elvis — Personal KB for Agents](../../raw/articles/elvis-personal-kb-agents.md) — extensions: automated curation, QMD search, visual artifacts, actionability
+- [Paulo Silveira — Open Claw](../../raw/articles/paulo-silveira-open-claw-pkm.md) — human-in-the-loop variant: LLM classifies, human writes. Anti-slop philosophy
+- [Wikipedia Risks](../../raw/papers/wikipedia-era-llms-risks.md) — (challenging) AI-revised content lowers RAG performance, stylistic homogenization empirically detected
+
+=== RAW: model-collapse ===
+---
+source: https://arxiv.org/abs/2305.17493
+authors: Ilia Shumailov, Zakhar Shumaylov, Yiren Zhao, Yarin Gal, Nicolas Papernot, Ross Anderson
+date: 2023-05-27
 type: paper
-arxiv: "2303.11366"
+arxiv: "2305.17493"
+venue: Nature 2024
+stance: challenging
 ---
 
-# Reflexion: Language Agents with Verbal Reinforcement Learning
+# The Curse of Recursion: Training on Generated Data Makes Models Forget (Model Collapse)
 
 ## Abstract
 
-Introduces Reflexion, which reinforces language agents through linguistic feedback rather than weight updates. Agents verbally reflect on task feedback signals and maintain reflective text in memory to improve future decisions. Achieves 91% pass@1 on HumanEval (surpassing GPT-4's 80%).
+Use of model-generated content in training causes irreversible defects in the resulting models, where tails of the original content distribution disappear. This "Model Collapse" occurs across multiple architectures (VAEs, GMMs, LLMs). As AI-generated text populates the internet, data quality concerns become critical. Data collected about genuine human interactions will be increasingly valuable.
 
-## Core Architecture (3 Components)
+## Key Finding
 
-- **Actor (M_a)**: LLM that generates text/actions conditioned on state observations + memory
-- **Evaluator (M_e)**: Scores outputs using task-specific metrics (exact match, heuristics, LLM-based)
-- **Self-Reflection (M_sr)**: Generates verbal feedback analyzing trajectory failures → actionable insights
+Model collapse = recursive self-consumption destroys distributional diversity. Tails disappear first — rare but important information is lost. The model converges to a narrow, homogeneous output.
 
-### Memory Structure
+## Direct Challenge to LLM-KB Architecture
 
-- **Short-term**: current trajectory history (fine-grained recent details)
-- **Long-term**: stored self-reflections from prior trials (bounded to 1-3 experiences)
+This is the academic formalization of our "semantic convergence" failure mode (autonomous-kb-failure-modes). When an LLM writes wiki articles, then reads those articles to write more articles or answer questions, and the answers feed back into the wiki — this is recursive self-consumption on knowledge, not weights.
 
-### Iterative Loop
+The analogy:
+- Model collapse (weights): train on own output → distribution narrows → tails disappear
+- Wiki collapse (knowledge): compile from own synthesis → diversity narrows → nuance disappears
 
-trajectory generation → evaluation → verbal reflection → memory update → retry
+Our raw/ immutability principle is the mitigation: raw/ is "real data" (human-written sources), wiki/ is "generated data" (LLM-compiled). As long as /ingest always reads raw/ (not wiki/) to generate articles, the recursive loop is broken. But /review reads wiki/ to improve wiki/ — that's the recursive path.
 
-When evaluator deems performance inadequate, agent generates reflection analyzing failure, stores as linguistic experience, attempts task again with augmented context.
+## Mitigation from the Paper
 
-## Verbal Reinforcement Mechanism
-// ... 35 more lines (total: 67)
+"If data accumulates and models train on a mixture of real and synthetic data, model collapse no longer occurs." Applied to KB: always mix raw/ sources (real) with existing wiki (synthetic) when doing /review. Never let /review operate only on wiki/ without re-reading raw/.
 
-=== RAW SOURCE: erl ===
+=== RAW: wikipedia-risks ===
 ---
-source: https://arxiv.org/abs/2603.24639
-authors: Marc-Antoine Allard, Arnaud Teinturier, Victor Xing, Gautier Viaud
-date: 2026-03-25
+source: https://arxiv.org/abs/2503.02879
+authors: Siming Huang, Yuliang Xu, Mingmeng Geng, Yao Wan, Dongping Chen
+date: 2025-03-04
 type: paper
-arxiv: "2603.24639"
+arxiv: "2503.02879"
+stance: challenging
 ---
 
-# ERL: Experiential Reflective Learning for Self-Improving LLM Agents
+# Wikipedia in the Era of LLMs: Evolution and Risks
 
 ## Abstract
 
-Agents struggle to adapt to specialized environments and don't leverage past interactions. ERL enables improvement through experience: reflect on outcomes → generate reusable heuristics → retrieve and apply to future tasks. +7.8% over ReAct on Gaia2. Selective heuristic retrieval outperforms reusing trajectories.
+Comprehensive analysis of how LLMs affect Wikipedia. Articles show ~1% impact in certain categories. Contaminated training data could inflate benchmarks and compromise RAG effectiveness. "LLMs have not yet fully changed Wikipedia's language and knowledge structures" but future risks warrant careful consideration.
 
-## Framework (2 Stages)
+## Key Findings Relevant to LLM KBs
 
-### 1. Heuristic Generation (post-task)
+1. **AI-revised Wikipedia content lowered RAG performance, particularly in factual accuracy.** If our wiki articles are LLM-compiled and later used as retrieval context for /ask, the same degradation applies.
 
-After execution, agents reflect on trajectories and outcomes to create structured heuristics:
-- Analysis identifying success/failure causes
-- Actionable guidelines with explicit trigger conditions and recommended actions
+2. **Feedback loop risk:** "RAG systems could end up retrieving AI-generated information to fact-check AI-generated responses." Our Layer 3 verification (wiki → check against raw/) is designed to break this loop, but only if raw/ stays human-authored.
 
-Example: "When sending emails to calendar attendees, first resolve names to email addresses via the Contacts tool"
+3. **Stylistic homogenization detected:** Wikipedia sentences becoming "more AI-like, with longer, more complex sentences but fewer auxiliary verbs." Our semantic convergence concern is validated at Wikipedia scale.
 
-### 2. Retrieval-Augmented Execution (new tasks)
+4. **Human contributor decline:** "once more than half of online activity is transacted by AI, human users may decide to leave." For a personal KB, this translates to: if the wiki feels too synthetic, the human stops engaging with it.
 
-LLM scores stored heuristics for relevance, injects top-k into system prompt.
+## Direct Challenge
 
-## Heuristics vs. Trajectories (Critical Finding)
+This paper argues that LLM-compiled knowledge systems degrade the quality of the very knowledge they compile. Our KB is a micro-scale Wikipedia compiled by LLM — the same risks apply, perhaps more acutely because we have one compiler (not many) and no community review process.
 
-| Approach | Execution | Search | Overall |
-|----------|-----------|--------|---------|
-| Raw trajectories (few-shot) | -1.9% vs baseline | — | Worse |
-| Heuristics (ERL) | +5.5% | +23.8% | +7.8% |
+=== RAW: karpathy ===
+---
+source: https://x.com/karpathy/status/1907507437397045572
+author: Andrej Karpathy
+date: 2026-04-02
+type: note
+---
 
-Heuristics provide "distilled strategic principles that generalize across tasks" rather than task-specific examples. Raw trajectories fail to improve and can hurt performance.
+# LLM Knowledge Bases
 
-## Gaia2 Benchmark Results
+Something I'm finding very useful recently: using LLMs to build personal knowledge bases for various topics of research interest. In this way, a large fraction of my recent token throughput is going less into manipulating code, and more into manipulating knowledge (stored as markdown and images). The latest LLMs are quite good at it. So:
 
-| Method | Execution | Search | Overall |
-|--------|-----------|--------|---------|
-| Baseline (ReAct) | 43.1% | 53.6% | 48.3% |
-| Few-shot | 41.7% | 51.2% | 46.4% |
-| ExpeL | 45.8% | 56.0% | 50.9% |
-| **ERL** | **51.4%** | **60.7%** | **56.1%** |
+## Data ingest
 
-## Selective Retrieval Findings
+I index source documents (articles, papers, repos, datasets, images, etc.) into a raw/ directory, then I use an LLM to incrementally "compile" a wiki, which is just a collection of .md files in a directory structure. The wiki includes summaries of all the data in raw/, backlinks, and then it categorizes data into concepts, writes articles for them, and links them all. To convert web articles into .md files I like to use the Obsidian Web Clipper extension, and then I also use a hotkey to download all the related images to local so that my LLM can easily reference them.
 
-- Random selection peaks at 40-60 heuristics then degrades — indiscriminate inclusion is counterproductive
-- LLM-based retrieval (k=20): 56.1% — best
-- Embedding-based retrieval (k=20): 53.3%
-- Failure-derived heuristics excel on Search (+14.3%)
-- Success-derived heuristics optimize Execution (+9.0%)
+## IDE
 
-## Cost
+I use Obsidian as the IDE "frontend" where I can view the raw data, the compiled wiki, and the derived visualizations. Important to note that the LLM writes and maintains all of the data of the wiki, I rarely touch it directly. I've played with a few Obsidian plugins to render and view data in other ways (e.g. Marp for slides).
 
-ERL incurs 40% increased API costs due to ~20k tokens of heuristics appended per turn. Prompt caching partially mitigates.
+## Q&A
 
-## Relevance to Knowledge Bases
+Where things get interesting is that once your wiki is big enough (e.g. mine on some recent research is ~100 articles and ~400K words), you can ask your LLM agent all kinds of complex questions against the wiki, and it will go off, research the answers, etc. I thought I had to reach for fancy RAG, but the LLM has been pretty good about auto-maintaining index files and brief summaries of all the documents and it reads all the important related data fairly easily at this ~small scale.
 
-ERL's heuristic generation is the academic formalization of our /review reescrita ativa: reflect on wiki state → generate actionable guidelines → apply to future /ask and /ingest. The finding that heuristics > trajectories validates our design choice of concept-based articles over raw source dumps.
+## Output
 
+Instead of getting answers in text/terminal, I like to have it render markdown files for me, or slide shows (Marp format), or matplotlib images, all of which I then view again in Obsidian. You can imagine many other visual output formats depending on the query. Often, I end up "filing" the outputs back into the wiki to enhance it for further queries. So my own explorations and queries always "add up" in the knowledge base.
+
+## Linting
+
+I've run some LLM "health checks" over the wiki to e.g. find inconsistent data, impute missing data (with web searchers), find interesting connections for new article candidates, etc., to incrementally clean up the wiki and enhance its overall data integrity. The LLMs are quite good at suggesting further questions to ask and look into.
+
+## Extra tools
+
+I find myself developing additional tools to process the data, e.g. I vibe coded a small and naive search engine over the wiki, which I both use directly (in a web ui), but more often I want to hand it off to an LLM via CLI as a tool for larger queries.
+
+## Further explorations
+
+As the repo grows, the natural desire is to also think about synthetic data generation + finetuning to have your LLM "know" the data in its weights instead of just context windows.
+
+## Follow-up
+
+> Oh and in the natural extrapolation, you could imagine that every question to a frontier grade LLM spawns a team of LLMs to automate the whole thing: iteratively construct an entire ephemeral wiki, lint it, loop a few times, then write a full report. Way beyond a `.decode()`.
+
+## TLDR
+
+Raw data from a given number of sources is collected, then compiled by an LLM into a .md wiki, then operated on by various CLIs by the LLM to do Q&A and to incrementally enhance the wiki, and all of it viewable in Obsidian. You rarely ever write or edit the wiki manually, it's the domain of the LLM. I think there is room here for an incredible new product instead of a hacky collection of scripts.

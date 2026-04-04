@@ -34,3 +34,6 @@
 | raw/papers/lm-know-what-they-know.md | 2026-04-03 | paper | primary | challenging | llm-as-judge | processed |
 | raw/papers/multiagent-debate-factuality.md | 2026-04-03 | paper | primary | challenging | autonomous-kb-failure-modes | processed |
 | raw/papers/self-rag-retrieve-generate-critique.md | 2026-04-03 | paper | primary | neutral | retrieval-augmented-generation | processed |
+| raw/papers/model-collapse-recursive-training.md | 2026-04-03 | paper | primary | challenging | autonomous-kb-failure-modes | processed |
+| raw/papers/wikipedia-era-llms-risks.md | 2026-04-03 | paper | primary | challenging | llm-knowledge-base, autonomous-kb-failure-modes | processed |
+| raw/papers/chunking-strategies-rag-comparison.md | 2026-04-03 | paper | primary | challenging | raptor-vs-flat-retrieval | processed |

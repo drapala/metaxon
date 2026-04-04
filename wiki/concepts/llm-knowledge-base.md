@@ -10,11 +10,14 @@ sources:
   - path: raw/articles/paulo-silveira-open-claw-pkm.md
     type: article
     quality: secondary
+  - path: raw/papers/wikipedia-era-llms-risks.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [core-concept, knowledge-management, wiki, obsidian]
 source_quality: medium
-interpretation_confidence: high
+interpretation_confidence: medium
 resolved_patches: []
 ---
 
@@ -87,6 +90,21 @@ This maps to a 3-layer bandwidth-aware retrieval pattern:
 
 See [[context-management]] for the formal hierarchy and [[retrieval-augmented-generation]] for when RAG becomes necessary.
 
+### Risks of LLM-Compiled Knowledge (challenging source)
+
+The "Wikipedia in the Era of LLMs" study (Huang et al., 2025) provides empirical evidence that LLM-compiled content degrades the knowledge it compiles:
+
+- AI-revised Wikipedia content **lowered RAG performance**, particularly in factual accuracy
+- Feedback loop risk: "RAG systems could end up retrieving AI-generated information to fact-check AI-generated responses"
+- Stylistic homogenization detected: sentences becoming "more AI-like, with longer, more complex sentences"
+- If the wiki feels too synthetic, the human stops engaging — reducing the human-in-the-loop correction mechanism
+
+This directly challenges the LLM-as-Compiler pattern. The mitigation: raw/ immutability ensures the "real data" is always accessible, but only if /review and /ask always re-read raw/ rather than trusting wiki alone. See [[autonomous-kb-failure-modes]] for the full degradation timeline.
+
+## Interpretação
+
+Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretativo está inline por razões de coesão narrativa.
+
 ## Conexões
 
 - [[retrieval-augmented-generation]] — the academic framing of when LC vs RAG is needed
@@ -95,9 +113,11 @@ See [[context-management]] for the formal hierarchy and [[retrieval-augmented-ge
 - [[autonomous-research-agents]] — KB is persistent deep research; deep research is ephemeral KB
 - [[kb-architecture-patterns]] — taxonomy of 4 KB patterns; this KB implements Pattern 1
 - [[obsidian-agent-workflow]] — the frontend layer for viewing and navigating the wiki
+- [[autonomous-kb-failure-modes]] — what goes wrong when the compilation loop runs unsupervised
 
 ## Fontes
 
 - [Karpathy — LLM Knowledge Bases](../../raw/articles/karpathy-llm-knowledge-bases.md) — original tweet defining the architecture: raw/ → compile → wiki/ → Q&A → lint
 - [Elvis — Personal KB for Agents](../../raw/articles/elvis-personal-kb-agents.md) — extensions: automated curation, QMD search, visual artifacts, actionability
 - [Paulo Silveira — Open Claw](../../raw/articles/paulo-silveira-open-claw-pkm.md) — human-in-the-loop variant: LLM classifies, human writes. Anti-slop philosophy
+- [Wikipedia Risks](../../raw/papers/wikipedia-era-llms-risks.md) — (challenging) AI-revised content lowers RAG performance, stylistic homogenization empirically detected

@@ -11,7 +11,7 @@ created: 2026-04-03
 updated: 2026-04-03
 tags: [search, retrieval, tooling]
 source_quality: high
-interpretation_confidence: high
+interpretation_confidence: medium
 resolved_patches: []
 ---
 
@@ -98,6 +98,10 @@ All auto-downloaded, cached in `~/.cache/qmd/models/`. No cloud dependency.
 QMD is the tool Elvis (@omarsar0) uses to index his research paper collection. It's designed for the exact use case: markdown knowledge bases with agentic search. The MCP integration means an LLM agent can use QMD as a search tool directly.
 
 For our KB, QMD represents the Fase 2-3 upgrade path when `_index.md` flat retrieval hits its limits (~200 articles).
+
+## Interpretação
+
+Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretativo está inline por razões de coesão narrativa.
 
 ## Conexões
 

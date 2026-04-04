@@ -83,6 +83,10 @@ Background tasks use file-based IPC with concurrent-session locking:
 - Task IDs: base-36 encoding with type prefixes (b=bash, a=agent, r=remote)
 - Lock retries: 30 attempts with 5-100ms backoff (~2.6s max wait)
 
+## Interpretação
+
+Nenhuma interpretação significativa neste artigo — conteúdo é factual direto das fontes.
+
 ## Conexões
 
 - [[autonomous-research-agents]] — the Deep Research survey's multi-agent systems share the same coordination patterns

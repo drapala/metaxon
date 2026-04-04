@@ -14,7 +14,7 @@ created: 2026-04-03
 updated: 2026-04-03
 tags: [obsidian, tooling, workflow, ide]
 source_quality: medium
-interpretation_confidence: high
+interpretation_confidence: medium
 resolved_patches: []
 ---
 
@@ -62,6 +62,10 @@ This separation prevents LLM-generated content from contaminating the human's tr
 | Karpathy | IDE frontend for raw data, compiled wiki, and derived visualizations. Uses Web Clipper + image hotkey for ingestion. Marp for slides. |
 | Elvis | MD vaults for research papers. Visual artifact generator with MCP tools. Interactive data views. |
 | Kepano | Endorses the pattern officially. Advocates vault separation and headless CLI for agent interaction. |
+
+## Interpretação
+
+Nenhuma interpretação significativa neste artigo — conteúdo é factual direto das fontes.
 
 ## Conexões
 

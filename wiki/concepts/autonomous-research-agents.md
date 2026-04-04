@@ -8,7 +8,7 @@ created: 2026-04-03
 updated: 2026-04-03
 tags: [deep-research, agent-pipeline, survey]
 source_quality: high
-interpretation_confidence: high
+interpretation_confidence: medium
 resolved_patches: []
 ---
 
@@ -84,6 +84,10 @@ Two dimensions:
 ### Relevance to Knowledge Bases
 
 Karpathy's follow-up tweet captures the connection: "every question to a frontier LLM spawns a team of LLMs to automate the whole thing: iteratively construct an entire ephemeral wiki, lint it, loop a few times, then write a full report." An LLM knowledge base is a persistent instance of what deep research agents do ephemerally.
+
+## Interpretação
+
+Nenhuma interpretação significativa neste artigo — conteúdo é factual direto das fontes.
 
 ## Conexões
 

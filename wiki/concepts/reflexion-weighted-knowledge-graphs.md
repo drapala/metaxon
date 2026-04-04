@@ -69,6 +69,10 @@ CALM bias research adds a critical warning: the Reflexion feedback that modifies
 
 **Practical implication:** /review should prioritize articles involved in /ask failures — not sweep uniformly. If /ask answered poorly and user corrected, those articles get priority in next /review. This is Reflexion-weighted review.
 
+## Interpretação
+
+Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretativo está inline por razões de coesão narrativa.
+
 ## Conexões
 
 - [[agent-memory-architectures]] — MemGPT tiers and HippoRAG graph are the components being combined

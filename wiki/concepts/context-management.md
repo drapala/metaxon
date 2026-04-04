@@ -69,6 +69,10 @@ Two tiers injected into every request:
 
 Both are memoized per session to avoid redundant computation.
 
+## Interpretação
+
+Nenhuma interpretação significativa neste artigo — conteúdo é factual direto das fontes.
+
 ## Conexões
 
 - [[memory-consolidation]] — memory pruning is a form of context management across sessions

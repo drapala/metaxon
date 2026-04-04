@@ -10,6 +10,9 @@ sources:
   - path: raw/articles/claude-code-internals-harness-engineering.md
     type: article
     quality: primary
+  - path: raw/papers/chunking-strategies-rag-comparison.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [retrieval, comparison, architecture]
@@ -69,10 +72,27 @@ RAPTOR generates N levels based on document depth. Our KB has exactly 3 fixed le
 
 **Improvement (Fase 2):** Group articles into thematic sub-indices: `_index-agents.md`, `_index-retrieval.md`. Each sub-index is a RAPTOR mid-level node. The main _index.md points to sub-indices instead of individual articles. This creates a 2-step selection: first select the right sub-index (from ~5-10 sub-indices), then select articles within it (from ~20-40). Both steps stay well within the ERL-validated selection window. This is "Option A" from the blueprint's _index migration plan, now with theoretical justification from both RAPTOR (mid-level node contribution 23-57%) and ERL (selection degrades at 40-60 items).
 
+### Challenging Evidence: Concept-Based May Not Be Optimal (Chunking Benchmarks)
+
+Multiple 2024-2025 benchmarks challenge our assumption that concept-based segmentation is sufficient:
+
+- **NVIDIA study**: page-level chunking won at 0.648 accuracy — preserving author's original structure beats re-segmentation for well-structured documents
+- **Chroma research**: up to 9% recall variation across chunking methods — non-trivial
+- **Proposition chunking** (atomic facts) outperforms concept-level for factoid queries
+- **Optimal strategy depends on query type**: factoid queries need 256-512 tokens, analytical queries need 1024+
+
+Our /ingest uses concept-level articles (~500-1500 words) — potentially suboptimal for factoid /ask queries where finer granularity would help. For synthesis queries, concept-level is likely correct.
+
+No single strategy dominates. The practical implication: our concept-based approach may be leaving retrieval quality on the table for certain query types, but switching to chunk-based would hurt synthesis queries. A hybrid (concept articles + atomic fact index) may be the optimal Fase 2 design.
+
 ### What NOT to Import
 
 - **GMM clustering**: LLM-guided concept extraction is more precise for knowledge bases than statistical embedding clustering. RAPTOR needs GMM because it operates on raw chunks without semantics; we operate on sources the LLM already comprehends.
 - **Embeddings for Layer 1 retrieval**: at ~9 articles, reading _index.md whole is more efficient than any embedding pipeline. At ~200 articles, [[hybrid-search|QMD]] solves this better than DIY embeddings.
+
+## Interpretação
+
+Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretativo está inline por razões de coesão narrativa.
 
 ## Conexões
 
@@ -86,3 +106,4 @@ RAPTOR generates N levels based on document depth. Our KB has exactly 3 fixed le
 - [RAPTOR Paper](../../raw/papers/raptor-recursive-abstractive-retrieval.md) — tree construction, 0.28 compression, 23-57% non-leaf contribution, 4% hallucination rate
 - [LC vs RAG Paper](../../raw/papers/long-context-vs-rag-evaluation.md) — RAPTOR 38.5% vs chunk-based 20-22%, confirms summarization-based retrieval superiority
 - [Claude Code Internals](../../raw/articles/claude-code-internals-harness-engineering.md) — the 3-layer bandwidth-aware pattern that our /ask implements
+- [Chunking Benchmarks](../../raw/papers/chunking-strategies-rag-comparison.md) — (challenging) page-level won NVIDIA benchmark, 9% recall variation, proposition chunking beats concept for factoid queries

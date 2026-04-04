@@ -137,7 +137,7 @@ A critical finding: synthetic long contexts (concatenated passages with noise) o
 - Realistic long texts (novels, papers)
 - Synthetic contexts (concatenated passages)
 
-### Implications for Knowledge Bases (⚠️ our interpretation)
+## Interpretação
 
 For an LLM KB at small scale (~100-200 articles):
 - **LC approach may work** — load the index + relevant articles into context. The paper's LC results support this for well-structured content, but did not test KB-specific scenarios.

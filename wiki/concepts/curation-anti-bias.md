@@ -68,6 +68,10 @@ When wiki exceeds 40 articles, require novelty score for new articles (concept n
 **5. Multiagent Spot-Check**
 For 2-3 random articles per /review, generate 2 independent evaluations (different system prompts: "critical reviewer" vs "supportive reviewer"). Divergence between them surfaces issues a single evaluation hides.
 
+## Interpretação
+
+Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretativo está inline por razões de coesão narrativa.
+
 ## Conexões
 
 - [[autonomous-kb-failure-modes]] — the 4 failure modes that these improvements address

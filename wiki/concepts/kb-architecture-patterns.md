@@ -110,27 +110,25 @@ Four distinct architectural patterns for LLM-powered knowledge bases have emerge
 | Human-in-the-Loop | Human | LLM classification | ~50 outputs | Human time |
 | Bandwidth-Aware | (meta-pattern) | Layered escalation | Any | Context budget |
 
-### RAPTOR Validates the _index.md Pattern
+## Interpretação
 
-The RAPTOR paper (Stanford, 2024) provides academic evidence for the multi-level abstraction approach. An LLM KB's structure is effectively a manual RAPTOR tree:
+### RAPTOR Analogy for _index.md
 
-| RAPTOR Level | KB Equivalent |
-|-------------|---------------|
+RAPTOR's summary nodes contribute 23-57% of useful retrieved content. Our _index.md with ~150 char pointers serves a similar function — but this is an analogy, not a validation. RAPTOR operates on document chunks with embeddings; our _index operates on concept pointers read by an LLM. The mechanism is different even if the abstraction-level pattern resembles.
+
+| RAPTOR Level | KB Equivalent (analogy) |
+|-------------|--------------------------|
 | Raw chunks (leaf nodes) | raw/ sources |
 | Cluster summaries (mid-level) | wiki/concepts/ articles |
-| Root summaries (top-level) | _index.md pointers (~150 chars) |
+| Root summaries (top-level) | _index.md pointers |
 
-RAPTOR automates this via GMM clustering + LLM summarization. Our KB does it via LLM-guided concept extraction. Both achieve the same goal: multi-level abstraction for bandwidth-aware retrieval. RAPTOR's collapsed tree retrieval (flat cosine similarity across all levels) mirrors our `/ask` Layer 1→2→3 escalation.
+### ERL's Heuristics Result Applied to KB
 
-Key validation: RAPTOR's summary nodes contribute 23-57% of useful retrieved content — confirming that the summarization layer (_index.md) is not just a convenience but a retrieval-critical component.
+ERL shows heuristics (+7.8%) > trajectories (-1.9%) on Gaia2. Our wiki articles resemble heuristics (distilled principles by concept). But ERL tested on agent task execution, not knowledge compilation — the transfer is plausible but not directly validated.
 
-### ERL Validates Concept-Based Articles
+### KAIROS-Review Parallel
 
-The ERL paper provides direct evidence for our design choice. Raw trajectories injected as few-shot examples actually *hurt* performance (-1.9% vs baseline), while abstracted heuristics improve it (+7.8%). Our wiki articles are heuristics — distilled strategic principles organized by concept. If we stored raw sources directly in context (like few-shot trajectories), retrieval quality would degrade. The /ingest pattern of extracting concepts from sources is validated.
-
-### Non-Obvious Connection
-
-The KAIROS [[memory-consolidation]] cycle (orient → gather → consolidate → prune) is structurally identical to a wiki /review cycle. The difference: KAIROS consolidates ephemeral conversational memory; /review consolidates durable compiled knowledge. The same 4-phase pattern works in both domains. KAIROS's trigger gates (time-based, session-based) can be borrowed for /review automation.
+The KAIROS cycle (orient → gather → consolidate → prune) resembles a /review cycle. Both consolidate knowledge, but KAIROS operates on ephemeral conversational memory; /review on durable compiled knowledge. The parallel suggests borrowing KAIROS's trigger gates (time-based, session-based) for /review automation.
 
 ## Conexões
 

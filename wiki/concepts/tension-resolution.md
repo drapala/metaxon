@@ -107,6 +107,10 @@ When a tension is detected:
 | [[agent-memory-architectures]] (engineering taxonomy) vs [[agent-memory-architectures]] (CoALA cognitive taxonomy) | "Factual/experiential/working" vs "Episodic/semantic/procedural" | Framework-contingent: engineering categories optimize for building systems; cognitive categories have decades of experimental validation. Neither is wrong. Episodic ≈ experiential-case, semantic ≈ factual, procedural ≈ experiential-skill. Working = working. |
 | [[agent-memory-architectures]] (concept segmentation) vs [[agent-memory-architectures]] (EM-LLM surprise segmentation) | "Segment by concept (LLM judgment)" vs "Segment by Bayesian surprise (statistical signal)" | Method-contingent: surprise-based aligns 25-35x better with human perception; concept-based is pragmatic for KBs. Not exclusive — concepts refined using surprise as secondary signal. |
 
+## Interpretação
+
+Ver seções marcadas com (⚠️) no Conteúdo acima — conteúdo interpretativo está inline por razões de coesão narrativa.
+
 ## Conexões
 
 - [[self-improving-agents]] — Reflexion's grounded feedback loop is the resolution mechanism

@@ -114,6 +114,10 @@ Claude-3.5 shows greatest overall bias resilience. Advanced models don't automat
 4. **Chain-of-Thought for evaluation.** CoT improves accuracy 0.7-7%. Our /ask's explicit Layer 1→2→3 structure provides this.
 5. **Dynamic criteria for /review.** Instead of fixed checklist, generate per-article assessment criteria.
 
+## Interpretação
+
+Nenhuma interpretação significativa neste artigo — conteúdo é factual direto das fontes.
+
 ## Conexões
 
 - [[self-improving-agents]] — Reflexion uses self-evaluation; biases documented here affect that loop

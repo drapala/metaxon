@@ -202,9 +202,11 @@ EM-LLM (Fountas et al., 2024) applies human episodic memory principles to segmen
 
 EM-LLM's finding: "LLM-perceived surprise can serve as a proxy for cognitive signals that drive human event segmentation." Results: 40% improvement on retrieval tasks, 30.5% over RAG on LongBench.
 
-**Implication for this KB:** Our /ingest segments sources by concept (LLM decides where one idea ends and another begins). EM-LLM suggests segmenting by surprise (where the content shifts unexpectedly) would better match how humans organize information. These aren't mutually exclusive — concepts could be refined using surprise as a secondary signal.
+EM-LLM's finding: concepts could be refined using surprise as a secondary signal — these aren't mutually exclusive approaches.
 
-### Mapping to This Knowledge Base (⚠️ design analogy, not source-backed)
+## Interpretação
+
+### Mapping to This Knowledge Base (design analogy, not source-backed)
 
 | Architecture | KB Equivalent |
 |-------------|---------------|
@@ -214,9 +216,13 @@ EM-LLM's finding: "LLM-perceived surprise can serve as a proxy for cognitive sig
 | MemGPT Recall | /ask Layer 3 (on-demand raw/ verification) |
 | Synapse Episodic | raw/ sources (timestamped events) |
 | Synapse Semantic | wiki/concepts/ (abstract concepts extracted from episodes) |
-| Synapse Activation | /ask relevance scoring via _index.md |
 | Letta Core Memory | _index.md (always loaded, zero distortion) |
-| Letta Archival | raw/ (unbounded, high distortion via summarization) |
+
+### Practical Heuristic (our judgment)
+
+- At current scale (~17 articles): wikilinks preserve full associative structure, context budget not a constraint
+- At 50-80 articles: sub-indices needed per ERL selection limit
+- MemGPT-style compression appropriate for ephemeral memory (KAIROS/Dream), not compiled knowledge (wiki articles)
 
 ## Conexões
 
