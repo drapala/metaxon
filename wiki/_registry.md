@@ -51,3 +51,8 @@
 | raw/articles/lakatos-research-programmes.md | 2026-04-04 | article | primary | neutral | question-taxonomy | processed |
 | raw/articles/systematic-review-gap-framework.md | 2026-04-04 | article | primary | neutral | question-taxonomy | processed |
 | raw/articles/simon-bounded-rationality-satisficing.md | 2026-04-04 | article | primary | challenging | question-taxonomy | processed |
+| raw/articles/noy-ontology-development-101.md | 2026-04-04 | article | primary | neutral | formal-ontology-for-kbs | processed |
+| raw/articles/bfo-basic-formal-ontology.md | 2026-04-04 | article | primary | neutral | formal-ontology-for-kbs | processed |
+| raw/articles/dolce-descriptive-ontology.md | 2026-04-04 | article | secondary | neutral | formal-ontology-for-kbs | processed |
+| raw/articles/owl2-primer-knowledge-representation.md | 2026-04-04 | article | primary | neutral | formal-ontology-for-kbs | processed |
+| raw/articles/relation-ontology-obo.md | 2026-04-04 | article | primary | neutral | formal-ontology-for-kbs | processed |
