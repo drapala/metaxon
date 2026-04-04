@@ -307,3 +307,61 @@ Testar requer L2: implementar ambos no mesmo benchmark.
 
 **Fontes:** AIS Tutorial (raw/articles/), Pearl Book of Why (raw/papers/), Reflexion (raw/papers/)
 **Gaps:** Zero implementações de CLONALG em KGs. "Pequeno→RWKG, grande→CLONALG" é especulação sem dados.
+
+---
+
+# Relatório Meta: Anomalia Verbal Reflection — Análogo Biológico
+
+date: 2026-04-04
+query: "A anomalia 'verbal reflection melhora mas self-assessment falha' tem análogo biológico? O sistema imune tem o mesmo problema?"
+confidence: alta (analogia existe), baixa (profundidade da analogia é L1)
+
+---
+
+## A Anomalia em LLMs (5 fontes verificadas)
+
+| Fonte | O que mostra |
+|-------|-------------|
+| Reflexion | +39pp com testes (feedback externo), 52% sem testes |
+| JudgeBench | Self-assessment ≈ random em problemas difíceis |
+| CALM | Self-enhancement até 16.1% (Qwen2) |
+| LMs Know | r=0.78-0.81 — consistente quando certo E errado |
+| Model Collapse | Self-consumption destrói diversidade |
+
+**Resumo:** Melhora com feedback externo. Falha em auto-avaliação sem ground truth.
+
+## O Análogo Biológico
+
+| Dimensão | LLM | Sistema Imune |
+|----------|-----|---------------|
+| Melhora com feedback externo | Sim (+39pp com testes) | Sim (clonal selection com antígeno) |
+| Auto-avalia sem feedback | Não (≈ random) | **Não** (sem antígeno → sem seleção) |
+| Falha de auto-avaliação | Self-enhancement bias | Autoimmune disease |
+| Erro consistente | r=0.78-0.81 | Autoimmunity crônica |
+| Prevenção | Ground truth externo | Tolerância central (thymic selection) |
+
+## Classificação Pearl
+
+**L1 (associação).** A analogia é superficial:
+- Ambos falham em auto-avaliação sem feedback externo ✓
+- Mas mecanismos são DIFERENTES: LLM = viés estatístico de distribuição; imune = falha de tolerância celular
+- "Autoimmunity ≈ self-enhancement bias" é co-ocorrência de padrão, não identidade de mecanismo
+
+## Solução Biológica Que Sugere Solução LLM (L1, não testada)
+
+**Tolerância central:** o thymus ELIMINA T-cells auto-reactivas durante maturação.
+
+**Aplicado a LLMs:** durante /ingest, implementar "thymic selection" que elimina claims onde o LLM mostra consistência excessiva (r > threshold) como potencial self-enhancement. Flag, não elimina automaticamente.
+
+**Status:** especulação L1. Ninguém testou.
+
+## Gaps
+
+- 0 fontes sobre patologia imune (autoimmunity, tolerance failure)
+- 0 fontes sobre computational models of immune tolerance
+- Analogia autoimmunity ↔ self-enhancement = L1 até que mecanismos sejam comparados formalmente
+
+---
+
+**Fontes:** AIS Tutorial, Reflexion, LMs Know, CALM, JudgeBench (todos verificados em raw/)
+**Insight:** O sistema imune e o LLM compartilham a mesma limitação fundamental: precisam de feedback externo para funcionar, e falham previsivelmente quando tentam se auto-avaliar. A diferença é que a biologia evoluiu tolerância central (prevenção de autoimmunity). LLMs não têm equivalente.
