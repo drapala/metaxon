@@ -44,3 +44,6 @@
 | raw/papers/graph-based-agent-memory-taxonomy.md | 2026-04-04 | paper | primary | neutral | agent-memory-architectures | processed |
 | raw/papers/llms-reliability-as-knowledge-bases.md | 2026-04-04 | paper | primary | challenging | autonomous-kb-failure-modes | processed |
 | raw/papers/a-mem-agentic-memory.md | 2026-04-04 | paper | primary | confirming | agent-memory-architectures | processed |
+| raw/articles/miles-seven-research-gaps-taxonomy.md | 2026-04-04 | article | primary | neutral | question-taxonomy | processed |
+| raw/articles/socratic-prompting-llms.md | 2026-04-04 | paper | primary | neutral | question-taxonomy | processed |
+| raw/articles/oblique-strategies-lateral-thinking.md | 2026-04-04 | note | tertiary | neutral | question-taxonomy | processed |
