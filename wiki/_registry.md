@@ -47,3 +47,6 @@
 | raw/articles/miles-seven-research-gaps-taxonomy.md | 2026-04-04 | article | primary | neutral | question-taxonomy | processed |
 | raw/articles/socratic-prompting-llms.md | 2026-04-04 | paper | primary | neutral | question-taxonomy | processed |
 | raw/articles/oblique-strategies-lateral-thinking.md | 2026-04-04 | note | tertiary | neutral | question-taxonomy | processed |
+| raw/articles/popper-falsifiability-scientific-method.md | 2026-04-04 | article | primary | neutral | question-taxonomy | pending |
+| raw/articles/lakatos-research-programmes.md | 2026-04-04 | article | primary | neutral | question-taxonomy | pending |
+| raw/articles/systematic-review-gap-framework.md | 2026-04-04 | article | primary | neutral | question-taxonomy | pending |
