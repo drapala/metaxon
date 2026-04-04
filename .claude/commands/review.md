@@ -47,6 +47,16 @@ Para cada artigo tocado:
 - **Multiagent spot-check:** para 2-3 artigos aleatórios, gerar avaliação com 2
   system prompts diferentes ("critical reviewer" vs "supportive reviewer").
   Se divergem substancialmente, flag pra revisão humana.
+- **Over-synthesis check:** para cada artigo, verificar se claims na seção
+  ## Conteúdo são rastreáveis a fontes raw/. Se encontrar claims interpretativos
+  (analogias, "therefore", cross-paper synthesis) fora da seção ## Interpretação,
+  mover pra lá. Artigos sem ## Interpretação que contêm interpretação estão em
+  violação do template.
+- **External spot-check periódico:** a cada /review, regenerar o prompt de
+  spot-check (outputs/prompts/spot-check-full-prompt.md) com 3 artigos
+  diferentes dos da última vez. Escolher artigos com interpretation_confidence:medium
+  ou low prioritariamente. O prompt está pronto pra ser colado em outro modelo.
+  Reportar: "🔬 Spot-check prompt atualizado com artigos: [lista]. Cole em outro LLM."
 - Atualizar _index.md se títulos/contexto mudaram
 
 ## Formato de report (terminal)
@@ -63,4 +73,6 @@ Para cada artigo tocado:
 - 🔍 Confidence divergence: [artigos onde source_quality ≠ interpretation_confidence]
 - 🎨 Style convergence: [artigos cujo estilo divergiu das fontes raw/]
 - 👥 Multiagent divergence: [artigos onde reviewer crítico e supportive discordam]
+- 📐 Over-synthesis: [artigos com interpretação na seção Conteúdo]
+- 🔬 Spot-check prompt: atualizado com artigos [lista] → colar em outro LLM
 - ✏️ Reescritas feitas: [lista de artigos + o que mudou]

@@ -81,7 +81,14 @@ resolved_patches: []
 [2-3 frases]
 
 ## Conteúdo
-[Corpo]
+[Claims diretamente suportados por fontes em raw/. Números, resultados,
+descrições de arquitetura. Cada claim deve ser rastreável a uma fonte.]
+
+## Interpretação
+[Nossa síntese: analogias com esta KB, conexões cross-paper, "therefore"
+claims, design implications. Tudo nesta seção é interpretação do compilador,
+não fato das fontes. Se esta seção estiver vazia, o artigo é puramente
+factual — e isso é bom.]
 
 ## Conexões
 - [[related-concept]]
