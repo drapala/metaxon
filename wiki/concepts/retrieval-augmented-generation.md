@@ -45,7 +45,7 @@ Retrieval-Augmented Generation (RAG) augments LLM responses by retrieving releva
 
 - Dialogue-based contexts (naturally segmented)
 - General search queries
-- Open-ended questions ("How?")
+- Open-ended questions ("How?") — note: the paper says RAG is "comparable" on these, not necessarily superior
 - When relevant information is concentrated in specific chunks
 
 ### Retriever Comparison
@@ -56,7 +56,7 @@ Retrieval-Augmented Generation (RAG) augments LLM responses by retrieving releva
 | Index-based | 30-36% | BM25, sparse retrieval |
 | Summarization-based (RAPTOR) | 38.5% | Hierarchical summarization |
 
-RAPTOR (summarization-based) significantly outperformed chunk-based approaches — suggesting that the quality of retrieved content matters more than retrieval method sophistication.
+RAPTOR (summarization-based) significantly outperformed chunk-based approaches. (⚠️ The broader claim that "quality of retrieved content matters more than retrieval method sophistication" is our interpretation — the paper shows RAPTOR outperformed compared retrievers, not that this generalizes to all retrieval contexts.)
 
 ### RAPTOR: How Summarization-Based Retrieval Works
 
@@ -137,15 +137,16 @@ A critical finding: synthetic long contexts (concatenated passages with noise) o
 - Realistic long texts (novels, papers)
 - Synthetic contexts (concatenated passages)
 
-### Implications for Knowledge Bases
+### Implications for Knowledge Bases (⚠️ our interpretation)
 
 For an LLM KB at small scale (~100-200 articles):
-- **LC approach works well** — load the index + relevant articles into context
-- **No RAG needed yet** — Karpathy's finding confirmed by this paper
+- **LC approach may work** — load the index + relevant articles into context. The paper's LC results support this for well-structured content, but did not test KB-specific scenarios.
 
 At larger scale:
 - **Hybrid approach** — use [[hybrid-search]] (QMD) to retrieve relevant chunks, then load into context
-- The 3-layer retrieval pattern (index → articles → raw) is effectively a manual RAG with human-designed relevance
+- (⚠️ The analogy "our 3-layer retrieval = manual RAG" is our design interpretation, not a claim from this paper.)
+
+**Limitations acknowledged by the paper** (often dropped in synthesis): focuses exclusively on text; examines only retrievers present in compared papers; rapid model evolution may alter outcomes. The paper explicitly concludes that neither approach universally dominates — performance depends on source type, question type, information density, and model architecture.
 
 ### Definition Ambiguity
 

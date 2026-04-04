@@ -17,6 +17,10 @@ interligada baseada nas fontes em raw/.
 - Sempre: escreva/atualize o artigo PRIMEIRO → depois atualize _index.md
 - Nunca: dump de conteúdo no _index.md (previne entropia)
 - Se algo é derivável (pode ser recalculado), não persista no wiki
+- **Marcar interpretações com ⚠️:** claims factuais diretos das fontes ficam sem marca.
+  Sínteses cross-paper, analogias com esta KB, e "therefore" claims devem ser
+  prefixados com "(⚠️ nossa interpretação)" ou "(⚠️ design analogy)".
+  O wiki é mais forte quando distingue o que as fontes dizem do que nós inferimos.
 
 ## Retrieval (3 camadas)
 O /ask segue esta hierarquia de leitura:

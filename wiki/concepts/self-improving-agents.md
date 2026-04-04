@@ -29,7 +29,7 @@ resolved_patches: []
 
 ## Resumo
 
-Self-improving agents learn from experience without weight updates, using verbal reflection, heuristic generation, or feedback loops to improve future performance. Two foundational approaches: Reflexion (reflect on failures → store in episodic memory → retry) and ERL (reflect on outcomes → generate reusable heuristics → retrieve for future tasks). A critical finding: abstracted heuristics transfer better than raw trajectories.
+Self-improving agents learn from experience without weight updates, using verbal reflection, heuristic generation, or feedback loops to improve future performance. Two foundational approaches: Reflexion (reflect on failures → store in episodic memory → retry) and ERL (reflect on outcomes → generate reusable heuristics → retrieve for future tasks). ERL's finding (on the Gaia2 benchmark): abstracted heuristics transfer better than raw trajectories (+7.8% vs -1.9%). Whether this generalizes beyond Gaia2 is not established.
 
 ## Conteúdo
 
@@ -80,13 +80,14 @@ Heuristics provide "distilled strategic principles that generalize across tasks.
 - Failure-derived heuristics excel on Search (+14.3%)
 - Success-derived heuristics optimize Execution (+9.0%)
 
+**Cost trade-off (often omitted):** ERL incurs ~40% increased API cost due to ~20k heuristic tokens appended per agent turn. Prompt caching partially mitigates but doesn't eliminate the overhead. This matters for practical adoption.
+
 ### The Spectrum of Self-Improvement
 
 | Method | What's stored | Granularity | Transfer |
 |--------|--------------|-------------|----------|
 | Reflexion | Verbal self-reflections | Per-failure | Same task (retry) |
 | ERL | Abstracted heuristics | Per-outcome | Cross-task |
-| Agent KB | Structured experiences | Per-trajectory | Cross-framework |
 | Agent KB | Structured experiences | Per-trajectory | Cross-framework |
 | KAIROS/Dream | Memory consolidation | Per-session | Cross-session |
 
@@ -138,12 +139,12 @@ Models autonomously generate training tasks and improve reasoning via RL. Code e
 
 **Relevance:** A self-improving KB could use self-play: agent generates questions about its own wiki → attempts to answer → evaluates against raw/ → uses feedback to improve articles and retrieval. This would automate the /ask → evaluate → /review cycle entirely.
 
-### Relevance to This Knowledge Base
+### Relevance to This Knowledge Base (⚠️ our design analogies, not source claims)
 
-Our pipeline already implements self-improvement patterns:
-- **Patch system** (`> [!patch]`) = manual Reflexion: identify error → verbal feedback → incorporate
-- **/review reescrita ativa** = automated ERL: reflect on wiki state → generate improvements → apply
-- **Heuristics > trajectories** validates our design: concept-based articles (heuristics) > raw source dumps (trajectories)
+Our pipeline loosely parallels self-improvement patterns:
+- **Patch system** (`> [!patch]`) resembles manual Reflexion: identify error → verbal feedback → incorporate
+- **/review reescrita ativa** resembles ERL: reflect on wiki state → generate improvements → apply
+- **ERL's heuristics > trajectories result** (on Gaia2) is consistent with our concept-article approach, but does not directly validate it — different task, different scale
 
 ## Conexões
 

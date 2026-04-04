@@ -26,13 +26,13 @@ created: 2026-04-03
 updated: 2026-04-03
 tags: [memory, architecture, agent-design, cognitive-science]
 source_quality: high
-interpretation_confidence: high
+interpretation_confidence: medium
 resolved_patches: []
 ---
 
 ## Resumo
 
-Agent memory architectures define how persistent knowledge is structured, stored, and accessed across sessions. Three dominant patterns have emerged: hierarchical tiers (MemGPT/Letta), dynamic graphs (Synapse), and layered compression (Letta/Kellogg). All solve the same fundamental problem — operating within finite context windows — but differ in how they trade fidelity for space.
+Agent memory architectures define how persistent knowledge is structured, stored, and accessed across sessions. Multiple patterns have emerged — hierarchical tiers (MemGPT/Letta), dynamic graphs (Synapse), layered compression (Kellogg), knowledge graph retrieval (HippoRAG) — alongside cognitive science taxonomies (CoALA, EM-LLM). All address operating within finite context windows but differ in how they trade fidelity for space.
 
 ## Conteúdo
 
@@ -56,7 +56,7 @@ MemGPT (2023) introduced virtual context management inspired by OS memory hierar
 - Agent decides what to store/retrieve/forget — self-directed, not pipeline-driven
 - Heartbeat events allow autonomous internal processing chains
 
-**Critical limitation:** Eviction is mechanical (FIFO + pressure-based), not experience-driven. A memory that caused 3 consecutive retrieval failures is treated identically to one that never failed. MemGPT has no mechanism to learn from retrieval errors — it manages *space*, not *quality*. See [[reflexion-weighted-knowledge-graphs]] for a proposed architecture that addresses this gap by combining Reflexion's failure feedback with graph topology.
+**Observation (⚠️ interpretation, not from paper):** The eviction mechanisms described are space-management (pressure + recency), not quality-management. The paper does not discuss error-based eviction or learning from retrieval failures. Whether this is a limitation or a deliberate design scope is not addressed in the source. See [[reflexion-weighted-knowledge-graphs]] for our speculative synthesis on experience-driven eviction.
 
 **Evolution to Letta (4 blocks):**
 - Core Memory (always in context) → Working Context
@@ -89,7 +89,7 @@ Synapse (2026) models memory as a graph where relevance emerges from spreading a
 
 **Solves "Contextual Isolation":** standard RAG fails when causally related memories share no semantic overlap. Graph topology enables multi-hop traversal through "Bridge Nodes."
 
-**Trade-off:** Lateral inhibition can suppress minor details when hub nodes activate strongly (Cognitive Tunneling).
+**Trade-off:** Lateral inhibition can suppress minor details when hub nodes activate strongly (Cognitive Tunneling). However, the ablation shows this is the *smallest* contributor: removing lateral inhibition drops F1 by only 1.1, while removing activation dynamics (-10.0) and node decay (-9.8) cause far larger degradation. The dominant mechanisms are temporal decay and activation propagation, not inhibition.
 
 ### Pattern 3: Layered Compression (Rate-Distortion Framework)
 
@@ -156,11 +156,11 @@ HippoRAG (NeurIPS 2024) models memory as a knowledge graph with Personalized Pag
 
 **Key advantage:** incrementally adds edges (no rebuild needed, unlike RAPTOR's tree re-clustering). 10-30× cheaper, 6-13× faster than iterative methods.
 
-**Connection to wikilinks:** Our wiki's `[[wikilinks]]` are a manually-built HippoRAG graph. Entities = articles, edges = links, retrieval = following paths from query-relevant articles.
+**Analogy (⚠️ our interpretation):** Our wiki's `[[wikilinks]]` loosely resemble a manually-built knowledge graph — articles as nodes, links as edges. This is an architectural analogy, not a claim supported by HippoRAG's paper.
 
-### Decision Framework: Compression vs. Associative Structure
+### Decision Framework: Compression vs. Associative Structure (⚠️ our synthesis)
 
-When should an agent compress aggressively (MemGPT-style) vs. preserve full associative structure (HippoRAG-style)? The papers converge on four decision axes:
+When should an agent compress aggressively vs. preserve associative structure? The following axes are our synthesis across patterns, not a framework from any single paper:
 
 | Axis | Compress (MemGPT/Letta) | Preserve (HippoRAG/Synapse) |
 |------|------------------------|----------------------------|
@@ -204,7 +204,7 @@ EM-LLM's finding: "LLM-perceived surprise can serve as a proxy for cognitive sig
 
 **Implication for this KB:** Our /ingest segments sources by concept (LLM decides where one idea ends and another begins). EM-LLM suggests segmenting by surprise (where the content shifts unexpectedly) would better match how humans organize information. These aren't mutually exclusive — concepts could be refined using surprise as a secondary signal.
 
-### Mapping to This Knowledge Base
+### Mapping to This Knowledge Base (⚠️ design analogy, not source-backed)
 
 | Architecture | KB Equivalent |
 |-------------|---------------|
