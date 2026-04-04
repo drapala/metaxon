@@ -98,6 +98,7 @@ The honest assessment: RWKG named a combination that was independently implement
 - **AriGraph (IJCAI 2025)**: Online graph structure updates during exploration — add/remove nodes AND edges based on experience. More radical than RWKG (which only proposes weight changes, not structural changes). Verdict: demonstrates "adaptive graph topology" concept already exists.
 - **RMM (ACL 2025)**: Retrospective reflection via online RL to adapt retrieval — the closest to RWKG's "Reflexion-weighted retrieval." Uses formal RL optimization, not ad-hoc verbal-reflection-to-weight mapping. +10% on LongMemEval. Verdict: more principled mechanism for same goal.
 - Synapse's spreading activation + lateral inhibition may achieve similar results through different means
+- **AIS / CLONALG (2010)**: Dissolves credit assignment entirely. Don't identify failing edge — amplify successful paths, let failures die by competition. Paradigm challenge: RWKG assumes attribution is necessary; immune systems prove it isn't. Never applied to KGs (confirmed gap). See [[immune-inspired-credit-assignment]].
 
 ### Gaps não resolvidos
 - Credit assignment: how to determine WHICH edge caused a retrieval failure
