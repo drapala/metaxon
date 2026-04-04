@@ -16,7 +16,7 @@
 - [Hybrid Search](concepts/hybrid-search.md) — QMD: BM25+vector+reranking on-device, RRF fusion, smart chunking, MCP integration
 - [RAPTOR vs. Flat 3-Layer Retrieval](concepts/raptor-vs-flat-retrieval.md) — Tree vs flat comparison: structural parallels (not validation). Chunking benchmarks challenge concept-based segmentation
 - [Agent Memory Architectures](concepts/agent-memory-architectures.md) — STORAGE STRUCTURES: MemGPT tiers, Synapse graph, Letta compression, CoALA cognitive taxonomy, EM-LLM surprise segmentation
-- [Self-Improving Agents](concepts/self-improving-agents.md) — Reflexion + ERL + RMM + TextGrad + Promptbreeder + Absolute Zero. ERL heuristics>trajectories on Gaia2 (not generalized)
+- [Self-Improving Agents](concepts/self-improving-agents.md) — Reflexion (verbal) + ERL (heuristics) + RMM (RL) + TextGrad (verbal vs scalar gradients) + Absolute Zero (binary reward). L2: verbal +8pp, ancoragem +39pp
 - [Tension Resolution](concepts/tension-resolution.md) — 5 mechanisms from papers inform design: grounded verification, self-enhancement risk, heuristic resolution, dynamic criteria, graph discovery
 - [LLM-as-Judge](concepts/llm-as-judge.md) — 12 biases (self-enhancement most critical), GPT-4o near random on hard evals, dynamic criteria > static rubrics
 - [Reflexion-Weighted Knowledge Graphs](concepts/reflexion-weighted-knowledge-graphs.md) — Original synthesis: adaptive retrieval topology where graph restructures based on failure feedback
