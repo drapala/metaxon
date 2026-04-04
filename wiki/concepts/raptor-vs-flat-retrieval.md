@@ -14,7 +14,7 @@ created: 2026-04-03
 updated: 2026-04-03
 tags: [retrieval, comparison, architecture]
 source_quality: high
-interpretation_confidence: high
+interpretation_confidence: medium
 resolved_patches: []
 ---
 
