@@ -36,7 +36,7 @@
 - [Variety Gap Analysis](concepts/variety-gap-analysis.md) — ⚠️ ESPECULATIVO. Gap V(compiler)/V(domain) por dimensão. Gap Beer/VSM preenchido. Gap Shannon parcialmente preenchido.
 - [Bibliometrics](concepts/bibliometrics.md) — Pritchard 1969: "application of math/stats to books and media." Field definition. Utility-tracker = bibliometrics da KB (⚠️ nossa interpretação)
 - [Bradford's Law of Scattering](concepts/bradford-law-scattering.md) — Bradford 1934: zonas 1:n:n², rendimento decrescente. Proxy para V gap por domínio (⚠️ interpretação)
-- [Information Theory (Shannon)](concepts/information-theory-shannon.md) — ⏳QUARANTINED. H = −Σ p log p. Bit como unidade. Capacidade de canal. Proxy V(LLM) via entropia = especulação.
+- [Information Theory (Shannon)](concepts/information-theory-shannon.md) — H = −Σ p log p. Bit como unidade. Capacidade de canal. Proxy V(LLM) via entropia = ⚠️ interpretação. Hub fundacional do cluster info-theory.
 - [Viable System Model (Beer)](concepts/viable-system-model-beer.md) — Variety attenuation/amplification, recursão VSM. Multi-regulator coordination. Estende Ashby para organizações hierárquicas.
 - [Information Bottleneck (Tishby)](concepts/information-bottleneck.md) — L[p(x̃|x)] = I(X̃;X) − βI(X̃;Y). Compressão que preserva relevância. Operacionaliza tradeoff V/relevância.
 - [Partial Information Decomposition (Wibral)](concepts/partial-information-decomposition.md) — Unique + shared + synergistic information. Diagnóstico de ensembles de compiladores.

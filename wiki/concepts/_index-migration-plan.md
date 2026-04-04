@@ -5,6 +5,7 @@ created: 2026-04-04
 updated: 2026-04-04
 status: draft
 trigger_condition: "Layer 1 /ask misses ≥2-3 relevant articles observably"
+last_cluster_analysis: 2026-04-04
 tags: [meta-kb, index, architecture, migration]
 interpretation_confidence: medium
 source_quality: medium
@@ -186,16 +187,74 @@ Esse design evita o problema de selection accuracy — cada step fica dentro do 
 
 ---
 
+---
+
+## Modelo de graduação dinâmica
+
+O sistema não é uma migração estática — é um fluxo contínuo baseado em in-degree:
+
+```
+/ingest (Zone 3) → _index-lateral (viveiro, 0-2 citações)
+        ↓  via /ask sessions
+≥4 citações acumuladas → graduação para sub-índice funcional correspondente
+        ↓
+Hub do cluster em quarentena? → bloqueio de migração do sub-índice
+        ↓
+/promote hub → sub-índice pode ser criado
+```
+
+**Regra de graduação**: artigo lateral atingindo ≥4 citações via /ask sessions = sinal de que conexões reais emergiram. Mover para sub-índice funcional. O _index-lateral é viveiro, não categoria permanente.
+
+**Regra de bloqueio**: não criar sub-índice enquanto o hub do cluster estiver em quarentena. Um sub-índice com hub bloqueado é uma sala em torno de uma porta trancada.
+
+---
+
+## Estado atual dos clusters (2026-04-04)
+
+Baseado em análise empírica de in-degree via grep do grafo de wikilinks.
+
+| Cluster | Hub principal | Citações hub | Quarentena hub | Outros quarentenados no cluster | Migração |
+|---------|--------------|-------------|---------------|-------------------------------|---------|
+| **info-theory** | information-theory-shannon | 11 | ~~✅ ativa~~ **promovido** | team-decision-theory (5) | **desbloqueada** |
+| **agents** | agent-memory-architectures | 16 | ❌ | reflexion-weighted-knowledge-graphs (10) | possível¹ |
+| **retrieval** | hybrid-search | 12 | ❌ | raptor-vs-flat-retrieval (6) | possível² |
+| **meta-kb** | autonomous-kb-failure-modes | 15 | ✅ ativa | — | **BLOQUEADA** |
+| **lateral** | (viveiro) | 0-2 | causal-reasoning-pearl (2), immune-inspired (2) | N/A |
+
+¹ reflexion-weighted-knowledge-graphs (10 citações) quarentenado = segundo hub do cluster agents bloqueado. Sub-índice agents pode ser criado mas com gap estrutural até RWKG ser promovido.
+
+² raptor-vs-flat-retrieval (6 citações) quarentenado = bridge do cluster retrieval bloqueado. Sub-índice retrieval pode ser criado mas retrieval↔RAPTOR está isolado.
+
+### Sequência recomendada de promoções antes de migrar
+
+```
+Prioridade 1: autonomous-kb-failure-modes (15 citações) — desbloqueia meta-kb, o cluster mais denso
+Prioridade 2: reflexion-weighted-knowledge-graphs (10 citações) — completa agents  
+Prioridade 3: raptor-vs-flat-retrieval (6 citações) — completa retrieval
+Prioridade 4: team-decision-theory (5 citações) — completa info-theory (já desbloqueada)
+Baixa prioridade: causal-reasoning-pearl (2), immune-inspired (2) — periféricos
+```
+
+---
+
 ## Trigger e pré-condições
 
 **Não dividir até**:
-1. `_index.md` causar missess observáveis: /ask retorna respostas incompletas e o artigo correto estava no _index mas não foi selecionado (≥2-3 casos documentados)
-2. `information-theory-shannon` promovido — migrar o cluster info-theory com hub isolado é contraproducente
-3. Artigos laterais com ≥4 citações identificados — eles determinam as fronteiras reais dos sub-índices
+1. `/ask` Layer 1 falhar observavelmente: respostas incompletas onde artigo correto estava no _index mas não foi selecionado (≥2-3 casos documentados)
+2. Hub do cluster alvo promovido (ver tabela acima)
+3. Artigos laterais com ≥4 citações identificados — eles determinam fronteiras reais
+
+**Sequência correta**:
+1. Observar falha de Layer 1
+2. Identificar qual cluster falhou
+3. Verificar se hub do cluster está em quarentena
+4. Se sim: /promote hub primeiro
+5. Criar sub-índice do cluster
+6. Mover artigos com ≥4 citações do _index-lateral para o sub-índice
 
 **Não dividir por**:
 - Bradford zone (AI/ML vs lateral) — viola estrutura real do grafo
-- Tema arbitrário a priori — os clusters já existem; a divisão descobre, não impõe
+- Tema a priori sem suporte do grafo
 
 ---
 

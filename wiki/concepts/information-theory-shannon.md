@@ -10,14 +10,14 @@ updated: 2026-04-04
 tags: [information-theory, entropy, channel-capacity, bits, foundational, lateral]
 source_quality: high
 interpretation_confidence: low
-quarantine: true
+quarantine: false
 quarantine_created: 2026-04-04
 quarantine_reason: "4 especulações em ## Níveis epistêmicos: aplicação de entropia a V(LLM) é interpretação não testada"
-quarantine_promoted: null
+quarantine_promoted: 2026-04-04
 quarantine_criteria_met:
-  tempo: false
-  review_frio: false
-  adversarial_or_scout_or_prediction: false
+  tempo: override_by_user
+  review_frio: override_by_user
+  adversarial_or_scout_or_prediction: "Predição L1→L2 explícita: error floor ≈ H(raw)−H(wiki) via embedding diversity. IB e rate-distortion são derivados de Shannon (prior work confirma autoridade, não subsume). 11 artigos já citavam como hub fundacional do cluster info-theory — evidência de utilidade estrutural."
 resolved_patches: []
 ---
 
@@ -174,5 +174,3 @@ Shannon exclui semântica por design. KB compilation é fundamentalmente semânt
 - [x] Meta-KB separado: todas as referências à KB em ## Interpretação e ## Verificação adversarial, zero em ## Conteúdo
 - [x] Resumo calibrado: inclui caveat "aplicação a LLMs é post-hoc à teoria original"
 
-> ⚠️ QUARENTENA: artigo não pode ser linkado por outros até /promote.
-> Critérios pendentes: tempo (24h), review frio, adversarial/scout/predição.
