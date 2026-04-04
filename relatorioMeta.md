@@ -141,3 +141,118 @@ O Quality Gate CHECK 2 (instance→class) já captura parcialmente isso. Mas dev
 **Gaps:**
 - Nenhuma verificação de "Reflexion 2025 2026" feita — /scout necessário
 - Nenhuma verificação de benchmarks atuais de HumanEval — saturação provável mas não confirmada
+
+---
+
+# Relatório Meta: Single Point of Failure Analysis
+
+date: 2026-04-04
+query: "Qual artigo tem maior risco de ser single point of failure — erro factual propagando via wikilinks?"
+confidence: alta (dados empíricos do grafo)
+
+---
+
+## Metodologia
+
+**Risco de propagação = inbound links × confidence risk**
+
+- Inbound links = quantos artigos DEPENDEM deste (citam via wikilink)
+- Confidence risk = probabilidade de conter erro:
+  - high confidence = 1 (menor risco)
+  - medium confidence = 2
+  - low confidence = 3
+
+**Score = inbound × confidence_risk.** Maior score = maior risco de propagação.
+
+## Ranking Completo
+
+| Rank | Artigo | Inbound | Confidence | Score | Risco |
+|------|--------|---------|-----------|-------|-------|
+| **1** | **kb-architecture-patterns** | **13** | **medium (2)** | **26** | **CRÍTICO** |
+| 2 | tension-resolution | 9 | medium (2) | 18 | Alto |
+| 3 | self-improving-agents | 11 | high (1) | 11 | Alto |
+| 4 | agent-memory-architectures | 7 | medium (2) | 14 | Alto |
+| 5 | reflexion-weighted-knowledge-graphs | 7 | low (3) | 21 | Alto |
+| 6 | autonomous-kb-failure-modes | 6 | medium (2) | 12 | Alto |
+| 7 | context-management | 10 | high (1) | 10 | Médio |
+| 8 | memory-consolidation | 9 | high (1) | 9 | Médio |
+| 9 | retrieval-augmented-generation | 7 | high (1) | 7 | Médio |
+| 10 | hybrid-search | 8 | medium (2) | 16 | Alto |
+| 11 | llm-knowledge-base | 6 | medium (2) | 12 | Médio |
+| 12 | raptor-vs-flat-retrieval | 5 | medium (2) | 10 | Médio |
+| 13 | llm-as-judge | 6 | high (1) | 6 | Baixo |
+| 14 | autonomous-research-agents | 6 | medium (2) | 12 | Médio |
+| 15 | multi-agent-orchestration | 3 | high (1) | 3 | Baixo |
+| 16 | question-taxonomy | 2 | medium (2) | 4 | Baixo |
+| 17-21 | (5 artigos com 1 inbound) | 1 | varies | 1-3 | Mínimo |
+
+## Análise dos Top 3
+
+### #1 — kb-architecture-patterns (Score: 26) — SINGLE POINT OF FAILURE
+
+**13 artigos dependem deste.** É o hub central da KB. Qualquer erro aqui propaga pra 62% do wiki.
+
+**Erros que propagariam:**
+- "Pattern 4 é uma arquitetura" → na verdade é um role/meta-pattern. Se citado como arquitetura por 13 artigos downstream, todos herdam a confusão categorial.
+- Scale thresholds extrapolados (~200 artigos) → apresentados como se fossem empiricos. 13 artigos podem referenciá-los como fato.
+- "ERL validates concept articles" → ERL testou em Gaia2 (agent tasks), não em KBs. Se downstream cita como "validação", over-synthesis propaga.
+
+**Status:** Resumo já foi calibrado (commit 6ce0c32: "OUR TAXONOMY, Pattern 4 is role, thresholds extrapolated"). Mas o CORPO do artigo ainda tem interpretações no Conteúdo.
+
+**Mitigação:** Este artigo deveria ser o primeiro a ter typed wikilinks completos e ## Interpretação totalmente separada. Qualquer erro aqui tem 13x amplification factor.
+
+### #2 — reflexion-weighted-knowledge-graphs (Score: 21) — SPECULATIVE HUB
+
+**7 artigos dependem + confidence LOW.** O score é alto porque baixa confiança × muitos dependentes = alto risco de propagar especulação como fato.
+
+**Erros que propagariam:**
+- "Edge weight modification via verbal feedback" → conceito especulativo não implementado. Se citado como mecanismo por downstream, vira claim L1 apresentado como L2.
+- "Credit assignment unsolved" → agora parcialmente superado por immune-inspired-credit-assignment (CLONALG dissolve o problema).
+- Prior work subsume 80%+ do que RWKG propunha (Hindsight, Zep, AriGraph, RMM, AIS).
+
+**Status:** Resumo já diz "speculative synthesis, partially subsumed." Prior work section extensiva. Mas é o artigo mais citado com interpretation_confidence:low — structurally risky.
+
+**Mitigação:** Considerar rebaixar para "historical synthesis" ou mover claims não-subsumed pra immune-inspired-credit-assignment. O valor remanescente do RWKG é a NARRATIVA de como chegamos lá, não o mecanismo proposto.
+
+### #3 — self-improving-agents (Score: 11) — BENCHMARK PROPAGATION VECTOR
+
+**11 artigos dependem + confidence HIGH.** Score menor que os acima, mas este é o artigo que propaga números de benchmark (91% HumanEval, 52% sem testes, +8pp verbal, -1.9% trajectories, 40-60 ERL threshold).
+
+**Erros que propagariam:**
+- "91% HumanEval" com GPT-4 de 2023 → provavelmente obsoleto (benchmark saturado com modelos 2026). Se 11 artigos citam como evidência de que verbal reflection funciona, citam um número que pode não representar o delta real em modelos atuais.
+- "16.1% self-enhancement bias" (de llm-as-judge via self-improving-agents) → Qwen2-specific. Se propagado sem qualifier a 11 artigos downstream, inflaciona o risco percebido.
+- "+8pp verbal over episodic" → dado de 1 benchmark (HumanEval), 1 modelo (GPT-4 2023). Se propagado como "verbal contribui ~8pp em geral", over-generaliza.
+
+**Status:** interpretation_confidence:high — mas deveria ser medium dado que os benchmarks são de 2023. O artigo é factual sobre O QUE os papers dizem, mas os papers dizem coisas sobre modelos de 2023.
+
+**Mitigação:** Adicionar "temporal freshness" qualifier: "these results are from 2023 models; delta may differ with 2025-2026 models."
+
+## Padrão Emergente: Hub Topology Creates Fragility
+
+A KB tem topologia de **hub-and-spoke**: 3 artigos (kb-architecture-patterns, self-improving-agents, context-management) concentram ~34 inbound links de um total de ~135. Isso significa:
+- 3 artigos influenciam 25% de todas as conexões
+- Um erro em qualquer um dos 3 tem amplificação 10-13x
+- A robustez da KB depende desproporcionalmente da qualidade desses 3
+
+**Comparação com immune networks (aiNet):** O sistema imune evita single points of failure via REDUNDÂNCIA — múltiplos anticorpos cobrem o mesmo antígeno. Se um falha, outros compensam. Nossa KB não tem redundância — cada conceito tem 1 artigo. Se kb-architecture-patterns tiver um erro, não existe artigo alternativo sobre o mesmo tema que forneceria perspectiva diferente.
+
+**Possível mitigação (não implementada):** Para os top 3 hubs, criar "artigos-sombra" (adversarial articles) que apresentam o mesmo tema de perspectiva oposta. Ex: "kb-architecture-patterns-critique" que documenta por que a taxonomia pode estar errada. Isso é o equivalente de diversidade imunológica — múltiplos "anticorpos" para o mesmo "antígeno."
+
+## Ação Recomendada (por prioridade)
+
+| # | Ação | Artigo | Custo | Impacto |
+|---|------|--------|-------|---------|
+| 1 | Separar Conteúdo/Interpretação completamente | kb-architecture-patterns | 15 min | Previne propagação de over-synthesis a 13 artigos |
+| 2 | Temporal freshness qualifier nos benchmarks 2023 | self-improving-agents | 5 min | Previne propagação de números obsoletos a 11 artigos |
+| 3 | Rebaixar RWKG interpretation_confidence ou mover valor remanescente | reflexion-weighted-knowledge-graphs | 10 min | Reduz risco de especulação propagando a 7 artigos |
+| 4 | /challenge no kb-architecture-patterns (nunca foi challenged) | kb-architecture-patterns | 15 min | Hub nunca testado adversarially |
+
+---
+
+**Fontes wiki:** todas as 21 (análise topológica do grafo inteiro)
+
+**Fontes raw verificadas:** N/A — dados são contagens de links, não claims de papers
+
+**Confiança:** alta para topologia (contagens diretas), média para análise de risco (nosso julgamento sobre que tipos de erro propagam)
+
+**Insight inesperado:** A KB tem topologia hub-and-spoke sem redundância — anti-pattern do ponto de vista imunológico. O sistema imune resolve isso com múltiplos anticorpos por antígeno. A KB poderia resolver com artigos adversariais por hub.
