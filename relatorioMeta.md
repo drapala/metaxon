@@ -365,3 +365,56 @@ confidence: alta (analogia existe), baixa (profundidade da analogia é L1)
 
 **Fontes:** AIS Tutorial, Reflexion, LMs Know, CALM, JudgeBench (todos verificados em raw/)
 **Insight:** O sistema imune e o LLM compartilham a mesma limitação fundamental: precisam de feedback externo para funcionar, e falham previsivelmente quando tentam se auto-avaliar. A diferença é que a biologia evoluiu tolerância central (prevenção de autoimmunity). LLMs não têm equivalente.
+
+---
+
+# Relatório Meta: Núcleo Duro Lakatosiano da KB
+
+date: 2026-04-04
+query: "Qual é o claim que nunca foi revisado? É núcleo por robustez empírica ou viés de confirmação?"
+confidence: alta (dados empíricos de commits), média (veredicto)
+
+---
+
+## Hard Core — 5 regras nunca revisadas em 35 commits
+
+| # | Regra | Evidência contrária encontrada |
+|---|-------|-------------------------------|
+| 1 | NUNCA edite raw/ (imutável) | **SIM**: 19/56 raw/ files têm editorial sections do compilador |
+| 2 | Atualize _index + _registry | Não |
+| 3 | Use wikilinks | **SIM**: devem ser tipados (ontology audit) |
+| 4 | Cite com links pra raw/ | Não |
+| 5 | Artigos seguem template | **SIM**: template mudou 4x, mas a regra "segue o template" nunca questionada |
+
+## A Regra Mais Protegida E Mais Violada: "raw/ imutável"
+
+**Robustez empírica (L2):**
+- Model Collapse (Nature 2024): mixture of real+synthetic prevents collapse. raw/ = dados reais. Remover imutabilidade = self-consumption.
+- Layer 3 verification funciona PORQUE raw/ é ground truth fixo.
+
+**Viés de confirmação:**
+- Importada de Karpathy sem teste. Nunca testamos do(editar-raw/).
+- 19 files com editorial content = violação não processada.
+- Lakatos: "negative heuristic FORBIDS criticism of hard core" — exatamente o que fazemos.
+- raw/ "parcial" (WebFetch resumiu em vez de transcrever) não é ground truth real — mas tratamos como imutável mesmo assim.
+
+## Veredicto: AMBOS
+
+Justificativa empírica real (Model Collapse) + viés de confirmação (nunca questionada).
+
+## Refinamento Proposto
+
+raw/ contém 2 tipos de conteúdo:
+1. **Conteúdo da fonte** (paper original) — IMUTÁVEL ✓
+2. **Conteúdo editorial** ("Relevance to KB", Pearl classification) — NÃO deveria estar em raw/
+
+Regra refinada: marcar editorial com `> [editorial]` ou mover pra wiki.
+
+## Meta-Ironia
+
+Esta resposta questiona o hard core USANDO o hard core (verificando claims contra raw/ imutável). Se raw/ não é confiável, a verificação desta resposta também não é.
+
+---
+
+**Fontes:** Lakatos, Model Collapse (verificados em raw/)
+**Gaps:** Nunca testamos do(editar-raw/) — teríamos L2 evidence. A pergunta que falsificaria: "se editarmos um raw/ pra corrigir WebFetch parcial, /ask quality muda?"
