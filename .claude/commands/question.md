@@ -25,8 +25,15 @@ Antes de rodar /ask, sugere qual tipo de pergunta geraria o insight mais fértil
    | Só fontes challenging | ESCALA | Busque onde o desafio quebra |
    | Claim aceito como verdade | FALSIFICAÇÃO (Popper) | O que provaria isso errado? |
    | Últimos 5 /ask = mesmo tipo | DEGENERESCÊNCIA (Lakatos) | KB confirmando a si mesma? |
+   | Resposta parece incompleta | SUFICIÊNCIA (Simon) | Boa o suficiente pra agir? Custo de melhorar > custo do erro? |
 
-4. **Gere 3 perguntas candidatas** usando o tipo selecionado:
+4. **Antes de gerar perguntas, aplique o teste de suficiência (Simon):**
+   - O usuário já tem informação suficiente pra agir sobre este tópico?
+   - Se sim, diga: "A KB já cobre [tópico] com [N] artigos e [confidence].
+     Sugiro agir com o que temos em vez de perguntar mais. Quer prosseguir mesmo assim?"
+   - Se não, gere as 3 perguntas candidatas.
+
+5. **Gere 3 perguntas candidatas** usando o tipo selecionado:
    - Uma pergunta direta (o que parece óbvio)
    - Uma pergunta oblíqua (reframe via Popper: "e se o oposto fosse verdade?")
    - Uma pergunta PICOS (estruturada: Population, Intervention, Comparison, Outcome, Setting)

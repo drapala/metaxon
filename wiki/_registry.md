@@ -50,3 +50,4 @@
 | raw/articles/popper-falsifiability-scientific-method.md | 2026-04-04 | article | primary | neutral | question-taxonomy | processed |
 | raw/articles/lakatos-research-programmes.md | 2026-04-04 | article | primary | neutral | question-taxonomy | processed |
 | raw/articles/systematic-review-gap-framework.md | 2026-04-04 | article | primary | neutral | question-taxonomy | processed |
+| raw/articles/simon-bounded-rationality-satisficing.md | 2026-04-04 | article | primary | challenging | question-taxonomy | processed |

@@ -19,6 +19,9 @@ sources:
   - path: raw/articles/systematic-review-gap-framework.md
     type: article
     quality: primary
+  - path: raw/articles/simon-bounded-rationality-satisficing.md
+    type: article
+    quality: primary
 created: 2026-04-04
 updated: 2026-04-04
 tags: [meta-kb, methodology, questioning, epistemology]
@@ -29,7 +32,7 @@ resolved_patches: []
 
 ## Resumo
 
-The quality of KB insights depends more on the questions asked than the sources ingested. Six frameworks inform systematic questioning: Miles' 7 Research Gaps (where to look), Socratic Methods (how to probe), Oblique Strategies (how to reframe), Popper's falsifiability (how to form testable hypotheses), Lakatos's research programmes (how to evaluate if the KB is progressing or degenerating), and AHRQ's gap framework (how to structure questions via PICOS). Together they enable typed questions that open investigation rather than close it.
+The quality of KB insights depends more on the questions asked than the sources ingested. The quality of KB insights depends more on the questions asked than the sources ingested. Seven frameworks inform systematic questioning: Miles' 7 Research Gaps (where to look), Socratic Methods (how to probe), Oblique Strategies (how to reframe), Popper's falsifiability (how to form testable hypotheses), Lakatos's research programmes (how to evaluate if the KB is progressing or degenerating), AHRQ's gap framework (how to structure questions via PICOS), and Simon's satisficing (when to stop asking and act). Together they enable 10 typed questions and a stopping rule.
 
 ## Conteúdo
 
@@ -116,6 +119,28 @@ Popper's cycle: **P₁ → TT → EE → P₂** (problem → tentative theory �
 | Inconsistent results | documented tensions between articles |
 | Not the right info | over-synthesis — sources don't say what we claim |
 
+### Simon's Satisficing: When to STOP Asking
+
+The missing piece: the other 6 frameworks tell you how to ask better questions. Simon tells you when the answer is good enough to act on.
+
+**Satisficing**: search until finding an option that meets a predefined threshold (aspiration level), then STOP. Don't optimize — the cost of finding the perfect answer exceeds the value of the improvement over "good enough."
+
+**Aspiration Levels for KB Activities:**
+
+| Activity | Stop when | Don't chase |
+|----------|-----------|-------------|
+| /ask | Answer cites 2+ sources AND confidence check passes | The "perfect" synthesis across all 18 articles |
+| /ingest | New sources stop generating novel concepts (Lakatos: degenerating) | Completeness — it's unachievable |
+| /review | No CRITICAL issues found | Minor style improvements (over-reviewing causes semantic convergence) |
+| /challenge | Top 3 claims classified | Challenging every sentence |
+| /scout | 3 candidates found | Exhaustive literature search |
+
+**The Meta-Stopping Rule:** "When the cost of the next improvement exceeds the cost of the error it prevents, stop."
+
+One more /review cycle costs ~20 min of context. If the expected catch is a minor interpretation issue (not factual error), the cost exceeds the benefit. Stop.
+
+**Fast and Frugal for /ask:** Gigerenzer's Take-the-Best heuristic: use the single most discriminating cue, ignore the rest. For /ask: if _index.md clearly points to 1-2 relevant articles, read those and answer. Don't read 5-10 "just in case." Less is more when training data (context) is limited.
+
 ### Question Types for /ask
 
 | Type | When to use | Template |
@@ -129,6 +154,7 @@ Popper's cycle: **P₁ → TT → EE → P₂** (problem → tentative theory �
 | **EMPÍRICA** | Claim without evidence | "This framework sounds compelling. What would a test look like?" |
 | **FALSIFICAÇÃO** (Popper) | Claim accepted as true | "What evidence would disprove this? If nothing can, is it really knowledge?" |
 | **DEGENERESCÊNCIA** (Lakatos) | KB producing same insights | "Are the last 5 /ask answers the same TYPE of insight? Is the KB confirming itself?" |
+| **SUFICIÊNCIA** (Simon) | Answer seems incomplete | "Is this answer good enough to act on? What's the cost of getting a better one vs acting now?" |
 
 ### Perguntas Proibidas (fecham em vez de abrir)
 
@@ -139,7 +165,7 @@ Popper's cycle: **P₁ → TT → EE → P₂** (problem → tentative theory �
 
 ## Interpretação
 
-This taxonomy is our synthesis — Miles, Chang, Eno, Popper, Lakatos, and AHRQ didn't design these for LLM knowledge bases. The mappings (research gaps → /ask templates, falsifiability → wiki claim testing, research programmes → KB health evaluation, PICOS → structured queries) are our interpretations. The "perguntas proibidas" list is our prescription based on over-synthesis experience.
+This taxonomy is our synthesis — Miles, Chang, Eno, Popper, Lakatos, AHRQ, and Simon didn't design these for LLM knowledge bases. The mappings (research gaps → /ask templates, falsifiability → wiki claim testing, research programmes → KB health evaluation, PICOS → structured queries) are our interpretations. The "perguntas proibidas" list is our prescription based on over-synthesis experience.
 
 ## Conexões
 
@@ -158,3 +184,4 @@ This taxonomy is our synthesis — Miles, Chang, Eno, Popper, Lakatos, and AHRQ 
 - [Popper — Falsifiability](../../raw/articles/popper-falsifiability-scientific-method.md) — P₁→TT→EE→P₂ cycle, bold conjectures > safe summaries, "scientist begins with problems not observations"
 - [Lakatos — Research Programmes](../../raw/articles/lakatos-research-programmes.md) — hard core vs protective belt, progressive vs degenerating programmes, when to abandon a framework
 - [AHRQ — Gap Framework](../../raw/articles/systematic-review-gap-framework.md) — PICOS structure for gap characterization, 4 reasons gaps exist (insufficient, biased, inconsistent, wrong info)
+- [Simon — Bounded Rationality](../../raw/articles/simon-bounded-rationality-satisficing.md) — satisficing, aspiration levels, stopping rules, fast-and-frugal heuristics: when to stop asking and act
