@@ -26,6 +26,7 @@
 - [Curation Anti-Bias](concepts/curation-anti-bias.md) — HOW TO FIX IT: 3 bias layers + 5 improvements. Adversarial quota, split confidence, style check, multiagent spot-check
 - [Question Taxonomy](concepts/question-taxonomy.md) — 7 frameworks (Miles, Socratic, Oblique, Popper, Lakatos, AHRQ, Simon). 10 question types + stopping rule
 - [Fast-and-Frugal Heuristics (Gigerenzer)](concepts/fast-frugal-heuristics.md) — EXPLAINS "compression > raw": bias-variance trade-off. Less-is-more in small samples. PREDICTS reversal at scale (500+ articles)
+- [Requisite Variety (Ashby)](concepts/requisite-variety.md) — ⏳QUARANTINED. "Only variety can destroy variety." V(compiler) < V(domain) → irreducible error floor. All 5 failure modes = 1 cause. 5 testable predictions.
 - [Causal Reasoning (Pearl)](concepts/causal-reasoning-pearl.md) — CAUSAL LEVELS: association (seeing), intervention (doing), contrafactual (imagining). KB has 8 L1, 5 L2, 0 L3 claims
 - [Formal Ontology for KBs](concepts/formal-ontology-for-kbs.md) — STRUCTURAL GAPS: untyped wikilinks, no hierarchy, no competency questions. 5 typed relations, continuant/occurrent, adoption path
 - [Obsidian as Agent Wiki](concepts/obsidian-agent-workflow.md) — Default frontend for LLM KBs, vault separation pattern, 4-piece stack (app+clipper+CLI+skills)

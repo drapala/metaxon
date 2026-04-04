@@ -61,3 +61,4 @@
 | raw/articles/gigerenzer-fast-frugal-heuristics.md | 2026-04-04 | article | primary | confirming | fast-frugal-heuristics | processed |
 | raw/articles/janis-groupthink.md | 2026-04-04 | article | primary | challenging | groupthink-and-cascades | processed |
 | raw/articles/banerjee-information-cascade.md | 2026-04-04 | article | primary | challenging | groupthink-and-cascades | processed |
+| raw/articles/ashby-requisite-variety.md | 2026-04-04 | article | primary | challenging | requisite-variety | processed |
