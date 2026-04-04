@@ -1,5 +1,18 @@
 # /ingest
 
+## Modo especial: Ontologia Formal
+
+Se a fonte é um paper de ontologia formal (BFO, DOLCE, OWL, Relation Ontology,
+ou similar), aplique estas regras EM VEZ do resumo padrão:
+- NÃO resuma o paper — extraia primitivos aplicáveis à KB
+- Para cada categoria ontológica: dê exemplo de como se aplica a conceitos
+  já existentes em wiki/concepts/
+- Para cada tipo de relação: mostre como substituiria um wikilink plano existente
+- Seção obrigatória: "Perguntas que este framework habilita na KB que antes
+  não eram formuláveis"
+
+---
+
 Compare raw/ com wiki/_registry.md. Para cada fonte nova:
 
 1. Leia o conteúdo (para PDFs, extraia texto; para imagens, descreva;
