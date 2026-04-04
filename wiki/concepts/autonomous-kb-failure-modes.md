@@ -25,7 +25,10 @@ sources:
   - path: raw/papers/wikipedia-era-llms-risks.md
     type: paper
     quality: primary
-created: 2026-04-03
+  - path: raw/papers/llms-reliability-as-knowledge-bases.md
+    type: paper
+    quality: primary
+created: 2026-04-04
 updated: 2026-04-03
 tags: [meta-kb, failure-analysis, safety, original-insight]
 source_quality: high
@@ -59,7 +62,9 @@ An LLM-operated KB without human intervention degrades silently over ~30 days th
 
 **Compounding:** Without human reading raw/ with fresh eyes, /ingest misinterpretations crystallize. JudgeBench: self-assessment on difficult problems is near-random. If original interpretation was plausibly wrong, LLM "verifies" and agrees with itself.
 
-**Evidence:** Reflexion ablation — self-reflection without *independent* grounded feedback degrades to 52%. raw/ is grounded but read by the same LLM. Ground truth needs independent evaluator.
+**Evidence:** Reflexion ablation — self-reflection without *independent* grounded feedback degrades to 52% (on HumanEval, with test generation). raw/ is grounded but read by the same LLM. Ground truth needs independent evaluator.
+
+**Empirical validation (Zheng et al., 2024):** Testing 26 LLMs as knowledge bases found that larger models are MORE consistently wrong: "models with 65-70B parameters demonstrate higher consistency even when providing wrong answers." The correlation paradox: r=0.78-0.81 between consistency on correct AND wrong answers. You can't get one without the other. This means our authority cascade isn't speculative — it's an empirically documented property of LLMs as knowledge stores. Cross-paper synthesis (our wiki's novel insights) falls under "unseen knowledge" where factuality degrades most.
 
 ### Failure Mode 3: Index Bloat (Week 2-4)
 
@@ -172,3 +177,4 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 - [Model Collapse](../../raw/papers/model-collapse-recursive-training.md) — recursive self-consumption destroys diversity (Nature 2024); mixture of real+synthetic data prevents collapse
 - [Wikipedia Risks](../../raw/papers/wikipedia-era-llms-risks.md) — AI-revised content lowers RAG performance; stylistic homogenization detected empirically
 - [Synapse](../../raw/papers/synapse-episodic-semantic-memory.md) — Cognitive Tunneling: hub suppression as analogy for convergence
+- [LLMs as KBs Reliability](../../raw/papers/llms-reliability-as-knowledge-bases.md) — 26 models tested: larger models more consistently wrong (r=0.78-0.81), cross-paper synthesis = "unseen knowledge" where factuality degrades most

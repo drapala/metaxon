@@ -41,3 +41,6 @@
 | raw/papers/zep-graphiti-temporal-knowledge-graph.md | 2026-04-04 | paper | primary | challenging | reflexion-weighted-knowledge-graphs, agent-memory-architectures | processed |
 | raw/papers/arigraph-episodic-semantic-graph.md | 2026-04-04 | paper | primary | challenging | reflexion-weighted-knowledge-graphs | processed |
 | raw/papers/rmm-reflective-memory-management.md | 2026-04-04 | paper | primary | challenging | reflexion-weighted-knowledge-graphs, self-improving-agents | processed |
+| raw/papers/graph-based-agent-memory-taxonomy.md | 2026-04-04 | paper | primary | neutral | agent-memory-architectures | processed |
+| raw/papers/llms-reliability-as-knowledge-bases.md | 2026-04-04 | paper | primary | challenging | autonomous-kb-failure-modes | processed |
+| raw/papers/a-mem-agentic-memory.md | 2026-04-04 | paper | primary | confirming | agent-memory-architectures | processed |

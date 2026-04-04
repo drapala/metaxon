@@ -31,6 +31,12 @@ sources:
   - path: raw/papers/arigraph-episodic-semantic-graph.md
     type: paper
     quality: primary
+  - path: raw/papers/graph-based-agent-memory-taxonomy.md
+    type: paper
+    quality: primary
+  - path: raw/papers/a-mem-agentic-memory.md
+    type: paper
+    quality: primary
 created: 2026-04-03
 updated: 2026-04-03
 tags: [memory, architecture, agent-design, cognitive-science]
@@ -195,6 +201,20 @@ Key innovation: **bi-temporal modeling** — each fact tracks 4 timestamps (crea
 
 AriGraph (IJCAI 2025) constructs AND updates a knowledge graph online during environment exploration — integrating semantic and episodic memories. Unlike HippoRAG (static post-indexing), AriGraph restructures graph topology based on new observations: adding/removing nodes and edges, not just modifying weights.
 
+### Pattern 8: Zettelkasten-Style Agentic Memory (A-MEM)
+
+A-MEM (2025) follows Zettelkasten principles: atomic notes with metadata (content, keywords, tags, descriptions, embeddings, links). Key innovation: **memory evolution** — when new memories integrate, they trigger updates to existing memories' descriptions, keywords, and tags. LLM evaluates k nearest neighbors and decides whether to evolve each.
+
+Results on LoCoMo: Multi-Hop F1 +149% (GPT-4o-mini), +334% (GPT-4o). Token efficiency: 1,200-2,500 tokens/query vs 16,900 for MemGPT (7-14x reduction). Ablation: removing evolution alone costs -32% on Multi-Hop.
+
+### Unifying Framework: Graph-Based Memory Taxonomy (2026)
+
+The Graph-based Agent Memory survey (Feb 2026) positions ALL above patterns as instances of graph-based memory: "traditional memory paradigms (buffers, vectors, logs) represent degenerate graph cases." This frames graph-based memory as the unified framework, with KGs, temporal graphs, hierarchical trees, and hypergraphs as structural variants.
+
+Memory lifecycle: extraction → storage → retrieval (6 operators: similarity, rule, temporal, graph, RL, agent-based) → evolution (consolidation, reasoning, topology optimization).
+
+Key insight on topology optimization: "agents optimize graphs by increasing edge weights or creating shortcuts between correlated nodes" — this is the mechanism our RWKG article proposed, now documented in a survey of existing work.
+
 ### Decision Framework: Compression vs. Associative Structure (⚠️ our synthesis)
 
 When should an agent compress aggressively vs. preserve associative structure? The following axes are our synthesis across patterns, not a framework from any single paper:
@@ -283,3 +303,5 @@ EM-LLM's finding: concepts could be refined using surprise as a secondary signal
 - [Hindsight](../../raw/papers/hindsight-agent-memory-retain-recall-reflect.md) — 4 epistemic networks (world/experience/opinion/observation) + retain/recall/reflect ops. 83.6% LongMemEval with 20B model
 - [Zep/Graphiti](../../raw/papers/zep-graphiti-temporal-knowledge-graph.md) — temporal KG with bi-temporal edge modeling. 94.8% DMR, +18.5% LongMemEval, 90% latency reduction
 - [AriGraph](../../raw/papers/arigraph-episodic-semantic-graph.md) — online graph structure updates during exploration (add/remove nodes+edges). IJCAI 2025
+- [Graph-based Agent Memory Survey](../../raw/papers/graph-based-agent-memory-taxonomy.md) — unifying taxonomy: all memory paradigms as graph cases. 6 retrieval operators, 4-stage lifecycle, topology optimization
+- [A-MEM](../../raw/papers/a-mem-agentic-memory.md) — Zettelkasten-style: atomic notes + memory evolution (new triggers updates to existing). +149-334% Multi-Hop F1, 7-14x token reduction
