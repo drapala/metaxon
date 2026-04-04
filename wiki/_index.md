@@ -21,6 +21,7 @@
 - [LLM-as-Judge](concepts/llm-as-judge.md) — 12 biases (self-enhancement most critical), GPT-4o near random on hard evals, dynamic criteria > static rubrics
 - [Reflexion-Weighted Knowledge Graphs](concepts/reflexion-weighted-knowledge-graphs.md) — Original synthesis: adaptive retrieval topology where graph restructures based on failure feedback
 - [Immune-Inspired Credit Assignment](concepts/immune-inspired-credit-assignment.md) — PARADIGM ALTERNATIVE: amplify successes, let failures die (CLONALG). Dissolves credit assignment. Never applied to KGs (confirmed gap, L1)
+- [Groupthink and Cascades](concepts/groupthink-and-cascades.md) — RE-DISCOVERIES: semantic convergence = groupthink (Janis 1972), authority cascade = information cascade (Banerjee 1992). 50+ years of prior work. 2 missing Janis prescriptions.
 - [Autonomous KB Failure Modes](concepts/autonomous-kb-failure-modes.md) — WHAT GOES WRONG without human: 4 silent failures over 30 days. System looks healthy while degrading
 - [Curation Anti-Bias](concepts/curation-anti-bias.md) — HOW TO FIX IT: 3 bias layers + 5 improvements. Adversarial quota, split confidence, style check, multiagent spot-check
 - [Question Taxonomy](concepts/question-taxonomy.md) — 7 frameworks (Miles, Socratic, Oblique, Popper, Lakatos, AHRQ, Simon). 10 question types + stopping rule
