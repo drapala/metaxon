@@ -256,3 +256,54 @@ A KB tem topologia de **hub-and-spoke**: 3 artigos (kb-architecture-patterns, se
 **Confiança:** alta para topologia (contagens diretas), média para análise de risco (nosso julgamento sobre que tipos de erro propagam)
 
 **Insight inesperado:** A KB tem topologia hub-and-spoke sem redundância — anti-pattern do ponto de vista imunológico. O sistema imune resolve isso com múltiplos anticorpos por antígeno. A KB poderia resolver com artigos adversariais por hub.
+
+---
+
+# Relatório Meta: AIS vs RWKG — Classificação Causal da Analogia
+
+date: 2026-04-04
+query: "AIS resolve credit assignment via clonal selection. RWKG tem estrutura causal análoga ou apenas superficialmente similar? Classifique em L1/L2/L3."
+confidence: alta (classificação Pearl formal), média (derivações próprias)
+
+---
+
+## Mapeamento Estrutural
+
+| Componente | RWKG | CLONALG |
+|-----------|------|---------|
+| O que evolui | Edge weights | População de anticorpos |
+| Signal | Verbal reflection (rico, subjetivo) | Binding affinity (scalar, objetivo) |
+| Credit assignment | **Explícito**: identificar edge falho | **Implícito**: amplificar o que funcionou |
+| Memória | Weights persistem | "Population IS the memory" |
+| Coordenação | Centralizado (1 LLM) | Descentralizado (seleção populacional) |
+| Nível Pearl necessário | **L3** (contrafactual: "se este edge não existisse...") | **L1** (associação: "este path funcionou?") |
+
+## Classificação Pearl
+
+| Claim | Nível | Justificativa |
+|-------|-------|---------------|
+| "RWKG e CLONALG são similares" | L1 | Co-ocorrência de features (grafos, feedback, adaptação) |
+| "CLONALG produziria resultados similares a RWKG em KGs" | L1 | Não testado: do(CLONALG-on-KG) |
+| "RWKG requer L3 para credit assignment" | L2 | Derivação formal: "se este edge não existisse..." = contrafactual |
+| "CLONALG evita necessidade de L3" | L2 | Derivação formal: "este path funciona?" = associação L1 |
+
+## O Insight Não-Óbvio
+
+**CLONALG funciona com MENOS poder causal que RWKG precisa.** RWKG exige L3 (contrafactual). CLONALG opera com L1 (associação). Um sistema que precisa de menos poder inferencial é mais robusto.
+
+Mas resolvem problemas DIFERENTES:
+- RWKG: corrigir o grafo existente (quais edges estão errados?)
+- CLONALG: gerar um grafo melhor (quais paths inteiros funcionam?)
+
+Possivelmente complementares: RWKG pra grafos pequenos (poucas edges pra avaliar), CLONALG pra grafos grandes (population selection).
+
+## Veredicto
+
+A analogia é **L1 (superficialmente similar) com diferença causal estrutural relevante** (um requer L3, o outro não). A analogia é produtiva (gerou insight sobre níveis causais) mas NÃO é causal (não prova que um substitui o outro).
+
+Testar requer L2: implementar ambos no mesmo benchmark.
+
+---
+
+**Fontes:** AIS Tutorial (raw/articles/), Pearl Book of Why (raw/papers/), Reflexion (raw/papers/)
+**Gaps:** Zero implementações de CLONALG em KGs. "Pequeno→RWKG, grande→CLONALG" é especulação sem dados.
