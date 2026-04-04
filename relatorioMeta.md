@@ -527,3 +527,42 @@ AIS (1 fonte lateral) produziu o insight mais fértil da sessão. ROI de fontes 
 
 **Fontes:** logs de occurrent + contagens de corpus
 **Gaps:** 0 groupthink, 0 information cascade, 0 temporal difference learning
+
+---
+
+# Relatório Meta: Predições de Refutação e Confirmação (6 meses)
+
+date: 2026-04-04
+query: "Qual claim tem maior probabilidade de ser refutado? Qual de ser confirmado?"
+confidence: alta (classificação Pearl), média (predições)
+
+---
+
+## Top 5 Mais Vulneráveis a Refutação
+
+| # | Claim | Pearl | Vulnerabilidade |
+|---|-------|-------|----------------|
+| 1 | Timeline 30 dias degradação | L1 | Zero base empírica. Psicologia social tem timelines diferentes. |
+| 2 | RWKG edge weight modification | L1 | Subsumed por 5 prior works + AIS dissolve o problema. |
+| 3 | 50-80 articles threshold | L1 | Extrapolação de ERL (agent tasks) → wiki. Domínios diferentes. |
+| 4 | Heuristics > trajectories universal | L2 (1 benchmark) | Gaia2 only. RL structured trajectories podem empatar. |
+| 5 | LLM como amplificador | L1 | Metáfora. Predictive processing (neurociência) pode ser mais geral. |
+
+## Top 5 Mais Robustos (Confirmação Provável)
+
+| # | Claim | Pearl | Robustez |
+|---|-------|-------|---------|
+| 1 | Feedback externo é dominante | L2 | 3+ fontes convergentes + biologia (CLONALG) + será confirmado por testing effect, deliberate practice |
+| 2 | Self-assessment sem ground truth = unreliable | L2 | 4 fontes convergentes + Dunning-Kruger + autoimmunity analogue |
+| 3 | raw/ imutável previne degradação | L2 | Model Collapse Nature 2024. Termodinâmica: sistema fechado → entropia. |
+| 4 | Typed > untyped relations | L2 | HippoRAG +20%, Synapse, Graph RAG survey. Consenso emergente. |
+| 5 | Compressão > raw em low-data | L2 multi-domain | ERL + Gigerenzer + RAPTOR + Simon. MAIS ROBUSTO — fundamentado em stats + psicologia. |
+
+## O Claim Mais Robusto da KB
+
+**"Compressão (heurísticas) outperform dados brutos em regimes de low-data."** Fundamentado em 4 domínios independentes (ERL/agents, Gigerenzer/psicologia, RAPTOR/retrieval, Simon/decision theory). É bias-variance trade-off — princípio estatístico que transcende LLMs.
+
+---
+
+**Fontes:** Reflexion, ERL, Model Collapse, LMs Know, AIS (todos verificados)
+**Gaps:** "Compressão > raw em low-data" nunca testado EXPLICITAMENTE em KB compilation — inferido de 4 domínios.
