@@ -4,7 +4,7 @@ Single Brain — FastAPI
 Endpoints:
   GET  /health
   GET  /stats
-  GET  /search?q=<query>[&network=observation|opinion][&limit=10]
+  GET  /search?q=<query>[&network=observation|opinion][&limit=10][&mode=hybrid|vector|bm25]
   POST /ingest        body: {"file": "wiki/concepts/foo.md"}  (file optional)
 """
 
@@ -31,10 +31,13 @@ def search_kb(
     q: str = Query(..., description="Query string"),
     network: str | None = Query(None, description="observation | opinion"),
     limit: int = Query(10, ge=1, le=50),
+    mode: str = Query("hybrid", description="hybrid | vector | bm25"),
 ):
     if network and network not in ("observation", "opinion"):
         raise HTTPException(400, "network must be 'observation' or 'opinion'")
-    return search(q, network=network, limit=limit)
+    if mode not in ("hybrid", "vector", "bm25"):
+        raise HTTPException(400, "mode must be 'hybrid', 'vector', or 'bm25'")
+    return search(q, network=network, limit=limit, mode=mode)
 
 
 class IngestRequest(BaseModel):
