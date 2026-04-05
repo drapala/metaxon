@@ -35,10 +35,7 @@ readiness_signal:
   warning: null
 
 # ── Estado do ciclo rápido ──────────────────────────────────────────────────────
-emerge_queue:  # artigos prontos para /emerge; resetado pelo /emerge
-  - procurement-variety-gap  # promovido 2026-04-04: 3 patches (0 refutações), raw/ ingerido, predição L2 ativa
-  - autoresearch-reliability-triad  # promovido 2026-04-05: emergence, L2 prediction, AI Scientist CORROBORA
-  - autonomous-kb-failure-modes  # promovido 2026-04-05: 2x challenge PUBLICÁVEL, 3/3 claims sólidos, 2 refinamentos incorporados
+emerge_queue: []  # resetado em 2026-04-05 após /emerge
 
 sessions_since_last_dream: 1
 ingest_count_since_last_lint: 4
@@ -112,6 +109,12 @@ emerge_top_pairs:
   # sessão 2 (pós-B2G cluster)
   - audit-deterrence-corruption x heuristics-and-biases  # L2, visibilidade > frequência de auditoria
   - procurement-manipulation-signals x stigmergic-coordination  # L2, bid rigging = stigmergy sematectônica
+  # sessão 3 (pós-single-brain + autonomous-kb-failure-modes promoted)
+  - knowledge-collapse-llm x complementary-learning-systems  # L2, Stage B = neocortex-only catastrophic interference; raw/ = hippocampal buffer
+  - curse-of-knowledge-llm-judge x causal-reasoning-pearl  # L2, reference-anchoring = falha em L3 counterfactual
+  - autoresearch-reliability-triad x scientific-research-programmes  # L2, Triad = Lakatos operacionalizado para agentes
+  - procurement-variety-gap x information-bottleneck  # L2, V(R)<V(D) = ponto de operação na curva IB; error floor = distorção D
+  - autonomous-kb-failure-modes x market-for-lemons  # L2, FM3 Index Bloat = seleção adversa interna; human quality gate = instituição de sinalização
 
 # ── /challenge ─────────────────────────────────────────────────────────────────
 challenge:
@@ -139,3 +142,4 @@ synthesize:
 
 last_session_documented: 2026-04-05
 last_updated: 2026-04-05
+last_emerge: 2026-04-05
