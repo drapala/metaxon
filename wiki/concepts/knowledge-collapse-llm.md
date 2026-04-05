@@ -12,6 +12,10 @@ source_quality: high
 interpretation_confidence: medium
 resolved_patches: []
 provenance: source
+reads: 1
+retrievals_correct: 1
+retrievals_gap: 0
+last_read: 2026-04-05
 ---
 
 ## Resumo
@@ -96,6 +100,7 @@ The FM1 mitigation in autonomous-kb-failure-modes is: "/review must always re-re
 - [[self-improving-agents]] — 100% synthetic training ≈ agent with no grounded feedback; Stage C timeline applies
 - [[autoresearch-reliability-triad]] — fluency/format dissociating from factual accuracy is a reliability failure mode
 - [[multi-agent-orchestration]] — instruction-format sensitivity means multi-agent pipelines using different prompt styles will collapse at different rates
+- emerge-para: [[raw-design-constraints]] ON "real data as regularizer — 25% real data delays Stage B; source primacy as structural protection"
 
 ## Fontes
 

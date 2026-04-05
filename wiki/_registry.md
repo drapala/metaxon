@@ -121,3 +121,4 @@
 | wiki/concepts/graph-anchored-iterative-retrieval.md | 2026-04-05 | source | primary | neutral | agent-memory-architectures,hybrid-search,retrieval-augmented-generation,single-brain-phase1-design | processed |
 | raw/papers/curse-of-knowledge-llm-judge-bias.md | 2026-04-05 | paper | primary | challenging | curse-of-knowledge-llm-judge,autonomous-kb-failure-modes,llm-as-judge | processed |
 | raw/papers/knowledge-collapse-recursive-synthetic-training.md | 2026-04-05 | paper | primary | confirming | knowledge-collapse-llm,autonomous-kb-failure-modes,self-improving-agents | processed |
+| wiki/concepts/raw-design-constraints.md | 2026-04-05 | synthesis | primary | neutral | knowledge-collapse-llm,complementary-learning-systems | processed |

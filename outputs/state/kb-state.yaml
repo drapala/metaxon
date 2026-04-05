@@ -26,7 +26,7 @@ next_actions:
 readiness_signal:
   can_ingest: true
   stance_status: "marginal — 23% challenging (limite ~25%). Próxima fonte: neutral ou challenging."
-  quarantine_load: "9 artigos em quarentena (10.7% do corpus) — normal"
+  quarantine_load: "10 artigos em quarentena (11.6% do corpus) — normal"
   bradford: "pausado — Zone3/Zone2 ≈ 1.0"
   next_ingest_candidates:
     - "Self-Preference Bias in LLM-as-a-Judge (2025) — neutral"
@@ -65,11 +65,15 @@ ask:
     - streaming-data-pipeline  # ingestão contínua de múltiplas fontes — completamente ausente
     - agent-communication-protocols  # A2A, MCP entre agentes, conflitos concorrentes
     - production-rag-chunking  # chunking para documentos heterogêneos em escala (juridiquês + OCR)
-  last_session: outputs/logs/sessions/2026-04-05/ask-12-34.md
+  last_session: outputs/logs/sessions/2026-04-05/ask-oracle-split-cls.md
+  synthesize_pending: []
   synthesize_completed:
     - pair: [autonomous-kb-failure-modes, self-improving-agents, groupthink-and-cascades]
       article: wiki/concepts/autoresearch-reliability-triad.md
       status: promoted  # promovido 2026-04-05
+    - pair: [knowledge-collapse-llm, complementary-learning-systems]
+      article: wiki/concepts/raw-design-constraints.md
+      status: quarantine  # aguarda promote
 
 # ── Filas de ingestão ──────────────────────────────────────────────────────────
 ingest_queue_priority:
@@ -110,11 +114,14 @@ emerge_top_pairs:
   - audit-deterrence-corruption x heuristics-and-biases  # L2, visibilidade > frequência de auditoria
   - procurement-manipulation-signals x stigmergic-coordination  # L2, bid rigging = stigmergy sematectônica
   # sessão 3 (pós-single-brain + autonomous-kb-failure-modes promoted)
-  - knowledge-collapse-llm x complementary-learning-systems  # L2, Stage B = neocortex-only catastrophic interference; raw/ = hippocampal buffer
-  - curse-of-knowledge-llm-judge x causal-reasoning-pearl  # L2, reference-anchoring = falha em L3 counterfactual
-  - autoresearch-reliability-triad x scientific-research-programmes  # L2, Triad = Lakatos operacionalizado para agentes
-  - procurement-variety-gap x information-bottleneck  # L2, V(R)<V(D) = ponto de operação na curva IB; error floor = distorção D
-  - autonomous-kb-failure-modes x market-for-lemons  # L2, FM3 Index Bloat = seleção adversa interna; human quality gate = instituição de sinalização
+  # oracle unanimidade (gpt-5.4 thinking + gemini-3.1-pro thinking): 0/5 validados — todos SPLIT
+  # Gemini 8-9 GENUINE, GPT-5.4 5-6 SUPERFICIAL em todos os pares
+  # Status: candidatos /ask, não conexões estabelecidas
+  - knowledge-collapse-llm x complementary-learning-systems  # SPLIT — candidato /ask
+  - curse-of-knowledge-llm-judge x causal-reasoning-pearl  # SPLIT — candidato /ask
+  - autoresearch-reliability-triad x scientific-research-programmes  # SPLIT — candidato /ask
+  - procurement-variety-gap x information-bottleneck  # SPLIT — candidato /ask
+  - autonomous-kb-failure-modes x market-for-lemons  # SPLIT — candidato /ask
 
 # ── /challenge ─────────────────────────────────────────────────────────────────
 challenge:
@@ -141,5 +148,5 @@ synthesize:
       status: promoted
 
 last_session_documented: 2026-04-05
-last_updated: 2026-04-05
+last_updated: 2026-04-05  # synthesize raw-design-constraints
 last_emerge: 2026-04-05

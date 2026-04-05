@@ -25,6 +25,7 @@
 - [Autonomous KB Failure Modes](concepts/autonomous-kb-failure-modes.md) — 4 silent failures (convergence, authority cascade, bloat, tension). Stage B empiricamente confirmado. Layer 3 Circularity + reference-anchoring.
 - [Curse of Knowledge — LLM Judge Bias](concepts/curse-of-knowledge-llm-judge.md) — ComplexEval: richer eval context → reference-anchoring bias. LLM anchors to reference instead of evaluating independently. Refines Layer 3 Circularity mechanism.
 - [Knowledge Collapse in LLMs](concepts/knowledge-collapse-llm.md) — Stage B: fluency intact, facts degrading, metrics green. Domain-specific raw/ delays collapse 15×. Empirical grounding for FM1.
+- [Raw/ Design Constraints](concepts/raw-design-constraints.md) — ⚠️ EMERGIDO. Dois constraints independentes: diversidade tópica (CLS: previne blocked learning) + primazia de fontes (KC: previne distributional drift). Failure mode composto = os dois violados juntos.
 - [Curation Anti-Bias](concepts/curation-anti-bias.md) — HOW TO FIX IT: 3 bias layers + 5 improvements. Adversarial quota, split confidence, style check, multiagent spot-check
 - [Question Taxonomy](concepts/question-taxonomy.md) — 7 frameworks (Miles, Socratic, Oblique, Popper, Lakatos, AHRQ, Simon). 10 question types + stopping rule
 - [Fast-and-Frugal Heuristics (Gigerenzer)](concepts/fast-frugal-heuristics.md) — EXPLAINS "compression > raw": bias-variance trade-off. Less-is-more in small samples. PREDICTS reversal at scale (500+ articles)

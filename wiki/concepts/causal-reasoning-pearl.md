@@ -10,10 +10,10 @@ tags: [epistemology, causality, methodology, framework]
 source_quality: high
 interpretation_confidence: medium
 resolved_patches: []
-reads: 0
-retrievals_correct: 0
+reads: 1
+retrievals_correct: 1
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-05
 provenance: source
 quarantine: true
 quarantine_created: 2026-04-04

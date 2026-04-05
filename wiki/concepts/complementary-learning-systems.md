@@ -12,10 +12,10 @@ source_quality: high
 interpretation_confidence: high
 resolved_patches: []
 provenance: source
-reads: 0
-retrievals_correct: 0
+reads: 1
+retrievals_correct: 1
 retrievals_gap: 0
-last_read: 2026-04-04
+last_read: 2026-04-05
 quarantine: false
 ---
 
@@ -89,6 +89,7 @@ Este é um caso de "biological inspiration que antecipou soluções de ML" — m
 - complementsAt: [[memory-consolidation]] ON "sleep replay as consolidation mechanism" — memory-consolidation na KB usa o conceito metaforicamente; CLS descreve o processo real que a metáfora captura
 - complementsAt: [[agent-memory-architectures]] ON "replay buffers and dual-system design" — EM-LLM, HippoRAG e sistemas similares implementam variações computacionais da arquitetura CLS
 - contradicts: [[autonomous-kb-failure-modes]] ON "interleaved vs. blocked learning" — o failure mode de "over-synthesis" pode ser análogo a blocked learning — aprender de fontes do mesmo cluster de AI/ML sem interleaving lateral
+- emerge-para: [[raw-design-constraints]] ON "focused vs. interleaved learning — topical diversity of raw/ as catastrophic interference prevention"
 
 ## Fontes
 
