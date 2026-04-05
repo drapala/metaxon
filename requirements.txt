@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+lancedb
+ollama
+llama-index-core
+llama-index
+pyarrow
+pyyaml
+mcp[cli]

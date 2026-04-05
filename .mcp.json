@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "llm-kb": {
+      "command": "/Users/drapala/projects/llm-kb/.venv/bin/python",
+      "args": ["/Users/drapala/projects/llm-kb/mcp_server.py"],
+      "cwd": "/Users/drapala/projects/llm-kb"
+    }
+  }
+}
