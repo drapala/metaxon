@@ -1,16 +1,60 @@
 # /retro
 
-Consolida friction events em padrões observáveis. Só observa e classifica — não propõe.
+Consolida telemetria automática + friction events manuais em padrões observáveis.
+Só observa e classifica — não propõe.
+
+## Fontes de evidência
+
+Duas fontes, separadas:
+- **Telemetria automática**: `raw/meta/ops/events/YYYY-MM-DD.jsonl` — comportamento observado
+- **Friction manual**: `raw/meta/ops/friction-*.md` — dor confirmada pelo operador
+
+Regra: telemetria gera *suspeita*. Friction manual gera *confirmação*.
+Nunca elevar suspeita a fato sem friction correspondente.
 
 ## Quando rodar
 
-- Quando acumular 10+ friction events desde o último retro
+- Quando acumular 10+ friction events manuais, OU 5+ dias de telemetria
 - Mensalmente como manutenção
 - Antes de rodar `/propose` pela primeira vez
 
 ## Processo
 
-### Passo 1 — Lê friction events
+### Passo 0 — Lê telemetria automática
+
+Lê arquivos `raw/meta/ops/events/*.jsonl` não processados ainda.
+
+Roda os **5 detectores de suspeita** sobre os eventos:
+
+#### Detector 1: Recall burden
+**Condição**: `doc_opened` com `signal: recall_burden_proxy` aparece 2+ vezes em janela de 30 minutos.
+**Suspeita**: operador precisou consultar documentação de processo no meio de uma tarefa.
+**Sinal positivo necessário para confirmar**: friction manual do tipo `memory-load` ou `next-action-missing` na mesma surface.
+
+#### Detector 2: Sequencing ambiguity
+**Condição**: 3+ `command_finished` em surfaces diferentes em janela de 20 minutos sem progressão material (nenhum `article_written` ou `state_written` entre eles).
+**Suspeita**: operador não sabia o próximo passo e tentou múltiplos caminhos.
+**Sinal positivo necessário**: friction manual do tipo `sequence-unclear` ou `too-many-options`.
+
+#### Detector 3: Manual state burden
+**Condição**: `state_written` em `kb-state` que NÃO foi precedido por `command_finished` em janela de 5 minutos.
+**Suspeita**: edição manual de estado fora do protocolo normal.
+**Sinal positivo necessário**: friction do tipo `manual-overhead` ou `protocol-gap`.
+
+#### Detector 4: Stalled flow
+**Condição**: `command_finished` para `surface: promote` ou `surface: challenge` seguido de nenhum `command_finished` por > 48h, mas kb-state mostra itens em quarentena.
+**Suspeita**: quarentena estagnada — itens travados sem progressão.
+**Sinal positivo necessário**: friction do tipo `state-ambiguity` ou wish "isso devia lembrar automaticamente".
+
+#### Detector 5: Excessive surface hopping
+**Condição**: 5+ surfaces distintas tocadas em janela de 60 minutos com < 3 `article_written` ou `command_finished` de conclusão.
+**Suspeita**: muitos arquivos tocados para completar uma tarefa simples.
+**Sinal positivo necessário**: friction do tipo `manual-overhead` ou `protocol-gap`.
+
+**Output do Passo 0**: lista de suspeitas com grau de evidência (eventos que as sustentam).
+Salva em `raw/meta/ops/derived/YYYY-MM-DD-suspected.md`.
+
+### Passo 1 — Lê friction events manuais
 
 Lê todos os arquivos em `raw/meta/ops/friction-*.md` que ainda não foram incluídos em um retro anterior.
 (Verifica `wiki/meta/friction-log.md` para identificar quais já foram consolidados.)
@@ -30,6 +74,15 @@ Para cada evento, identifica:
   - `overhead-manual` — passo que devia ser automático ou assistido
 
 **Não infira causa.** Se o evento não encaixa em nenhuma categoria, classifica como `não-classificado` e continua.
+
+### Passo 2b — Cruza suspeitas com confirmações
+
+Para cada suspeita do Passo 0, verifica se existe friction manual correspondente:
+- Mesma surface + tag compatível → **confirmado** (entra no log como padrão)
+- Suspeita sem friction correspondente → **suspeita não-confirmada** (entra no log como proxy, não como padrão)
+- Friction sem suspeita telimétrica → **confirmado por declaração** (entra no log normalmente)
+
+Isso garante que telemetria permanece proxy, não verdade.
 
 ### Passo 3 — Identifica padrões
 
