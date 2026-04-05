@@ -69,7 +69,8 @@ def run_ingest(file: str | None = None) -> dict:
     script = ROOT / "scripts" / "single-brain" / "ingest.py"
     cmd = [sys.executable, str(script)]
     if file:
-        cmd += ["--file", file]
+        # resolve to absolute so ingest.py's path.relative_to(ROOT) works
+        cmd += ["--file", str((ROOT / file).resolve())]
 
     result = subprocess.run(
         cmd,
