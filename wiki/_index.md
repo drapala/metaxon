@@ -22,7 +22,9 @@
 - [Reflexion-Weighted Knowledge Graphs](concepts/reflexion-weighted-knowledge-graphs.md) — Original synthesis: adaptive retrieval topology where graph restructures based on failure feedback
 - [Immune-Inspired Credit Assignment](concepts/immune-inspired-credit-assignment.md) — PARADIGM ALTERNATIVE: amplify successes, let failures die (CLONALG). Dissolves credit assignment. Never applied to KGs (confirmed gap, L1)
 - [Groupthink and Cascades](concepts/groupthink-and-cascades.md) — RE-DISCOVERIES: semantic convergence = groupthink (Janis 1972), authority cascade = information cascade (Banerjee 1992). 50+ years of prior work. 2 missing Janis prescriptions.
-- [Autonomous KB Failure Modes](concepts/autonomous-kb-failure-modes.md) — WHAT GOES WRONG without human: 4 silent failures over 30 days. System looks healthy while degrading
+- [Autonomous KB Failure Modes](concepts/autonomous-kb-failure-modes.md) — 4 silent failures (convergence, authority cascade, bloat, tension). Stage B empiricamente confirmado. Layer 3 Circularity + reference-anchoring.
+- [Curse of Knowledge — LLM Judge Bias](concepts/curse-of-knowledge-llm-judge.md) — ComplexEval: richer eval context → reference-anchoring bias. LLM anchors to reference instead of evaluating independently. Refines Layer 3 Circularity mechanism.
+- [Knowledge Collapse in LLMs](concepts/knowledge-collapse-llm.md) — Stage B: fluency intact, facts degrading, metrics green. Domain-specific raw/ delays collapse 15×. Empirical grounding for FM1.
 - [Curation Anti-Bias](concepts/curation-anti-bias.md) — HOW TO FIX IT: 3 bias layers + 5 improvements. Adversarial quota, split confidence, style check, multiagent spot-check
 - [Question Taxonomy](concepts/question-taxonomy.md) — 7 frameworks (Miles, Socratic, Oblique, Popper, Lakatos, AHRQ, Simon). 10 question types + stopping rule
 - [Fast-and-Frugal Heuristics (Gigerenzer)](concepts/fast-frugal-heuristics.md) — EXPLAINS "compression > raw": bias-variance trade-off. Less-is-more in small samples. PREDICTS reversal at scale (500+ articles)

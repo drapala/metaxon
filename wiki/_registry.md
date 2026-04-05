@@ -119,3 +119,5 @@
 | wiki/concepts/collaborative-memory-access-control.md | 2026-04-05 | source | primary | neutral | single-brain-data-ontology,multi-agent-memory-consistency,agent-memory-architectures,multi-agent-orchestration | processed |
 | raw/papers/liu-2026-graphanchor-knowledge-indexing.md | 2026-04-05 | paper | primary | neutral | graph-anchored-iterative-retrieval,retrieval-augmented-generation,hybrid-search | processed |
 | wiki/concepts/graph-anchored-iterative-retrieval.md | 2026-04-05 | source | primary | neutral | agent-memory-architectures,hybrid-search,retrieval-augmented-generation,single-brain-phase1-design | processed |
+| raw/papers/curse-of-knowledge-llm-judge-bias.md | 2026-04-05 | paper | primary | challenging | curse-of-knowledge-llm-judge,autonomous-kb-failure-modes,llm-as-judge | processed |
+| raw/papers/knowledge-collapse-recursive-synthetic-training.md | 2026-04-05 | paper | primary | confirming | knowledge-collapse-llm,autonomous-kb-failure-modes,self-improving-agents | processed |

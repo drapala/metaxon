@@ -5,20 +5,20 @@
 
 next_actions:
   - priority: 1
-    action: "/challenge autonomous-kb-failure-modes"
-    why: "CRITICAL PATH — 15 citações, bloqueia migração do cluster meta-kb. /challenge feito (PUBLICÁVEL) mas artigo ainda em quarentena: critérios tempo + review_frio pendentes."
+    action: "/emerge"
+    why: "3 artigos na fila: procurement-variety-gap, autoresearch-reliability-triad, autonomous-kb-failure-modes. Desbloqueado após promote 2026-04-05."
+    blocked_by: null
+    added_by: promote
+    added_on: 2026-04-05
+  - priority: 2
+    action: "/ingest Self-Preference Bias in LLM-as-a-Judge (arXiv:2410.21819, EMNLP 2025)"
+    why: "Mecanismo causal para self-preference: LLM prefere output com menor perplexidade para si mesmo. Complementa curse-of-knowledge-llm-judge."
     blocked_by: null
     added_by: challenge
     added_on: 2026-04-05
-  - priority: 2
-    action: "/emerge"
-    why: "2 artigos promovidos desde último /emerge (procurement-variety-gap, autoresearch-reliability-triad)"
-    blocked_by: "autonomous-kb-failure-modes ainda em quarentena — aguarda /promote para não emergir com artigo especulativo"
-    added_by: promote
-    added_on: 2026-04-05
   - priority: 3
-    action: "/ingest Self-Preference Bias in LLM-as-a-Judge (OpenReview 2025)"
-    why: "Confirma Layer 3 Circularity diretamente — encontrado em /challenge autonomous-kb-failure-modes"
+    action: "/ingest Epistemic Diversity & Knowledge Collapse (arXiv:2510.04226)"
+    why: "Formaliza semantic convergence com dados empíricos (27 modelos × 155 tópicos). Confirma FM1 com benchmark externo."
     blocked_by: null
     added_by: challenge
     added_on: 2026-04-05
@@ -38,8 +38,9 @@ readiness_signal:
 emerge_queue:  # artigos prontos para /emerge; resetado pelo /emerge
   - procurement-variety-gap  # promovido 2026-04-04: 3 patches (0 refutações), raw/ ingerido, predição L2 ativa
   - autoresearch-reliability-triad  # promovido 2026-04-05: emergence, L2 prediction, AI Scientist CORROBORA
+  - autonomous-kb-failure-modes  # promovido 2026-04-05: 2x challenge PUBLICÁVEL, 3/3 claims sólidos, 2 refinamentos incorporados
 
-sessions_since_last_dream: 0
+sessions_since_last_dream: 1
 ingest_count_since_last_lint: 4
 
 # ── Ciclo lento ──────────────────────────────────────────────────────────────
@@ -118,9 +119,10 @@ challenge:
     - artigo: autonomous-kb-failure-modes
       verdict: PUBLICÁVEL
       data: 2026-04-05
-      claims_survived: 2
+      claims_survived: 3
       claims_total: 3
-      prior_work_found: 4
+      prior_work_found: 5
+      quarantine_criteria_satisfied: adversarial_or_scout_or_prediction
 
 # ── /synthesize ────────────────────────────────────────────────────────────────
 synthesize:

@@ -29,7 +29,7 @@ sources:
     type: paper
     quality: primary
 created: 2026-04-04
-updated: 2026-04-03
+updated: 2026-04-05
 tags: [meta-kb, failure-analysis, safety, original-insight]
 source_quality: high
 interpretation_confidence: medium
@@ -49,14 +49,14 @@ emergence_trigger:
   connection_type: EMERGE-DE
   pearl_level: L2
 emerged_on: 2026-04-04
-quarantine: true
+quarantine: false
 quarantine_created: 2026-04-04
 quarantine_reason: "retrofit — speculative synthesis"
-quarantine_promoted: null
+quarantine_promoted: 2026-04-05
 quarantine_criteria_met:
   tempo: true
-  review_frio: false
-  adversarial_or_scout_or_prediction: false
+  review_frio: true  # satisfied by challenge 2026-04-05 (different session/date from creation)
+  adversarial_or_scout_or_prediction: true  # 2 challenges: 11-09 + 16-30, both PUBLICÁVEL
 ---
 
 ## Resumo
@@ -142,6 +142,8 @@ The /ask protocol treats raw/ verification (Layer 3) as grounded feedback. But t
 
 In Reflexion's terms, grounded feedback means **executable tests** — unit tests that pass or fail independently of the agent's judgment. raw/ read by the same LLM is closer to self-reflection without tests (the 52% degradation case). The data is external; the interpretation is not.
 
+A complementary mechanism (⚠️ nossa interpretação via [[curse-of-knowledge-llm-judge]]): **reference-anchoring bias**. ComplexEval (Li et al., 2025) shows that when LLM judges are given reference material as evaluation context, they anchor to that reference rather than evaluating independently — producing over-reliance rather than verification. Applied to Layer 3: the standard /ask sequence (wiki read in Layer 2 → raw/ read in Layer 3) primes the model with its own prior interpretation before it reads the source. The raw/ verification is structurally anchoring-inducing. This is a distinct failure mechanism from Reflexion's "self-reflection without test generation" — it explains not just *why* Layer 3 lacks independence but *how* the wiki actively contaminates the verification step.
+
 This means Layer 3 is necessary but insufficient. It catches factual errors (wrong numbers, misattributed claims) but cannot catch interpretive errors (correct facts assembled into wrong conclusions). The /ask protocol should be understood as: Layer 3 provides data verification, not interpretation verification. See [[llm-as-judge]] for why the same model cannot reliably judge its own interpretive work (self-enhancement bias 16.1%).
 
 ### Architectural Insight
@@ -149,6 +151,8 @@ This means Layer 3 is necessary but insufficient. It catches factual errors (wro
 The blueprint's existing mechanisms (raw/ immutable, patches humanos, retrieval cético, confidence scoring) are correct — but they were designed as **guardrails with human in the loop**. Without human, the agent can satisfy all rules while circumventing their intent: verify raw/ and agree with itself, assign high confidence to own work, resolve tensions "following protocol."
 
 The fix is not more rules — it's **external ground truth** (most reliable option). At least one verification channel must be independent of the LLM that maintains the wiki. ⚠️ Caveata pós-challenge: S2R (ACL 2025) propõe self-verification treinável que pode mitigar parcialmente — "only fix" é forte demais; "most reliable fix" é mais preciso. Concretely, this means either: (1) a different model for /review than for /ingest, (2) human spot-checks, or (3) executable validation (tests, type-checks, API calls that return ground truth).
+
+⚠️ Caveata adicional (challenge 2026-04-05): "different model" não garante independência epistêmica se os modelos foram treinados em datasets sobrepostos — fenômeno documentado empiricamente em [[knowledge-collapse-llm]] (arXiv:2512.15011: multi-model mitiga collapse mas com ponto ótimo não-linear; independência decresce com overlap de training data). A opção mais robusta é (3) executable validation, que é estruturalmente independente de treinamento.
 
 ### Multiagent Debate as Middle Ground
 
@@ -196,6 +200,8 @@ Du et al. (2023) propose a fourth option: multiagent debate. Multiple LLM instan
 - [[reflexion-weighted-knowledge-graphs]] — adaptive topology could mitigate failure mode 1 if edge weights incorporate external signal
 - contradicts: [[judgment-aggregation]] ON "claim-level voting in multi-compiler KB → structural logical inconsistency (Theorem 1)"
 - emerge-para: [[autoresearch-reliability-triad]] ON "Layer 3 Circularity Problem como um dos três mecanismos de falha convergentes"
+- [[curse-of-knowledge-llm-judge]] — reference-anchoring bias: mecanismo complementar ao Reflexion framing para Layer 3 Circularity
+- [[knowledge-collapse-llm]] — Stage B (fluency intact, facts degrading) empiricamente confirma FM1 "metrics stay green"
 
 
 ## Fontes
