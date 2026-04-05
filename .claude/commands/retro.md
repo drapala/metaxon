@@ -51,8 +51,16 @@ Roda os **5 detectores de suspeita** sobre os eventos:
 **Suspeita**: muitos arquivos tocados para completar uma tarefa simples.
 **Sinal positivo necessário**: friction do tipo `manual-overhead` ou `protocol-gap`.
 
+#### Detector 6: Telemetria ausente (meta-problema)
+**Condição**: em qualquer janela de sessão (agrupada por `session` ID), existe `article_written` mas zero `command_started` ou `command_finished`.
+**Suspeita**: artigos foram escritos mas hooks não estavam ativos nessa sessão — telemetria tem lacuna estrutural.
+**Ação**: não entra no log de padrões normais. Registra como `meta-problema: sessão não-instrumentada` com data e artigos afetados.
+**Sinal positivo necessário**: nenhum. Meta-problema é registrado diretamente, sem esperar friction manual.
+**Recomendação automática**: "rode `/telemetry-status` para verificar se hooks estão configurados".
+
 **Output do Passo 0**: lista de suspeitas com grau de evidência (eventos que as sustentam).
 Salva em `raw/meta/ops/derived/YYYY-MM-DD-suspected.md`.
+Meta-problemas de telemetria são listados em seção separada no mesmo arquivo.
 
 ### Passo 1 — Lê friction events manuais
 
@@ -133,10 +141,15 @@ Padrões identificados: N
   - N sem sustentação (candidatos a ingestão)
 Eventos não-classificados: N
 
+Meta-problemas de telemetria: N
+  - [lista de sessões não-instrumentadas, se houver]
+  - Se N > 0: rode /telemetry-status para diagnosticar
+
 Próximos passos:
   - Se padrão com sustentação: /propose [padrão]
   - Se candidato a ingestão: ingira raw/meta/ux/ sobre [tema]
   - Se muitos não-classificados: revise schema de tags em /friction
+  - Se meta-problema: verifique configuração de hooks em settings.local.json
 ```
 
 ## O que /retro NÃO faz
