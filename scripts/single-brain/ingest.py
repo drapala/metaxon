@@ -28,7 +28,7 @@ WIKI_DIR = ROOT / "wiki" / "concepts"
 DB_PATH = ROOT / "outputs" / "single-brain" / "db"
 
 # ── Config ───────────────────────────────────────────────────────────────────
-EMBED_MODEL = "nomic-embed-text"
+EMBED_MODEL = "paraphrase-multilingual"
 EMBED_DIMS = 768
 TABLE_NAME = "fragments"
 MIN_CHUNK_TOKENS = 50  # chunks below this are merged into the previous one
@@ -63,9 +63,32 @@ def fragment_id(source_path: str, chunk_index: int) -> str:
     return hashlib.sha256(key.encode()).hexdigest()[:16]
 
 
+def _strip_markdown(text: str) -> str:
+    """Remove markdown syntax before embedding — reduces token count, preserves semantics."""
+    import re
+
+    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)  # [label](url) → label
+    text = re.sub(r"https?://\S+", "", text)  # bare URLs
+    text = re.sub(r"!\[.*?\]\(.*?\)", "", text)  # images
+    text = re.sub(r"^\|.*\|$", "", text, flags=re.M)  # table rows
+    text = re.sub(r"^#{1,6}\s*", "", text, flags=re.M)  # headings
+    text = re.sub(r"[*_`~]{1,3}", "", text)  # bold/italic/code
+    text = re.sub(r"\[\[([^\]]+)\]\]", r"\1", text)  # wikilinks [[x]] → x
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
 def embed(text: str) -> list[float]:
-    response = ollama.embeddings(model=EMBED_MODEL, prompt=text)
-    return response["embedding"]
+    # Strip markdown first; progressively truncate until within paraphrase-multilingual ctx (128t)
+    clean = _strip_markdown(text)
+    words = clean.split()
+    for limit in [40, 30, 20, 10]:
+        prompt = " ".join(words[:limit]) if len(words) > limit else clean
+        try:
+            return ollama.embeddings(model=EMBED_MODEL, prompt=prompt)["embedding"]
+        except Exception:
+            continue
+    raise RuntimeError(f"embed failed even at 10 words: {repr(clean[:80])}")
 
 
 def merge_small_chunks(texts: list[str]) -> list[str]:
