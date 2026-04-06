@@ -48,6 +48,18 @@ ou similar), aplique estas regras EM VEZ do resumo padrão:
 
 ---
 
+**SPRT chain guard** (verifique antes de processar qualquer fonte):
+```bash
+yq '.ingest_chain.status' outputs/state/kb-state.yaml
+```
+- Se `closed` E este ingest é `chain_triggered: true`: **PARE.**
+  Reporte: `🚫 SPRT CHAIN CLOSED — chain de ingest encerrada. Este paper deve ser revisado manualmente.`
+  Adicione à `ingest_queue_priority` com `auto_trigger: false` e aguarde ingest manual.
+- Se `closed` E ingest é manual: reset chain (depth: 0, status: open) e prossiga.
+- Se `open`: prossiga normalmente.
+
+---
+
 Compare raw/ com wiki/_registry.md. Para cada fonte nova:
 
 1. Leia o conteúdo (para PDFs, extraia texto; para imagens, descreva;
@@ -63,6 +75,33 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
    - quality: primary | secondary | tertiary
    - **stance: confirming | challenging | neutral** — a fonte CONFIRMA, DESAFIA,
      ou é NEUTRA em relação às premissas existentes no wiki?
+
+   **Stance auto-classification (P4):** para fontes em inglês com arquivo em raw/,
+   execute o classifier como sugestão inicial (requer venv + .env):
+   ```bash
+   python3 scripts/stance-classify.py --source <path>
+   ```
+   - Se `needs_human_review: false` e confidence ≥ 0.70: use a stance sugerida
+   - Se `needs_human_review: true` ou confidence < 0.70: classifique manualmente
+   - O script detecta apenas `challenging_type: content` (contradição direta por dado)
+   - Se você identifica conexão analógica/implicação: `stance: challenging, challenging_type: implication`
+   - Stance sugerida pode sempre ser overridden: você tem contexto do wiki que o script não tem
+
+   **Quando stance = challenging: defina obrigatoriamente `challenging_type`:**
+   - `content` — paper contradiz claim com dado diferente (detectável automaticamente)
+   - `implication` — conexão analógica, prática questionável (requer julgamento humano)
+
+4.5. **Bradford hard gate** (imediato após classificar stance):
+   Se stance = `challenging`, execute:
+   ```bash
+   bash scripts/bradford-gate.sh --stance challenging
+   ```
+   - Exit 0: prossiga normalmente
+   - Exit 1: **PARE.** Não crie artigo, não registre no _registry.md.
+     Reporte: `🚫 BRADFORD GATE: quota de fontes challenging excedida. Fonte não ingerida.`
+     A fonte pode ser salva em `raw/` para ingestão futura, mas não é processada agora.
+     Informe qual ratio atual e quanto falta para a quota reabrir.
+
 5. Verifique: algum artigo existente agora tem overlap >60% com outro? Se sim, sugira merge
 6. Processe quaisquer blocos > [!patch] encontrados nos artigos tocados
 7. Ao criar/atualizar artigos, atribua no frontmatter:
@@ -162,6 +201,21 @@ Reporte: X fontes processadas, Y artigos criados, Z atualizados, W patches resol
 Se encontrar fontes com problemas (vazio, ilegível, duplicata exata): reporte sem processar.
 
 ## Após processar (antes do log de occurrent)
+
+**SPRT chain update** (se este ingest foi `chain_triggered: true`):
+```yaml
+ingest_chain:
+  depth: [depth + 1]
+  status: closed          # SEMPRE closed após auto-ingest de INVALIDA
+  last_challenge: YYYY-MM-DD
+```
+Se este ingest foi manual (chain_triggered: false ou ausente):
+```yaml
+ingest_chain:
+  depth: 0
+  status: open
+  origin_article: null
+```
 
 Atualize `outputs/state/kb-state.yaml`:
 1. `ingest_count_since_last_lint += 1`

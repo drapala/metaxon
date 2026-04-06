@@ -50,6 +50,12 @@ Ao registrar fontes no frontmatter e _registry.md, classifique:
 - type: article | paper | repo | note | dataset
 - quality: primary (dados originais, paper) | secondary (análise, review) | tertiary (resumo, opinião)
 - stance: confirming | challenging | neutral (em relação às premissas do wiki)
+- **challenging_type** (obrigatório quando stance = challenging):
+  - `content` — paper contradiz claim existente com evidência direta (dado diferente, metodologia que falha, replicação com resultado divergente). Detectável por `scripts/stance-classify.py`.
+  - `implication` — paper confirma claims factualmente mas implica que uma prática/premissa da KB é questionável. Conexão analógica descoberta post-hoc via /ask ou /emerge. NÃO detectável por classifier automático.
+  
+  **Consequência para Bradford quota:** ambos os tipos contam para o limite de 25% challenging. A distinção afeta apenas o stance-classify.py (que só detecta `content`) e o /emerge (que produz `implication`).
+
 O /ask deve preferir evidência primary > secondary > tertiary.
 
 ## Confidence Scoring (dois eixos)
@@ -113,6 +119,9 @@ resolved_patches: []
 provenance: source | synthesis | emergence
 # se emergence, adicionar emergence_trigger (ver seção Provenance de Artigos)
 # se synthesis, adicionar synthesis_sources
+# campos de stance (nas sources):
+#   stance: confirming | challenging | neutral
+#   challenging_type: content | implication   (obrigatório se stance: challenging)
 ---
 
 ## Resumo

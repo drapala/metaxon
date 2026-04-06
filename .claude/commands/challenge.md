@@ -64,6 +64,14 @@ AÇÃO RECOMENDADA: [o que fazer antes de usar como fonte]
 PRIOR WORK (web search):
   1. [Título] — URL — afeta claim N — INVALIDA/REFINA/CONFIRMA
   2. ...
+
+CHAIN CONTROL (SPRT):
+  Chain depth atual: [leia kb-state.yaml → ingest_chain.depth, default 0]
+  Ação por tipo de prior work encontrado:
+    INVALIDA → ingest_action: AUTO (1 paper máximo, chain encerra)
+    REFINA   → ingest_action: QUEUE (entra em ingest_queue, sem auto-trigger)
+    CONFIRMA → ingest_action: IGNORE
+  Resultado: CHAIN_CLOSED | CHAIN_QUEUED | CHAIN_IGNORED
 ```
 
 ## Quando rodar
@@ -106,15 +114,39 @@ challenge:
 |----------|---------|
 | Artigo está em quarentena E verdict ≠ RISCO_ALTO | `💡 /promote [artigo] — critério 3 satisfeito pelo challenge. Verifique critérios 1 e 2.` |
 | Verdict = RISCO_ALTO em artigo com in-degree alto | `⚠️ Propagação — [artigo] tem alto in-degree e claims em risco. Verifique artigos que o citam.` |
-| Prior work encontrado que invalida claim central | `💡 /ingest [paper] — paper externo invalida claim. Ingira para atualizar a KB.` |
+| Prior work INVALIDA claim central E chain_depth = 0 | `💡 /ingest [paper] — paper invalida claim. SPRT: 1 ingest permitido, chain encerra após.` |
+| Prior work INVALIDA claim central E chain_depth ≥ 1 | `🚫 SPRT CHAIN CLOSED — já ingerimos 1 paper contraditório nesta chain. Adicione à ingest_queue manual.` |
+| Prior work REFINA claim | `📥 Queue — paper refina claim. Adicione a ingest_queue_priority (sem auto-trigger).` |
+| Prior work CONFIRMA claim | `— IGNORE — paper confirma claim existente. Não ingira.` |
+
+### SPRT Chain Control — kb-state.yaml
+
+Ao final do challenge, atualize o bloco `ingest_chain` em kb-state.yaml:
+
+```yaml
+ingest_chain:
+  depth: N              # incrementado a cada auto-ingest por challenge
+  origin_article: [artigo que iniciou a chain]
+  last_challenge: YYYY-MM-DD
+  status: open | closed  # closed após 1 INVALIDA auto-ingested
+```
+
+Regras:
+- `depth = 0` → chain não iniciada (challenge manual ou pós-ingest-hook)
+- `depth = 1, status: closed` → chain encerrada após 1 INVALIDA ingerido
+- Ao iniciar novo /ingest manual: resete `depth: 0, status: open`
+- Nunca auto-ingeste se `status: closed`
 
 ### Atualiza `next_actions` em kb-state.yaml
 
 Após o challenge, atualize o bloco `next_actions`:
 - Se artigo em quarentena E verdict ≠ RISCO_ALTO: adicione entrada `/promote [artigo]`
   com `why: "critério 3 satisfeito pelo challenge"`, `added_by: challenge`
-- Se prior work encontrado: adicione entrada `/ingest [paper mais relevante]`
-  com `why: "[claim que confirma/invalida]"`, `added_by: challenge`
+- Se prior work INVALIDA E chain_depth = 0: adicione entrada `/ingest [paper mais relevante]`
+  com `why: "[claim que invalida] — SPRT: auto-ingest único permitido"`, `added_by: challenge`
+  Marque o ingest com `chain_triggered: true` para que /ingest incremente `ingest_chain.depth`
+- Se prior work REFINA: adicione à `ingest_queue_priority` com `auto_trigger: false`
+  (nunca dispara challenge automático)
 - Se verdict = RISCO_ALTO: adicione entrada `/review [artigos que citam este]`
   com `why: "propagação de claim em risco"`, `added_by: challenge`
 

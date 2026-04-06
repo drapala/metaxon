@@ -44,9 +44,15 @@ readiness_signal:
 # ── Estado do ciclo rápido ──────────────────────────────────────────────────────
 emerge_queue: []  # resetado após sessão 5 (2026-04-05) — 6 pares avaliados, 1 GENUINE
 
+ingest_chain:
+  depth: 0              # incremented per auto-ingest triggered by /challenge
+  origin_article: null
+  last_challenge: null
+  status: open          # closed after 1 INVALIDA auto-ingested; reset on manual /ingest
+
 sessions_since_last_dream: 1
-ingest_count_since_last_lint: 6
-last_session_documented: 2026-04-05  # part15
+ingest_count_since_last_lint: 8
+last_session_documented: 2026-04-05  # roadmap-p1-p4
 
 # ── Ciclo lento ──────────────────────────────────────────────────────────────
 slow_cycle:
