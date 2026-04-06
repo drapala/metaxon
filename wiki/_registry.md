@@ -2,7 +2,10 @@
 
 | Path | Processed | Type | Quality | Stance | Concepts | Status |
 |------|-----------|------|---------|--------|----------|--------|
+| raw/papers/farach-2026-ai-coordination-compressing-capital.md | 2026-04-06 | paper | primary | neutral | agent-capital,coordination-compression,regime-fork,span-of-control | processed |
+| raw/papers/ewens-giroud-2025-corporate-hierarchy.md | 2026-04-06 | paper | primary | confirming | corporate-hierarchy,hierarchy-flattening,ai-organization,span-of-control | processed |
 | wiki/concepts/evaluation-order-independence.md | 2026-04-05 | synthesis | primary | neutral | curse-of-knowledge-llm-judge,causal-reasoning-pearl | processed |
+| wiki/concepts/vsm-autonomous-threshold-design.md | 2026-04-06 | synthesis | primary | neutral | viable-system-model-beer,zelox-vsm | processed |
 | wiki/concepts/autoresearch-programme-vitality.md | 2026-04-05 | synthesis | primary | neutral | autoresearch-reliability-triad,scientific-research-programmes | processed |
 | raw/articles/claude-code-internals-harness-engineering.md | 2026-04-03 | article | primary | confirming | context-management, memory-consolidation, multi-agent-orchestration | processed |
 | raw/papers/deep-research-survey-autonomous-agents.md | 2026-04-03 | paper | primary | confirming | autonomous-research-agents, multi-agent-orchestration | processed |
@@ -131,3 +134,5 @@
 | wiki/concepts/autonomous-emergence-pipeline-risks.md | 2026-04-05 | synthesis | primary | neutral | judgment-aggregation,autoresearch-reliability-triad,autonomous-kb-failure-modes,llm-as-judge | quarantine |
 | raw/papers/self-preference-bias-llm-judge.md | 2026-04-05 | paper | primary | confirming | self-preference-bias-llm-judge,llm-as-judge,autonomous-kb-failure-modes | processed |
 | wiki/concepts/self-preference-bias-llm-judge.md | 2026-04-05 | source | primary | confirming | llm-as-judge,autonomous-kb-failure-modes,curse-of-knowledge-llm-judge,position-bias-llm-judge | quarantine |
+| raw/articles/block-company-as-intelligence.md | 2026-04-05 | article | secondary | neutral | block-organization-as-intelligence,kb-architecture-patterns,viable-system-model-beer | processed |
+| wiki/concepts/block-organization-as-intelligence.md | 2026-04-05 | source | secondary | neutral | viable-system-model-beer,kb-architecture-patterns,stigmergic-coordination,autonomous-kb-failure-modes,requisite-variety | quarantine |

@@ -5,11 +5,23 @@
 
 next_actions:
   - priority: 1
-    action: "/promote raw-design-constraints, evaluation-order-independence, autoresearch-programme-vitality"
-    why: "3 artigos em quarentena com critérios de independência já satisfeitos ou prestes a satisfazer. raw-design-constraints: Gate 3 rodou. evaluation-order-independence e autoresearch-programme-vitality: /challenge pendente."
+    action: "/promote raw-design-constraints, evaluation-order-independence"
+    why: "2 artigos em quarentena com critérios de independência já satisfeitos ou prestes a satisfazer. raw-design-constraints: Gate 3 rodou. evaluation-order-independence: /challenge pendente."
     blocked_by: null
     added_by: dream
     added_on: 2026-04-05
+  - priority: 2
+    action: "/ingest Brain of the Firm (Beer, 1972)"
+    why: "VSM formal S1-S5 não está em Designing Freedom (apenas esboçado). Sem Brain of the Firm, mapeamento Zelox-VSM permanece incompleto. Gap identificado em /ask zelox-vsm 2026-04-06."
+    blocked_by: null
+    added_by: ask
+    added_on: 2026-04-06
+  - priority: 3
+    action: "Documentar arquitetura operacional Zelox (o que S1-S4 fazem concretamente hoje)"
+    why: "Mapeamento VSM para Zelox é hipotético sem isso. Zelox-vsm.md não especifica quais funções correspondem a cada sistema. Bloqueia síntese do artigo zelox-vsm × viable-system-model-beer."
+    blocked_by: null
+    added_by: ask
+    added_on: 2026-04-06
   - priority: 2
     action: "/prioritize sub-índices"
     why: "wiki > 80 artigos (atualmente ~87). Ingest threshold exige sub-índices antes de continuar crescendo. _index.md comentário já avisa sobre migração."
@@ -23,13 +35,18 @@ next_actions:
     blocked_by: null
     added_by: challenge
     added_on: 2026-04-05
+  - priority: 4b
+    action: "/challenge ai-coordination-compressing-capital (corrigir 5 claims weakened pelo Gate 3)"
+    why: "Gate 3∥challenge: 5 claims weakened — P1 custo implementação, P3 headcount, K_A distinção teórica, Ewens & Giroud qualificador, K_A vs task-AI overlap. Correções menores, humano decide."
+    blocked_by: null
+    added_by: auto-promote
+    added_on: 2026-04-06
   - priority: 5
     action: "/lint-epistemic"
-    why: "ingest_count_since_last_lint = 6 (threshold = 5). Último lint: 2026-04-04."
+    why: "ingest_count_since_last_lint = 10 (threshold = 5). Último lint: 2026-04-04."
     blocked_by: null
     added_by: ingest
     added_on: 2026-04-05
-
 readiness_signal:
   can_ingest: true
   stance_status: "marginal — 23% challenging (limite ~25%). gbrain adicionado como challenging. Próxima fonte: neutral ou challenging."
@@ -40,20 +57,22 @@ readiness_signal:
     - "MAST taxonomy arXiv 2503.13657 (2025) — neutral"
     - "Du et al. (2023) Multiagent Debate — neutral"
   warning: null
-
 # ── Estado do ciclo rápido ──────────────────────────────────────────────────────
-emerge_queue: []  # resetado após sessão 5 (2026-04-05) — 6 pares avaliados, 1 GENUINE
+emerge_queue:
+  - pair: [concepts/vsm-autonomous-threshold-design, null]
+    added_by: promote
+    added_on: 2026-04-06
+    note: "recém-promovido — candidato /emerge"
+# resetado após sessão 6 (2026-04-06) — 6 pares avaliados, 3 GENUINE
 
 ingest_chain:
-  depth: 0              # incremented per auto-ingest triggered by /challenge
+  depth: 0 # incremented per auto-ingest triggered by /challenge
   origin_article: null
   last_challenge: null
-  status: open          # closed after 1 INVALIDA auto-ingested; reset on manual /ingest
-
-sessions_since_last_dream: 1
-ingest_count_since_last_lint: 8
-last_session_documented: 2026-04-05  # roadmap-p1-p4
-
+  status: open # closed after 1 INVALIDA auto-ingested; reset on manual /ingest
+sessions_since_last_dream: 0
+ingest_count_since_last_lint: 11
+last_session_documented: 2026-04-06 # part17
 # ── Ciclo lento ──────────────────────────────────────────────────────────────
 slow_cycle:
   lint:
@@ -68,47 +87,45 @@ slow_cycle:
     last_run: 2026-04-05
     context_before_pct: 11.9
     triggered_by: manual
-
 # ── /ask ───────────────────────────────────────────────────────────────────────
 ask:
   articles_with_recent_gaps:
-    - burocracia-publica-incentivos-auditores  # pressão TCU como contra-incentivo a V(R)
-    - autoresearch-peirce-abduction  # abductive inference (Peirce)
-    - multiagent-debate-du-2023  # mitigação self-enhancement em /review; referência central para oracle não-circular em emergence
-    - continual-learning-world-model  # atualização incremental sem re-processar; CLS dá o porquê, não o como
-    - streaming-data-pipeline  # ingestão contínua de múltiplas fontes — completamente ausente
-    - agent-communication-protocols  # A2A, MCP entre agentes, conflitos concorrentes
-    - production-rag-chunking  # chunking para documentos heterogêneos em escala (juridiquês + OCR)
-    - storage-agnostic-epistemic-pipeline  # como abstrair storage para que skills não dependam de filesystem
-    - kb-migration-incremental  # migração progressiva file-based → DB-based KB
+    - burocracia-publica-incentivos-auditores # pressão TCU como contra-incentivo a V(R)
+    - autoresearch-peirce-abduction # abductive inference (Peirce)
+    - multiagent-debate-du-2023 # mitigação self-enhancement em /review; referência central para oracle não-circular em emergence
+    - continual-learning-world-model # atualização incremental sem re-processar; CLS dá o porquê, não o como
+    - streaming-data-pipeline # ingestão contínua de múltiplas fontes — completamente ausente
+    - agent-communication-protocols # A2A, MCP entre agentes, conflitos concorrentes
+    - production-rag-chunking # chunking para documentos heterogêneos em escala (juridiquês + OCR)
+    - storage-agnostic-epistemic-pipeline # como abstrair storage para que skills não dependam de filesystem
+    - kb-migration-incremental # migração progressiva file-based → DB-based KB
     # self-preference-bias-llm-judge — INGERIDO 2026-04-05
-  last_session: outputs/logs/sessions/2026-04-05/ask-post-ingest-hook.md
+  last_session: outputs/logs/sessions/2026-04-06/ask-zelox-vsm-00-05.md
   synthesize_pending: []
   synthesize_completed:
     - pair: [autonomous-kb-failure-modes, self-improving-agents, groupthink-and-cascades]
       article: wiki/concepts/autoresearch-reliability-triad.md
-      status: promoted  # promovido 2026-04-05
+      status: promoted # promovido 2026-04-05
     - pair: [knowledge-collapse-llm, complementary-learning-systems]
       article: wiki/concepts/raw-design-constraints.md
-      status: quarantine  # aguarda promote
+      status: quarantine # aguarda promote
     - pair: [curse-of-knowledge-llm-judge, causal-reasoning-pearl]
       article: wiki/concepts/evaluation-order-independence.md
-      status: quarantine  # aguarda promote
+      status: quarantine # aguarda promote
     - pair: [autoresearch-reliability-triad, scientific-research-programmes]
       article: wiki/concepts/autoresearch-programme-vitality.md
-      status: quarantine  # aguarda promote
-
+      status: promoted # promovido 2026-04-05 (force)
 # ── Programme Health (Lakatos) ─────────────────────────────────────────────────
 # Diagnóstico longitudinal: proporção de ingest confirming vs. geradores de predição nova
 # Threshold: confirming_ratio > 0.8 por N≥10 = programa degenerativo
 # Ver wiki/concepts/autoresearch-programme-vitality.md
 programme_health:
   confirming_ratio:
-    window: 5          # últimos N ingest considerados
-    confirming: 2      # autonomous-kb-failure-modes, curse-of-knowledge-llm-judge
-    neutral: 3         # causal-reasoning-pearl, multi-agent-memory-consistency, graph-anchored-iterative-retrieval
+    window: 5 # últimos N ingest considerados
+    confirming: 2 # autonomous-kb-failure-modes, curse-of-knowledge-llm-judge
+    neutral: 3 # causal-reasoning-pearl, multi-agent-memory-consistency, graph-anchored-iterative-retrieval
     novel_prediction: 0
-    ratio: 0.4         # 2/5 — zona progressiva (< 0.5)
+    ratio: 0.4 # 2/5 — zona progressiva (< 0.5)
     last_updated: 2026-04-05
     note: "N=5 pequeno — tendência requer N≥10 para ser diagnóstica"
   last_novel_prediction:
@@ -121,7 +138,6 @@ programme_health:
     # Lista manual — considerar in-degree de wikilinks > 5 como critério automático futuro
     - wiki/concepts/autoresearch-reliability-triad.md
     - wiki/concepts/autonomous-kb-failure-modes.md
-
 # ── Filas de ingestão ──────────────────────────────────────────────────────────
 ingest_queue_priority:
   # [INGERIDO 2026-04-05] Multi-Agent Memory from a Computer Architecture Perspective → wiki/concepts/multi-agent-memory-consistency.md
@@ -133,7 +149,11 @@ ingest_queue_priority:
   # [INGERIDO 2026-04-05] Self-Preference Bias → wiki/concepts/self-preference-bias-llm-judge.md
   - source: "MAST taxonomy — Why Do Multi-Agent LLM Systems Fail? arXiv 2503.13657"
     why: "14 failure modes em 1600+ traces. Refina Failure Mode 1 (semantic convergence) com dados empíricos."
-
+  # [INGERIDO 2026-04-06] AI as Coordination-Compressing Capital → wiki/concepts/ai-coordination-compressing-capital.md (quarentena — 3 claims Gate 3)
+  - source: "Generative AI and Organizational Structure (arXiv:2506.00532)"
+    why: "REFINA block-organization-as-intelligence: GenAI e redução de middle management — evidência empírica independente."
+    auto_trigger: false
+    added_by: challenge
 ingest_queue_single_brain:
   - source: "Graph-Native Cognitive Memory with Formal Belief Revision (arXiv 2603.17244, mar 2026)"
     why: "Gap 2. Belief revision formal que Graphiti/Zep não tem. URI addressing determinístico. Conecta com safeguards epistêmicos do llm-kb."
@@ -143,40 +163,40 @@ ingest_queue_single_brain:
     why: "Gap 3. Cobre index updating: incremental vs. periodic reconstruction. LightRAG e REALM como referências de sistemas dinâmicos."
   - source: "Legal-DC: LegRAG Framework (arXiv 2603.11772, mar 2026)"
     why: "Gap 4. Clause-boundary segmentation + dual auto-reflexão para documentos jurídicos estruturados. Diretamente aplicável a atas PNCP."
-
 ingest_queue_llm_judge:
   - source: "Panickssery et al. (2024) — LLM Evaluators Recognize and Favor Their Own Generations (arXiv:2404.13076, NeurIPS 2024)"
     why: "GPT-4 com 73.5% de self-recognition accuracy + correlação linear entre reconhecimento e força do bias. Evidência concorrente com Wataoka: perplexidade é mecanismo suficiente, não único. Refina self-preference-bias-llm-judge."
   - source: "Stureborg et al. (2024) — LLMs are Inconsistent and Biased Evaluators (arXiv:2405.01724)"
     why: "Confirmação independente de familiarity/perplexidade bias. Diretamente confirma o mecanismo de self-preference distribucional."
-
 ingest_queue_autoresearch:
   - source: "Du et al. (2023) — Improving Factuality via Multiagent Debate"
     why: "Mitigação para self-enhancement em /review. Já referenciado em autonomous-kb-failure-modes mas não ingerido."
   - source: "Peirce — Abductive Inference"
     why: "Formaliza geração de hipóteses (abdução) — passo mais fraco do loop autoresearch."
-
 # ── /emerge ────────────────────────────────────────────────────────────────────
 emerge_top_pairs:
+  # sessão 6 (pós-promote autoresearch-programme-vitality, 2026-04-06)
+  - zelox-vsm x viable-system-model-beer # L2, GENUINE GPT6/Gem9, INSTANCIA — escalation frequency = VSM S5 residual variety
+  - epistemic-merge-vs-syntactic x autonomous-kb-failure-modes # L2, GENUINE GPT6/Gem8, INSTANCIA — same semantic oracle fixes FM1 and fork-join merge
+  - autoresearch-programme-vitality x complementary-learning-systems # L2, GENUINE GPT5/Gem8, ANÁLOGO-A, stability:tentative — "sleep replay" = quando belt challenges consolidam no hard core
   # sessão 5 (pós-ingest gbrain, threshold assimétrico GPT>=5 AND Gemini>=8)
-  - autoresearch-programme-vitality x viable-system-model-beer  # L2, GENUINE GPT5/Gem9, stability:tentative (vitality em quarentena)
+  - autoresearch-programme-vitality x viable-system-model-beer # L2, GENUINE GPT5/Gem9 — stability:tentative removido (APV promovido 2026-04-06)
   # sessão 1 (pré-B2G)
-  - self-improving-agents x falsificationism-demarcation  # L2, gradient asymmetry principle
-  - scientific-research-programmes x complementary-learning-systems  # L2, dual-rate consolidation
-  - rational-inattention x fast-frugal-heuristics  # L1, Take-the-Best = solução ótima de Sims
+  - self-improving-agents x falsificationism-demarcation # L2, gradient asymmetry principle
+  - scientific-research-programmes x complementary-learning-systems # L2, dual-rate consolidation
+  - rational-inattention x fast-frugal-heuristics # L1, Take-the-Best = solução ótima de Sims
   # sessão 2 (pós-B2G cluster)
-  - audit-deterrence-corruption x heuristics-and-biases  # L2, visibilidade > frequência de auditoria
-  - procurement-manipulation-signals x stigmergic-coordination  # L2, bid rigging = stigmergy sematectônica
+  - audit-deterrence-corruption x heuristics-and-biases # L2, visibilidade > frequência de auditoria
+  - procurement-manipulation-signals x stigmergic-coordination # L2, bid rigging = stigmergy sematectônica
   # sessão 3 (pós-single-brain + autonomous-kb-failure-modes promoted)
   # oracle unanimidade (gpt-5.4 thinking + gemini-3.1-pro thinking): 0/5 validados — todos SPLIT
   # Gemini 8-9 GENUINE, GPT-5.4 5-6 SUPERFICIAL em todos os pares
   # Status: candidatos /ask, não conexões estabelecidas
-  - knowledge-collapse-llm x complementary-learning-systems  # SPLIT — candidato /ask
-  - curse-of-knowledge-llm-judge x causal-reasoning-pearl  # SPLIT — candidato /ask
-  - autoresearch-reliability-triad x scientific-research-programmes  # SPLIT — candidato /ask
-  - procurement-variety-gap x information-bottleneck  # SPLIT — candidato /ask
-  - autonomous-kb-failure-modes x market-for-lemons  # SPLIT — candidato /ask
-
+  - knowledge-collapse-llm x complementary-learning-systems # SPLIT — candidato /ask
+  - curse-of-knowledge-llm-judge x causal-reasoning-pearl # SPLIT — candidato /ask
+  - autoresearch-reliability-triad x scientific-research-programmes # SPLIT — candidato /ask
+  - procurement-variety-gap x information-bottleneck # SPLIT — candidato /ask
+  - autonomous-kb-failure-modes x market-for-lemons # SPLIT — candidato /ask
 # ── /challenge ─────────────────────────────────────────────────────────────────
 challenge:
   challenged_since_last_promote:
@@ -188,7 +208,7 @@ challenge:
       claims_invalidated: 0
       prior_work_found: 5
       quarantine_criteria_satisfied: adversarial_or_scout_or_prediction
-      challenge_type: clean  # independente do Gate 3, nova arquitetura
+      challenge_type: clean # independente do Gate 3, nova arquitetura
     - artigo: autonomous-kb-failure-modes
       verdict: PUBLICÁVEL
       data: 2026-04-05
@@ -231,6 +251,17 @@ challenge:
       counts_for_promote: false
       corrections_applied: true
       interpretation_confidence_downgraded: "high → medium"
+    - artigo: block-organization-as-intelligence
+      verdict: PRECISA_CORREÇÃO
+      data: 2026-04-05
+      claims_survived: 1
+      claims_total: 3
+      claims_weakened: 2
+      claims_invalidated: 1
+      prior_work_found: 3
+      challenge_type: clean
+      counts_for_promote: true
+      corrections_applied: true
     - artigo: autonomous-emergence-pipeline-risks
       verdict: SKIPPED
       data: 2026-04-05
@@ -239,7 +270,30 @@ challenge:
       counts_for_promote: false
       epistemic_value: none
       reason: "provenance: emergence sem raw/ — challenge same-session é circular"
-
+    - artigo: vsm-autonomous-threshold-design
+      verdict: PRECISA_CORREÇÃO
+      data: 2026-04-06
+      claims_survived: 1
+      claims_total: 3
+      claims_weakened: 2
+      prior_work_found: 2
+      challenge_type: clean
+      counts_for_promote: true
+      corrections_applied: true
+    - artigo: ai-coordination-compressing-capital
+      verdict: PRECISA_CORREÇÃO
+      data: 2026-04-06
+      claims_survived: 1
+      claims_total: 3
+      claims_weakened: 2
+      claims_invalidated: 0
+      prior_work_found: 0
+      challenge_type: clean
+      counts_for_promote: true
+      gate3_claims_invalidated: 3
+      gate3_claims_weakened: 5
+      corrections_applied: true
+      quarantine_reason: "Gate 3 — 3 claims invalidated (partial-eq→macro, P5 emprego, gap gestor-worker universal)"
 # ── /synthesize ────────────────────────────────────────────────────────────────
 synthesize:
   pending_from_ask:
@@ -247,18 +301,17 @@ synthesize:
       ask_session: outputs/logs/sessions/2026-04-05/ask-12-34.md
       connection_type: ANÁLOGO-A
       article_created: wiki/concepts/single-brain-data-ontology.md
-      status: quarantine  # aguarda promote
+      status: quarantine # aguarda promote
     - pair: [curse-of-knowledge-llm-judge, causal-reasoning-pearl]
       ask_session: outputs/logs/sessions/2026-04-05/ask-curse-knowledge-pearl.md
       connection_type: EMERGE-DE
       article_created: wiki/concepts/evaluation-order-independence.md
-      status: quarantine  # aguarda promote
+      status: quarantine # aguarda promote
   completed:
     - pair: [procurement-contract-design, requisite-variety]
       article: wiki/concepts/procurement-variety-gap.md
       status: promoted
-
-last_session_documented: 2026-04-05  # part14
-reading_list: outputs/reading-list.md  # Gentner 1983 adicionado — gap 2 (emerge threshold)
-last_updated: 2026-04-05  # ingest gbrain-sqlite-pkm-spec → kb-architecture-patterns Pattern 4
-last_emerge: 2026-04-05  # sessão 5: 1 GENUINE (vitality × VSM)
+last_session_documented: "2026-04-06" # part17
+reading_list: outputs/reading-list.md # Gentner 1983 adicionado — gap 2 (emerge threshold)
+last_updated: "2026-04-06" # emerge sessão 6 — 3 GENUINE (zelox-vsm×VSM, epistemic-merge×FM, APV×CLS)
+last_emerge: 2026-04-05 # sessão 5: 1 GENUINE (vitality × VSM)

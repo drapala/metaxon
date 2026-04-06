@@ -11,10 +11,14 @@
             "id": "18eb754dbae5ee66",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "wiki/concepts/corruption-audits-brazil.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "corruption-audits-brazil"
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "wiki/concepts/corruption-audits-brazil.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for corruption-audits-brazil"
             }
           },
           {
@@ -108,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "wiki/concepts/corruption-audits-brazil.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from corruption-audits-brazil"
             }
           },
           {
@@ -150,12 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "wiki/concepts/corruption-audits-brazil.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of corruption-audits-brazil"
             }
           }
         ]
@@ -178,41 +185,41 @@
   },
   "active": "18eb754dbae5ee66",
   "lastOpenFiles": [
-    "outputs/roadmap.md",
-    "outputs/logs/sessions/2026-04-05/challenge-self-preference-bias-llm-judge-hook.md",
-    "outputs/logs/sessions/2026-04-05/challenge-multiagent-debate-du-2023-hook.md",
-    "outputs/logs/sessions/2026-04-05/challenge-autonomous-emergence-pipeline-risks-skip.md",
-    "outputs/logs/sessions/2026-04-05/ask-post-ingest-hook.md",
-    "wiki/concepts/self-preference-bias-llm-judge.md",
-    "wiki/concepts/autonomous-emergence-pipeline-risks.md",
-    "raw/papers/self-preference-bias-llm-judge.md",
-    "wiki/concepts/multiagent-debate-du-2023.md",
-    "outputs/logs/sessions/2026-04-05/ask-circular-oracle.md",
-    "outputs/logs/sessions/2026-04-05/ask-20-25.md",
-    "outputs/logs/sessions/2026-04-05/ingest-gbrain-sqlite-pkm-18-00.md",
-    "raw/notes/gbrain-sqlite-pkm-spec.md",
-    "raw/notes",
-    "outputs/reading-list.md",
-    "outputs/proposals/emerge-threshold-isomorfismo-vs-emergencia.md",
-    "outputs/proposals",
-    "outputs/reports/emerge-rejected-2026-04-05.md",
-    "outputs/logs/sessions/2026-04-05/promote-position-bias-llm-judge-17-35.md",
-    "outputs/logs/sessions/2026-04-05/challenge-position-bias-llm-judge-17-30.md",
-    "outputs/logs/sessions/2026-04-05/challenge-position-bias-llm-judge-17-00.md",
-    "outputs/session-documentation-part15.md",
-    "outputs/reports/prior-work-position-bias-llm-judge.md",
-    "wiki/concepts/position-bias-llm-judge.md",
-    "raw/papers/judging-judges-position-bias-llm-2406.07791.md",
-    "outputs/logs/sessions/2026-04-05/promote-causal-reasoning-pearl.md",
-    "outputs/logs/sessions/2026-04-05/review-causal-reasoning-pearl-cold.md",
-    "scripts/structural-promote-gate.sh",
-    "wiki/concepts/kb-auto-promote-protocol.md",
-    "scripts/check-context-window.sh",
-    "scripts/check-programme-health.sh",
-    "outputs/single-brain/db/fragments.lance/_versions/18446744073709551453.manifest",
-    "outputs/single-brain/db/fragments.lance/_transactions/161-b3a1fc71-2ef2-4693-9356-b3f105bd1de5.txn",
-    "outputs/single-brain/db/fragments.lance/data/00100011010101001101011086be514bac8591003e08e5a635.lance",
-    "outputs/single-brain/db/fragments.lance/_transactions/160-73d97113-1245-4983-95a2-78b4e10114b6.txn",
-    "outputs/single-brain/db/fragments.lance/_versions/18446744073709551455.manifest"
+    "wiki/concepts/vsm-autonomous-threshold-design.md",
+    "raw/papers/wikipedia-era-llms-risks.md",
+    "outputs/logs/sessions/2026-04-06/ask-zelox-vsm-00-05.md",
+    "raw/meta/ops/events/2026-04-06.jsonl",
+    "outputs/reports/emerge-rejected-2026-04-06.md",
+    "outputs/reports/emerge-2026-04-06.md",
+    "outputs/logs/sessions/2026-04-05/promote-autoresearch-programme-vitality-23-57.md",
+    "outputs/logs/sessions/2026-04-06/ask-03-30.md",
+    "outputs/session-documentation-part18.md",
+    "outputs/logs/sessions/2026-04-06/ingest-ewens-giroud-2025-03-00.md",
+    "wiki/concepts/autonomous-kb-failure-modes.md",
+    "outputs/gates/gate3-corporate-hierarchy-ewens-giroud.yaml",
+    "raw/papers/curse-of-knowledge-llm-judge-bias.md",
+    "wiki/concepts/corporate-hierarchy-ewens-giroud.md",
+    "raw/papers/ewens-giroud-2025-corporate-hierarchy.md",
+    "raw/papers/ewens-giroud-2025-corporate-hierarchy.pdf",
+    "outputs/logs/sessions/2026-04-06/ingest-farach-2026-02-30.md",
+    "outputs/logs/sessions/2026-04-06/challenge-ai-coordination-compressing-capital-02-30.md",
+    "outputs/logs/sessions/2026-04-06",
+    "outputs/gates/gate3-ai-coordination-compressing-capital.yaml",
+    "wiki/concepts/ai-coordination-compressing-capital.md",
+    "raw/papers/farach-2026-ai-coordination-compressing-capital.md",
+    "outputs/session-documentation-part17.md",
+    "outputs/logs/sessions/2026-04-05/ask-23-20.md",
+    "wiki/concepts/challenge-protocol.md",
+    "outputs/logs/sessions/2026-04-05/ask-23-15.md",
+    "outputs/logs/sessions/2026-04-05/ingest-block-company-as-intelligence-23-05.md",
+    "outputs/logs/sessions/2026-04-05/challenge-block-organization-as-intelligence-23-10.md",
+    "outputs/gates/gate3-block-organization-as-intelligence.yaml",
+    "outputs/gates",
+    "wiki/concepts/block-organization-as-intelligence.md",
+    "raw/articles/block-company-as-intelligence.md",
+    "outputs/logs/sessions/2026-04-05/foresight-23-00.md",
+    "wiki/strategy",
+    "scripts/stance-classify.py",
+    "scripts/paper-quality-gate.sh"
   ]
 }

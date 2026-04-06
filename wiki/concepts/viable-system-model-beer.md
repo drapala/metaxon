@@ -148,6 +148,7 @@ Se KB compilation precisa de múltiplos compiladores (Predição A de Ashby), Be
 - derivedFrom: [[requisite-variety]] — Beer aplica Ashby a organizações multi-reguladoras; esta é a extensão organizacional da lei
 - complementsAt: [[requisite-variety]] ON "multi-regulator coordination" — Ashby (1956) modela 1 regulador; Beer (1974) modela hierarquias recursivas de reguladores. Complementares.
 - validates: [[variety-gap-analysis]] ON "design de multi-compilador" — Beer fornece framework (loops corretos) para o que a análise de gap descreve como Predição A
+- emerge-para: [[vsm-autonomous-threshold-design]] ON "S1-S5 partitioning + S4 patológico sem input de S1 → design de agentes autônomos com S5 threshold-triggered"
 
 ## Fontes
 

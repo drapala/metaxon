@@ -17,14 +17,17 @@ reads: 0
 retrievals_correct: 0
 retrievals_gap: 0
 last_read: null
-quarantine: true
+quarantine: false
 quarantine_created: 2026-04-05
 quarantine_reason: "Artigo emergido de /ask cross-domain — aguarda confirmação adversarial e review frio"
-quarantine_promoted: null
+quarantine_promoted: 2026-04-05
 quarantine_criteria_met:
-  tempo: false
-  review_frio: false
-  adversarial_or_scout_or_prediction: false
+  auto_promote: false
+  gates_passed: []
+  gate3_run: null
+  gate3_models: []
+  challenge_verdict: null
+  promoted_by: force_promote
 provenance: emergence
 emergence_trigger:
   pair: [autoresearch-reliability-triad, scientific-research-programmes]
@@ -122,4 +125,3 @@ Estimativa de ratio: ~0.4 — zona progressiva. Mas contagem pequena (N=5); tend
 - [[scientific-research-programmes]] — hard core/protective belt, progressivo/degenerativo, racionalidade de proteção
 - [Log /ask](../../outputs/logs/sessions/2026-04-05/ask-autoresearch-lakatos.md) — sessão que identificou /challenge como gestão de protective belt e propôs confirming_ratio
 
-> ⚠️ QUARENTENA: artigo emergido de /ask cross-domain. Critérios pendentes: tempo (24h), review frio, adversarial.

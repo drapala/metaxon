@@ -38,8 +38,8 @@ resolved_patches:
     original: "[patch: novo failure mode — List & Pettit 2002]"
     incorporated_as: "Failure Mode 5 — Judgment Aggregation Impossibility, adicionado a ## Gaps não resolvidos / Especulação"
     source: judgment-aggregation
-reads: 3
-retrievals_correct: 1
+reads: 4
+retrievals_correct: 2
 retrievals_gap: 0
 last_read: 2026-04-05
 provenance: emergence

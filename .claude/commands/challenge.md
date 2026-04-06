@@ -152,3 +152,25 @@ Após o challenge, atualize o bloco `next_actions`:
 
 Atribua `priority` de forma que ações de correção (RISCO_ALTO) sempre precedam
 ações de avanço (/promote, /ingest).
+
+## Post-challenge: trigger /auto-promote (condicional)
+
+Executar após next_actions atualizado e challenge log salvo.
+
+**Condição de disparo** — todos os três devem ser verdade:
+1. Artigo tem `quarantine: true`
+2. verdict ≠ RISCO_ALTO
+3. Critério 3 satisfeito neste challenge:
+   - `prior_work_found >= 3` (web search realizado com resultado), **OU**
+   - Artigo tem seção `## Verificação adversarial` ou `## Predição falsificável` com pearl_level L2+
+
+Se condição satisfeita:
+1. Imprimir: `🔄 post-challenge hook: critérios 2+3 satisfeitos. Rodando /auto-promote automaticamente em [artigo].`
+2. Executar `/auto-promote [artigo]` com metadata:
+   - `triggered_by: post_challenge_hook`
+   - `challenge_log: outputs/logs/sessions/YYYY-MM-DD/challenge-[artigo]-HH-MM.md`
+3. **Guard de aninhamento:** se o contexto atual já tiver `triggered_by` presente → NÃO disparar. Imprimir: `⚠️ post-challenge hook: contexto aninhado detectado — /auto-promote suprimido.`
+
+Se `/auto-promote` falhar:
+- Imprimir: `⚠️ post-challenge hook: /auto-promote falhou — [motivo]. Artigo permanece em quarentena.`
+- NÃO silenciar. Entrada `/promote [artigo]` já está em next_actions como fallback manual.
