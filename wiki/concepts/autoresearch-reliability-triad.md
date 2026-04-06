@@ -16,10 +16,10 @@ tags: [meta-kb, autoresearch, reliability, failure-modes, grounding]
 source_quality: medium
 interpretation_confidence: low
 resolved_patches: []
-reads: 0
-retrievals_correct: 0
+reads: 2
+retrievals_correct: 2
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-05
 quarantine: false
 quarantine_created: 2026-04-04
 quarantine_reason: "Artigo emergido de /ask cross-domain — aguarda confirmação adversarial e review frio"
@@ -130,6 +130,7 @@ Janis: 4/5 antecedentes de groupthink estruturalmente presentes em 1-LLM autores
 - emerge-de: [[self-improving-agents]] ON "Reflexion: grounding = oracle independente; 52% degradação sem testes; Absolute Zero como caso-limite"
 - emerge-de: [[groupthink-and-cascades]] ON "Banerjee: cascade é racional — solução é estrutura de informação pública, não remover bias"
 - instancia: [[autonomous-kb-failure-modes]] ON "Layer 3 Circularity Problem é o mecanismo subjacente ao pilar 1"
+- emerge-para: [[autoresearch-programme-vitality]] ON "triad diagnostica sessões; Lakatos preenche o gap longitudinal com hard core/protective belt"
 - instancia: [[question-taxonomy]] ON "Simon stopping criterion = pilar 3; Lakatos meta-stopping = degeneração de autoresearch"
 - instancia: [[fast-frugal-heuristics]] ON "ERL 40-60 threshold + Take-the-Best = formalização do pilar 3"
 - formalizado-por: [[sequential-hypothesis-testing]] ON "SPRT dá o N ótimo como função de α, β, e KL — PAC-Bayes e SPRT convergem em ASN ∝ 1/KL"

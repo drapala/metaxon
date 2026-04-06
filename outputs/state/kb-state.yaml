@@ -5,27 +5,34 @@
 
 next_actions:
   - priority: 1
-    action: "/emerge"
-    why: "3 artigos na fila: procurement-variety-gap, autoresearch-reliability-triad, autonomous-kb-failure-modes. Desbloqueado após promote 2026-04-05."
+    action: "/promote raw-design-constraints, evaluation-order-independence, autoresearch-programme-vitality"
+    why: "3 artigos em quarentena com critérios de independência já satisfeitos ou prestes a satisfazer. raw-design-constraints: Gate 3 rodou. evaluation-order-independence e autoresearch-programme-vitality: /challenge pendente."
     blocked_by: null
-    added_by: promote
+    added_by: dream
     added_on: 2026-04-05
   - priority: 2
-    action: "/ingest Self-Preference Bias in LLM-as-a-Judge (arXiv:2410.21819, EMNLP 2025)"
-    why: "Mecanismo causal para self-preference: LLM prefere output com menor perplexidade para si mesmo. Complementa curse-of-knowledge-llm-judge."
+    action: "/prioritize sub-índices"
+    why: "wiki > 80 artigos (atualmente ~87). Ingest threshold exige sub-índices antes de continuar crescendo. _index.md comentário já avisa sobre migração."
     blocked_by: null
-    added_by: challenge
+    added_by: ingest
     added_on: 2026-04-05
-  - priority: 3
+  # [INGERIDO 2026-04-05] Self-Preference Bias in LLM-as-a-Judge → wiki/concepts/self-preference-bias-llm-judge.md
+  - priority: 4
     action: "/ingest Epistemic Diversity & Knowledge Collapse (arXiv:2510.04226)"
     why: "Formaliza semantic convergence com dados empíricos (27 modelos × 155 tópicos). Confirma FM1 com benchmark externo."
     blocked_by: null
     added_by: challenge
     added_on: 2026-04-05
+  - priority: 5
+    action: "/lint-epistemic"
+    why: "ingest_count_since_last_lint = 6 (threshold = 5). Último lint: 2026-04-04."
+    blocked_by: null
+    added_by: ingest
+    added_on: 2026-04-05
 
 readiness_signal:
   can_ingest: true
-  stance_status: "marginal — 23% challenging (limite ~25%). Próxima fonte: neutral ou challenging."
+  stance_status: "marginal — 23% challenging (limite ~25%). gbrain adicionado como challenging. Próxima fonte: neutral ou challenging."
   quarantine_load: "10 artigos em quarentena (11.6% do corpus) — normal"
   bradford: "pausado — Zone3/Zone2 ≈ 1.0"
   next_ingest_candidates:
@@ -35,10 +42,11 @@ readiness_signal:
   warning: null
 
 # ── Estado do ciclo rápido ──────────────────────────────────────────────────────
-emerge_queue: []  # resetado em 2026-04-05 após /emerge
+emerge_queue: []  # resetado após sessão 5 (2026-04-05) — 6 pares avaliados, 1 GENUINE
 
 sessions_since_last_dream: 1
-ingest_count_since_last_lint: 4
+ingest_count_since_last_lint: 6
+last_session_documented: 2026-04-05  # part15
 
 # ── Ciclo lento ──────────────────────────────────────────────────────────────
 slow_cycle:
@@ -60,12 +68,15 @@ ask:
   articles_with_recent_gaps:
     - burocracia-publica-incentivos-auditores  # pressão TCU como contra-incentivo a V(R)
     - autoresearch-peirce-abduction  # abductive inference (Peirce)
-    - multiagent-debate-du-2023  # mitigação self-enhancement em /review
+    - multiagent-debate-du-2023  # mitigação self-enhancement em /review; referência central para oracle não-circular em emergence
     - continual-learning-world-model  # atualização incremental sem re-processar; CLS dá o porquê, não o como
     - streaming-data-pipeline  # ingestão contínua de múltiplas fontes — completamente ausente
     - agent-communication-protocols  # A2A, MCP entre agentes, conflitos concorrentes
     - production-rag-chunking  # chunking para documentos heterogêneos em escala (juridiquês + OCR)
-  last_session: outputs/logs/sessions/2026-04-05/ask-oracle-split-cls.md
+    - storage-agnostic-epistemic-pipeline  # como abstrair storage para que skills não dependam de filesystem
+    - kb-migration-incremental  # migração progressiva file-based → DB-based KB
+    # self-preference-bias-llm-judge — INGERIDO 2026-04-05
+  last_session: outputs/logs/sessions/2026-04-05/ask-post-ingest-hook.md
   synthesize_pending: []
   synthesize_completed:
     - pair: [autonomous-kb-failure-modes, self-improving-agents, groupthink-and-cascades]
@@ -74,6 +85,36 @@ ask:
     - pair: [knowledge-collapse-llm, complementary-learning-systems]
       article: wiki/concepts/raw-design-constraints.md
       status: quarantine  # aguarda promote
+    - pair: [curse-of-knowledge-llm-judge, causal-reasoning-pearl]
+      article: wiki/concepts/evaluation-order-independence.md
+      status: quarantine  # aguarda promote
+    - pair: [autoresearch-reliability-triad, scientific-research-programmes]
+      article: wiki/concepts/autoresearch-programme-vitality.md
+      status: quarantine  # aguarda promote
+
+# ── Programme Health (Lakatos) ─────────────────────────────────────────────────
+# Diagnóstico longitudinal: proporção de ingest confirming vs. geradores de predição nova
+# Threshold: confirming_ratio > 0.8 por N≥10 = programa degenerativo
+# Ver wiki/concepts/autoresearch-programme-vitality.md
+programme_health:
+  confirming_ratio:
+    window: 5          # últimos N ingest considerados
+    confirming: 2      # autonomous-kb-failure-modes, curse-of-knowledge-llm-judge
+    neutral: 3         # causal-reasoning-pearl, multi-agent-memory-consistency, graph-anchored-iterative-retrieval
+    novel_prediction: 0
+    ratio: 0.4         # 2/5 — zona progressiva (< 0.5)
+    last_updated: 2026-04-05
+    note: "N=5 pequeno — tendência requer N≥10 para ser diagnóstica"
+  last_novel_prediction:
+    article: wiki/concepts/autoresearch-reliability-triad.md
+    prediction: "autoresearch KB-internal → taxa confirmação > 80% (L2, testável)"
+    date: 2026-04-04
+  hard_core:
+    # Artigos cujas refutações exigiriam redesenhar o sistema
+    # /challenge nesses = crise de design, não vitória epistêmica
+    # Lista manual — considerar in-degree de wikilinks > 5 como critério automático futuro
+    - wiki/concepts/autoresearch-reliability-triad.md
+    - wiki/concepts/autonomous-kb-failure-modes.md
 
 # ── Filas de ingestão ──────────────────────────────────────────────────────────
 ingest_queue_priority:
@@ -83,8 +124,7 @@ ingest_queue_priority:
   # NOTA: não resolve index maintenance (ephemeral per-query). Resolve /ask iterativo.
   - source: "HetaRAG (arXiv 2509.21336)"
     why: "Gap 1. Pipeline multi-modal: vetores densos + triplas simbólicas + índices invertidos + tabelas normalizadas. Modelo mais concreto de Single Brain encontrado até agora."
-  - source: "Self-Preference Bias in LLM-as-a-Judge (OpenReview 2025)"
-    why: "Confirma Layer 3 Circularity em autonomous-kb-failure-modes. Encontrado em /challenge 2026-04-05."
+  # [INGERIDO 2026-04-05] Self-Preference Bias → wiki/concepts/self-preference-bias-llm-judge.md
   - source: "MAST taxonomy — Why Do Multi-Agent LLM Systems Fail? arXiv 2503.13657"
     why: "14 failure modes em 1600+ traces. Refina Failure Mode 1 (semantic convergence) com dados empíricos."
 
@@ -98,6 +138,12 @@ ingest_queue_single_brain:
   - source: "Legal-DC: LegRAG Framework (arXiv 2603.11772, mar 2026)"
     why: "Gap 4. Clause-boundary segmentation + dual auto-reflexão para documentos jurídicos estruturados. Diretamente aplicável a atas PNCP."
 
+ingest_queue_llm_judge:
+  - source: "Panickssery et al. (2024) — LLM Evaluators Recognize and Favor Their Own Generations (arXiv:2404.13076, NeurIPS 2024)"
+    why: "GPT-4 com 73.5% de self-recognition accuracy + correlação linear entre reconhecimento e força do bias. Evidência concorrente com Wataoka: perplexidade é mecanismo suficiente, não único. Refina self-preference-bias-llm-judge."
+  - source: "Stureborg et al. (2024) — LLMs are Inconsistent and Biased Evaluators (arXiv:2405.01724)"
+    why: "Confirmação independente de familiarity/perplexidade bias. Diretamente confirma o mecanismo de self-preference distribucional."
+
 ingest_queue_autoresearch:
   - source: "Du et al. (2023) — Improving Factuality via Multiagent Debate"
     why: "Mitigação para self-enhancement em /review. Já referenciado em autonomous-kb-failure-modes mas não ingerido."
@@ -106,6 +152,8 @@ ingest_queue_autoresearch:
 
 # ── /emerge ────────────────────────────────────────────────────────────────────
 emerge_top_pairs:
+  # sessão 5 (pós-ingest gbrain, threshold assimétrico GPT>=5 AND Gemini>=8)
+  - autoresearch-programme-vitality x viable-system-model-beer  # L2, GENUINE GPT5/Gem9, stability:tentative (vitality em quarentena)
   # sessão 1 (pré-B2G)
   - self-improving-agents x falsificationism-demarcation  # L2, gradient asymmetry principle
   - scientific-research-programmes x complementary-learning-systems  # L2, dual-rate consolidation
@@ -126,6 +174,15 @@ emerge_top_pairs:
 # ── /challenge ─────────────────────────────────────────────────────────────────
 challenge:
   challenged_since_last_promote:
+    - artigo: position-bias-llm-judge
+      verdict: PUBLICÁVEL
+      data: 2026-04-05
+      claims_survived: 3
+      claims_total: 3
+      claims_invalidated: 0
+      prior_work_found: 5
+      quarantine_criteria_satisfied: adversarial_or_scout_or_prediction
+      challenge_type: clean  # independente do Gate 3, nova arquitetura
     - artigo: autonomous-kb-failure-modes
       verdict: PUBLICÁVEL
       data: 2026-04-05
@@ -133,6 +190,49 @@ challenge:
       claims_total: 3
       prior_work_found: 5
       quarantine_criteria_satisfied: adversarial_or_scout_or_prediction
+    - artigo: causal-reasoning-pearl
+      verdict: PRECISA_CORREÇÃO
+      data: 2026-04-05
+      claims_survived: 2
+      claims_total: 3
+      claims_weakened: 1
+      prior_work_found: 5
+      quarantine_criteria_satisfied: adversarial_or_scout_or_prediction
+      corrections_applied: true
+      predição_adicionada: "L2 claims mais estáveis em replicações que L1 claims (testável)"
+    # --- post_ingest_hook (counts_for_promote: false) ---
+    - artigo: multiagent-debate-du-2023
+      verdict: PRECISA_CORREÇÃO
+      data: 2026-04-05
+      claims_survived: 1
+      claims_total: 3
+      claims_weakened: 2
+      prior_work_found: 5
+      challenge_type: pre_quarantine_check
+      triggered_by: post_ingest_hook
+      counts_for_promote: false
+      corrections_applied: true
+    - artigo: self-preference-bias-llm-judge
+      verdict: PRECISA_CORREÇÃO
+      data: 2026-04-05
+      claims_survived: 1
+      claims_total: 3
+      claims_weakened: 1
+      claims_speculative_moved: 1
+      prior_work_found: 4
+      challenge_type: pre_quarantine_check
+      triggered_by: post_ingest_hook
+      counts_for_promote: false
+      corrections_applied: true
+      interpretation_confidence_downgraded: "high → medium"
+    - artigo: autonomous-emergence-pipeline-risks
+      verdict: SKIPPED
+      data: 2026-04-05
+      challenge_type: pre_quarantine_check
+      triggered_by: post_ingest_hook
+      counts_for_promote: false
+      epistemic_value: none
+      reason: "provenance: emergence sem raw/ — challenge same-session é circular"
 
 # ── /synthesize ────────────────────────────────────────────────────────────────
 synthesize:
@@ -142,11 +242,17 @@ synthesize:
       connection_type: ANÁLOGO-A
       article_created: wiki/concepts/single-brain-data-ontology.md
       status: quarantine  # aguarda promote
+    - pair: [curse-of-knowledge-llm-judge, causal-reasoning-pearl]
+      ask_session: outputs/logs/sessions/2026-04-05/ask-curse-knowledge-pearl.md
+      connection_type: EMERGE-DE
+      article_created: wiki/concepts/evaluation-order-independence.md
+      status: quarantine  # aguarda promote
   completed:
     - pair: [procurement-contract-design, requisite-variety]
       article: wiki/concepts/procurement-variety-gap.md
       status: promoted
 
-last_session_documented: 2026-04-05
-last_updated: 2026-04-05  # synthesize raw-design-constraints
-last_emerge: 2026-04-05
+last_session_documented: 2026-04-05  # part14
+reading_list: outputs/reading-list.md  # Gentner 1983 adicionado — gap 2 (emerge threshold)
+last_updated: 2026-04-05  # ingest gbrain-sqlite-pkm-spec → kb-architecture-patterns Pattern 4
+last_emerge: 2026-04-05  # sessão 5: 1 GENUINE (vitality × VSM)

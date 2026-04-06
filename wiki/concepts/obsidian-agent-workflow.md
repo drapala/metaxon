@@ -72,11 +72,16 @@ This separation prevents LLM-generated content from contaminating the human's tr
 
 "Default frontend/IDE" is extrapolated from 3 practitioners — a small sample. "Graph view" and "community plugins for visualization" are general Obsidian features not mentioned by the cited sources. The "agent vault" framing is our design choice, not Kepano's terminology.
 
+## Prior work que pode invalidar
+
+- GBrain (Garry Tan, 2026): propõe SQLite + FTS5 + vector como alternativa à pasta markdown quando escala > ~7K arquivos. Não invalida a claim de que Obsidian é o frontend padrão hoje, mas adiciona caveata de escala. Documetado em [kb-architecture-patterns](kb-architecture-patterns.md) Pattern 4.
+
 ## Conexões
 
-- [[llm-knowledge-base]] — Obsidian is the default frontend for the raw/ → wiki/ → outputs/ loop
-- [[hybrid-search]] — QMD can index Obsidian vaults as collections for semantic search
-- [[kb-architecture-patterns]] — all 3 practitioner patterns (Karpathy, Elvis, Silveira) use Obsidian
+- instanceOf: [[llm-knowledge-base]] — Obsidian is the default frontend for the raw/ → wiki/ → outputs/ loop
+- complementsAt: [[hybrid-search]] — QMD can index Obsidian vaults as collections for semantic search
+- derivedFrom: [[kb-architecture-patterns]] — all 3 practitioner patterns (Karpathy, Elvis, Silveira) use Obsidian
+- contradicts: [[kb-architecture-patterns]] ON "file-based markdown as default PKM backend at scale" — GBrain (Pattern 4) challenges this past ~7K files
 
 ## Fontes
 

@@ -15,19 +15,19 @@ retrievals_correct: 1
 retrievals_gap: 0
 last_read: 2026-04-05
 provenance: source
-quarantine: true
+quarantine: false
 quarantine_created: 2026-04-04
 quarantine_reason: "retrofit — speculative synthesis"
-quarantine_promoted: null
+quarantine_promoted: 2026-04-05
 quarantine_criteria_met:
   tempo: true
-  review_frio: false
-  adversarial_or_scout_or_prediction: false
+  review_frio: "2026-04-05 — sessão separada, cold review"
+  adversarial_or_scout_or_prediction: "challenge 2026-04-05 + predição falsificável L2 adicionada"
 ---
 
 ## Resumo
 
-Pearl's ladder of causation defines 3 irreducible levels: association (seeing), intervention (doing), counterfactual (imagining). Each level answers different questions and no amount of data at a lower level can derive answers at a higher level. The KB has been operating almost entirely at Level 1. The anomaly "verbal reflection improves but self-assessment fails" requires Level 2-3 reasoning the KB lacked vocabulary for.
+Pearl's ladder of causation defines 3 irreducible levels: association (seeing), intervention (doing), counterfactual (imagining). Each level answers different questions and no amount of data at a lower level can derive answers at a higher level. The KB has been operating almost entirely at Level 1. (⚠️ hipótese, não verificada) O /ask pode ter tropeçado em perguntas contrafactuais porque Level 3 requer causal model explícito — mas o diagnóstico é retroativo e irreproduzível.
 
 ## Conteúdo
 
@@ -113,6 +113,8 @@ A anomalia "verbal reflection melhora mas self-assessment falha":
 
 **Para subir ao Nível 3:** "Se verbal reflection NÃO tivesse sido usada (com mesma ancoragem), o improvement teria sido o mesmo?" Requer um structural causal model do processo de learning-from-experience. Nenhum paper no corpus constrói esse modelo.
 
+(⚠️ hipótese diagnóstica, irreproduzível) Sessões de /ask que tropeçaram em perguntas sobre a anomalia podem ter falhado porque a pergunta era L3 e a KB só tinha evidência L1/L2 — mas o diagnóstico é retroativo. Alternativas: artigos ausentes na época, query mal formulada.
+
 ## Interpretação
 
 A classificação do corpus (tabela acima) é nossa — Pearl não classifica papers de agent memory. A contagem "8 Level 1, 5 Level 2, 0 Level 3" é verificável nos papers mas a CLASSIFICAÇÃO de cada paper é nosso julgamento.
@@ -142,10 +144,19 @@ A designação "perguntas proibidas" é forte — esses claims não são ERRADOS
 - validates: [[question-taxonomy]] — adds causal level as question dimension
 - derivedFrom: [[reflexion-weighted-knowledge-graphs]] — RWKG is a L1 hypothesis (co-occurrence) presented as L2 (mechanism). Pearl exposes this.
 - partOf: [[formal-ontology-for-kbs]] — causal relations are a type the ontology needs
+- emerge-para: [[evaluation-order-independence]] ON "L3 impossível internamente → única solução é intervenção L2 no design externo"
 
 ## Fontes
 
 - [Pearl — Book of Why Ch1-3](../../raw/papers/pearl-book-of-why-ch1-3.md) — ladder of causation (3 levels), do-calculus, hierarchy theorem: levels are formally irreducible
+
+## Predição falsificável
+
+**(L2, testável)** Papers classificados como L2 (intervenção) na tabela acima mostrarão effect size estável em replicações com benchmarks diferentes; papers classificados como L1 (associação) mostrarão alta variância. Fundamento: evidência L2 captura mecanismo causal; L1 captura correlação — correlações são instáveis por construção enquanto mecanismos são transferíveis.
+
+**Teste concreto:** Selecionar 3 claims L2 da tabela (Reflexion ablation, ERL, A-MEM) e 3 claims L1 (LC vs RAG, RAPTOR, CALM). Para cada: checar se outros benchmarks nos mesmos papers reportam effect sizes consistentes. Se L2 tem variância < 20% entre benchmarks e L1 tem variância > 40%, predição confirmada.
+
+**Evidência que refutaria:** L2 papers com effect sizes altamente variáveis entre benchmarks — indicaria que os "mecanismos" identificados são igualmente instáveis, e que a distinção L1/L2 não prediz estabilidade empírica.
 
 ## Quality Gate
 - [x] Wikilinks tipados: 4 substituições (contradicts, validates, derivedFrom, partOf)

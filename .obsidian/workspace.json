@@ -1,0 +1,218 @@
+{
+  "main": {
+    "id": "9054cfd2b471b0d7",
+    "type": "split",
+    "children": [
+      {
+        "id": "12da4321634908c2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "18eb754dbae5ee66",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "02af71178f0c5daa",
+    "type": "split",
+    "children": [
+      {
+        "id": "505ac20f0bf639db",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "dfd329d632199d5d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "90a8b4e8bae16123",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "41eb7c8efe46d957",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "f896d27005ca20f6",
+    "type": "split",
+    "children": [
+      {
+        "id": "ac3811e8a57769b2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a4f6bd18b69cbbe2",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "445b1737b1f7ff9a",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "da0273f35432deab",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "f3f26e5643711694",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "35588c6eae8dc73f",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "18eb754dbae5ee66",
+  "lastOpenFiles": [
+    "outputs/roadmap.md",
+    "outputs/logs/sessions/2026-04-05/challenge-self-preference-bias-llm-judge-hook.md",
+    "outputs/logs/sessions/2026-04-05/challenge-multiagent-debate-du-2023-hook.md",
+    "outputs/logs/sessions/2026-04-05/challenge-autonomous-emergence-pipeline-risks-skip.md",
+    "outputs/logs/sessions/2026-04-05/ask-post-ingest-hook.md",
+    "wiki/concepts/self-preference-bias-llm-judge.md",
+    "wiki/concepts/autonomous-emergence-pipeline-risks.md",
+    "raw/papers/self-preference-bias-llm-judge.md",
+    "wiki/concepts/multiagent-debate-du-2023.md",
+    "outputs/logs/sessions/2026-04-05/ask-circular-oracle.md",
+    "outputs/logs/sessions/2026-04-05/ask-20-25.md",
+    "outputs/logs/sessions/2026-04-05/ingest-gbrain-sqlite-pkm-18-00.md",
+    "raw/notes/gbrain-sqlite-pkm-spec.md",
+    "raw/notes",
+    "outputs/reading-list.md",
+    "outputs/proposals/emerge-threshold-isomorfismo-vs-emergencia.md",
+    "outputs/proposals",
+    "outputs/reports/emerge-rejected-2026-04-05.md",
+    "outputs/logs/sessions/2026-04-05/promote-position-bias-llm-judge-17-35.md",
+    "outputs/logs/sessions/2026-04-05/challenge-position-bias-llm-judge-17-30.md",
+    "outputs/logs/sessions/2026-04-05/challenge-position-bias-llm-judge-17-00.md",
+    "outputs/session-documentation-part15.md",
+    "outputs/reports/prior-work-position-bias-llm-judge.md",
+    "wiki/concepts/position-bias-llm-judge.md",
+    "raw/papers/judging-judges-position-bias-llm-2406.07791.md",
+    "outputs/logs/sessions/2026-04-05/promote-causal-reasoning-pearl.md",
+    "outputs/logs/sessions/2026-04-05/review-causal-reasoning-pearl-cold.md",
+    "scripts/structural-promote-gate.sh",
+    "wiki/concepts/kb-auto-promote-protocol.md",
+    "scripts/check-context-window.sh",
+    "scripts/check-programme-health.sh",
+    "outputs/single-brain/db/fragments.lance/_versions/18446744073709551453.manifest",
+    "outputs/single-brain/db/fragments.lance/_transactions/161-b3a1fc71-2ef2-4693-9356-b3f105bd1de5.txn",
+    "outputs/single-brain/db/fragments.lance/data/00100011010101001101011086be514bac8591003e08e5a635.lance",
+    "outputs/single-brain/db/fragments.lance/_transactions/160-73d97113-1245-4983-95a2-78b4e10114b6.txn",
+    "outputs/single-brain/db/fragments.lance/_versions/18446744073709551455.manifest"
+  ]
+}

@@ -16,16 +16,19 @@ sources:
   - path: raw/papers/lm-know-what-they-know.md
     type: paper
     quality: primary
+  - path: raw/papers/judging-judges-position-bias-llm-2406.07791.md
+    type: paper
+    quality: primary
 created: 2026-04-03
-updated: 2026-04-03
+updated: 2026-04-05
 tags: [evaluation, bias, reliability, quality]
 source_quality: high
 interpretation_confidence: high
 resolved_patches: []
-reads: 0
-retrievals_correct: 0
+reads: 1
+retrievals_correct: 1
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-05
 provenance: synthesis
 synthesis_sources:
   - wiki/concepts/self-improving-agents.md
@@ -136,6 +139,7 @@ Nenhuma interpretação significativa neste artigo — conteúdo é factual dire
 - [[context-management]] — position bias means _index.md ordering may affect /ask article selection
 - [[memory-consolidation]] — /review (LLM judging wiki quality) is susceptible to self-enhancement bias
 - [[tension-resolution]] — bias-aware resolution protocol informed by CALM and JudgeBench findings
+- partOf: [[position-bias-llm-judge]] ON "Shi et al. (2025) provides L2 evidence for position bias via position-swapping do-operator; PC=0.57–0.82 across judges; worst in close-quality comparisons"
 
 ## Fontes
 

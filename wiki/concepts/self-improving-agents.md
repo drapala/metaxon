@@ -181,6 +181,7 @@ Our pipeline loosely parallels self-improvement patterns:
 - [[agent-memory-architectures]] — memory structures that enable self-improvement
 - [[multi-agent-orchestration]] — Agent KB enables cross-framework knowledge transfer
 - emerge-para: [[autoresearch-reliability-triad]] ON "Reflexion: grounding = testes executáveis (não leitura); Absolute Zero como oracle externo independente"
+- contradicts: [[causal-reasoning-pearl]] ON "Pearl hierarchy exposes: verbal reflection CORRELATES with improvement (L1/associação) — mechanism claim (L2/intervenção) requires ablation isolating verbalidade from ancoragem; not yet done at adequate scale"
 
 ## Fontes
 

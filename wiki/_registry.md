@@ -2,6 +2,8 @@
 
 | Path | Processed | Type | Quality | Stance | Concepts | Status |
 |------|-----------|------|---------|--------|----------|--------|
+| wiki/concepts/evaluation-order-independence.md | 2026-04-05 | synthesis | primary | neutral | curse-of-knowledge-llm-judge,causal-reasoning-pearl | processed |
+| wiki/concepts/autoresearch-programme-vitality.md | 2026-04-05 | synthesis | primary | neutral | autoresearch-reliability-triad,scientific-research-programmes | processed |
 | raw/articles/claude-code-internals-harness-engineering.md | 2026-04-03 | article | primary | confirming | context-management, memory-consolidation, multi-agent-orchestration | processed |
 | raw/papers/deep-research-survey-autonomous-agents.md | 2026-04-03 | paper | primary | confirming | autonomous-research-agents, multi-agent-orchestration | processed |
 | raw/articles/qmd-query-markup-documents.md | 2026-04-03 | repo | primary | confirming | hybrid-search | processed |
@@ -32,7 +34,8 @@
 | raw/papers/em-llm-human-episodic-memory.md | 2026-04-03 | paper | primary | challenging | agent-memory-architectures | processed |
 | raw/papers/knowledge-conflicts-llms-survey.md | 2026-04-03 | paper | primary | neutral | tension-resolution | processed |
 | raw/papers/lm-know-what-they-know.md | 2026-04-03 | paper | primary | challenging | llm-as-judge | processed |
-| raw/papers/multiagent-debate-factuality.md | 2026-04-03 | paper | primary | challenging | autonomous-kb-failure-modes | processed |
+| raw/papers/multiagent-debate-factuality.md | 2026-04-03 | paper | primary | confirming | autonomous-kb-failure-modes, multiagent-debate-du-2023 | processed |
+| wiki/concepts/multiagent-debate-du-2023.md | 2026-04-05 | source | primary | confirming | autonomous-kb-failure-modes,autoresearch-reliability-triad,llm-as-judge,evaluation-order-independence | quarantine |
 | raw/papers/self-rag-retrieve-generate-critique.md | 2026-04-03 | paper | primary | neutral | retrieval-augmented-generation | processed |
 | raw/papers/model-collapse-recursive-training.md | 2026-04-03 | paper | primary | challenging | autonomous-kb-failure-modes | processed |
 | raw/papers/wikipedia-era-llms-risks.md | 2026-04-03 | paper | primary | challenging | llm-knowledge-base, autonomous-kb-failure-modes | processed |
@@ -122,3 +125,9 @@
 | raw/papers/curse-of-knowledge-llm-judge-bias.md | 2026-04-05 | paper | primary | challenging | curse-of-knowledge-llm-judge,autonomous-kb-failure-modes,llm-as-judge | processed |
 | raw/papers/knowledge-collapse-recursive-synthetic-training.md | 2026-04-05 | paper | primary | confirming | knowledge-collapse-llm,autonomous-kb-failure-modes,self-improving-agents | processed |
 | wiki/concepts/raw-design-constraints.md | 2026-04-05 | synthesis | primary | neutral | knowledge-collapse-llm,complementary-learning-systems | processed |
+| raw/papers/judging-judges-position-bias-llm-2406.07791.md | 2026-04-05 | paper | primary | confirming | position-bias-llm-judge,llm-as-judge,evaluation-order-independence | processed |
+| wiki/concepts/position-bias-llm-judge.md | 2026-04-05 | source | primary | confirming | llm-as-judge,evaluation-order-independence,causal-reasoning-pearl | quarantine |
+| raw/notes/gbrain-sqlite-pkm-spec.md | 2026-04-05 | note | secondary | challenging | kb-architecture-patterns,obsidian-agent-workflow | processed |
+| wiki/concepts/autonomous-emergence-pipeline-risks.md | 2026-04-05 | synthesis | primary | neutral | judgment-aggregation,autoresearch-reliability-triad,autonomous-kb-failure-modes,llm-as-judge | quarantine |
+| raw/papers/self-preference-bias-llm-judge.md | 2026-04-05 | paper | primary | confirming | self-preference-bias-llm-judge,llm-as-judge,autonomous-kb-failure-modes | processed |
+| wiki/concepts/self-preference-bias-llm-judge.md | 2026-04-05 | source | primary | confirming | llm-as-judge,autonomous-kb-failure-modes,curse-of-knowledge-llm-judge,position-bias-llm-judge | quarantine |

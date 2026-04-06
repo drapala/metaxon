@@ -16,10 +16,10 @@ source_quality: high
 interpretation_confidence: high
 resolved_patches: []
 provenance: source
-reads: 0
-retrievals_correct: 0
+reads: 1
+retrievals_correct: 1
 retrievals_gap: 0
-last_read: 2026-04-04
+last_read: 2026-04-05
 quarantine: false
 ---
 
@@ -98,6 +98,7 @@ Kuhn vê revoluções como mudanças de gestalt "não-racionais" — conversão,
 - complementsAt: [[falsificationism-demarcation]] ON "when is an adjustment ad hoc?" — Popper deixa sem resposta; Lakatos responde com a estrutura hard core/protective belt e progressivo/degenerativo
 - complementsAt: [[question-taxonomy]] ON "Lakatos-style question as challenge to programme" — question-taxonomy já referencia Lakatos; este artigo fornece a estrutura completa
 - contradicts: [[curation-anti-bias]] ON "paradigm shifts as methodology" — curation-anti-bias sugere "questionar paradigmas ativamente"; Lakatos: programas de pesquisa devem ser protegidos de falsificação fácil — a proteção é racional, não dogmática
+- emerge-para: [[autoresearch-programme-vitality]] ON "hard core/protective belt + critério progressivo/degenerativo aplicado à evolução longitudinal da KB"
 
 ## Fontes
 

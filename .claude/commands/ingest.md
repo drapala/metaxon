@@ -137,16 +137,12 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
     - [ ] Resumo calibrado: [sim/não — alterado/mantido]
     ```
 
-13. **Quarantine Check** (após Quality Gate):
-    Conte items em "### Especulação" na seção "## Níveis epistêmicos".
-    Se count >= 3 OU interpretation_confidence: low:
-    - Adicione ao frontmatter: `quarantine: true`,
-      `quarantine_created: [data]`, `quarantine_reason: "[N] especulações"`
-    - Adicione aviso ao final:
-      `> ⚠️ QUARENTENA: artigo não pode ser linkado por outros até /promote.`
-    Se count < 3 E confidence high/medium: `quarantine: false` (padrão).
-    Inspirado em Janis (1972): "second-chance meeting" — síntese precisa
-    de cooling-off antes de cristalizar no grafo.
+13. **Auto-Promote** (após Quality Gate):
+    Invoque `/auto-promote [artigo]` imediatamente.
+    O comando executa 4 gates automáticos e decide: promover ou quarentenar com razão específica.
+    Não defina `quarantine:` manualmente — o /auto-promote define.
+    Se o artigo for quarentenado, adicione ao final:
+      `> ⚠️ QUARENTENA: [motivo do gate]. Revisão humana necessária.`
 
 14. **Quarantine cross-check:** Após gerar artigo novo, verifique:
     "Algum artigo em quarentena tem claims que este novo paper confirma?"
@@ -178,6 +174,8 @@ Atualize `outputs/state/kb-state.yaml`:
    - Se stance challenging > 25%: `can_ingest: true`, `stance_status: "saudável"`
    - Atualize `next_ingest_candidates` com os itens do topo de `ingest_queue_priority` e `ingest_queue_autoresearch`
 5. Atualize `next_actions`:
-   - Se artigo criado entrou em quarentena: adicione `/promote [artigo]` (blocked até 24h)
+   - Se artigo entrou em quarentena por Gate 1/2: adicione `/review [artigo]` (humano necessário)
+   - Se artigo entrou em quarentena por Gate 3 (weakened): adicione `/challenge [artigo]` para humano decidir se correção é menor
+   - Se artigo foi auto-promoted: nenhuma entrada de promoção necessária
    - Se `ingest_count_since_last_lint >= 5`: adicione `/lint-epistemic`
    - Remova da fila `ingest_queue_priority` o item que acabou de ser ingerido

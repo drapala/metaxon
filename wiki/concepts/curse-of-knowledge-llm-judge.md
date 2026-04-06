@@ -93,6 +93,7 @@ Isso refina o Layer 3 Circularity de duas formas:
 - [[llm-as-judge]] — evidência empírica adicional de que judges com contexto auxiliar são sistematicamente biased; EMNLP 2025 com modelos recentes (DeepSeek-R1, QwQ-32B, o4-mini)
 - [[autoresearch-reliability-triad]] — o triad identifica circularity como failure mode; este paper nomeia o mecanismo proximal
 - [[self-improving-agents]] — Reflexion degradation (52%) e reference-anchoring bias são dois mecanismos distintos que convergem para o mesmo Layer 3 failure
+- emerge-para: [[evaluation-order-independence]] ON "reference-anchoring bias degrada julgamento quando referência precede avaliação"
 
 ## Fontes
 

@@ -74,6 +74,11 @@ Contexto antes: [CONTEXT_BEFORE]%
 Trigger: [motivo]
 ```
 
+## Passo 5 — Invoca /document-session
+
+Imediatamente após o Passo 4, execute o comando `/document-session`.
+Não espere instrução do usuário — faz parte do ciclo /dream.
+
 ## Quando rodar
 
 - Quando session-start reportar 🔴 (contexto >= 70%)

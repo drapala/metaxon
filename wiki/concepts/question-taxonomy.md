@@ -187,6 +187,7 @@ This taxonomy is our synthesis — Miles, Chang, Eno, Popper, Lakatos, AHRQ, and
 - [[llm-as-judge]] — "Do you agree?" is a prohibited question due to self-enhancement bias
 - [[kb-architecture-patterns]] — Lakatos's progressive vs degenerating directly evaluates KB health
 - [[reflexion-weighted-knowledge-graphs]] — Popper's bold conjectures: RWKG is a testable hypothesis, not a proven architecture
+- complementa: [[causal-reasoning-pearl]] ON "adds causal level (L1/L2/L3) as orthogonal dimension to question classification — 'what level of evidence does this question require?'"
 
 ## Fontes
 

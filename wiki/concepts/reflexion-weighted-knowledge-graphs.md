@@ -127,6 +127,7 @@ The honest assessment: RWKG named a combination that was independently implement
 - [[retrieval-augmented-generation]] — HippoRAG's incremental edge addition is the base retrieval mechanism
 - [[tension-resolution]] — tensions are the signal that edge weights should change
 - [[llm-as-judge]] — self-enhancement bias is the primary risk in autonomous edge weight modification
+- contradicts: [[causal-reasoning-pearl]] ON "Pearl: verbal reflection → edge weight is L1 hypothesis (correlation); ablation (do(no-verbal-reflection) com ancoragem controlada) seria necessário para claim L2 (mecanismo)"
 
 ## Fontes
 
