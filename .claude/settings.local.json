@@ -1,0 +1,112 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:arxiv.org)",
+      "mcp__llm-kb__kb_search",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:gist.githubusercontent.com)",
+      "WebFetch(domain:www.axios.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "Skill(schedule)"
+    ]
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/check-context-window.sh",
+            "timeout": 8,
+            "statusMessage": "Checking context window..."
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
+            "timeout": 5,
+            "statusMessage": "Logging command_started event..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
+            "timeout": 5,
+            "statusMessage": "Logging telemetry event..."
+          },
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/enrich-from-pdf.sh",
+            "timeout": 30,
+            "statusMessage": "Checking for arxiv PDF to enrich..."
+          },
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/check-over-synthesis.sh",
+            "timeout": 5,
+            "statusMessage": "Checking for over-synthesis..."
+          },
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/check-programme-health.sh",
+            "timeout": 5,
+            "statusMessage": "Checking programme health (Lakatos)..."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
+            "timeout": 5,
+            "statusMessage": "Logging telemetry event..."
+          },
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/check-over-synthesis.sh",
+            "timeout": 5,
+            "statusMessage": "Checking for over-synthesis..."
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/drapala/projects/llm-kb/scripts/kb-telemetry.sh",
+            "timeout": 5,
+            "statusMessage": "Logging telemetry event..."
+          }
+        ]
+      },
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /Users/drapala/projects/llm-kb/scripts/track-skill-usage.py",
+            "timeout": 10,
+            "statusMessage": "Tracking skill usage..."
+          }
+        ]
+      }
+    ]
+  }
+}

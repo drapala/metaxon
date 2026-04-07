@@ -286,6 +286,85 @@ Contexto antes: [CONTEXT_BEFORE]%
 Trigger: [motivo]
 ```
 
+## Passo 4.5 — Fase X: COST REPORT
+
+Leia `outputs/reports/skill-usage.jsonl`. Filtre registros do dia atual (campo `ts` começa com hoje YYYY-MM-DD). Se não houver registros, pule silenciosamente.
+
+Se houver registros insuficientes via hook (< 3 entradas), execute primeiro:
+
+```bash
+source .venv/bin/activate
+python3 scripts/parse-session-logs.py --date $(date +%Y-%m-%d)
+```
+
+Depois releia o JSONL.
+
+### Tabela 1 — Custo por skill
+
+Agrupe por `skill`. Para cada skill:
+
+| skill | calls | input_tokens | output_tokens | cost_usd | p50_duration_ms |
+|---|---|---|---|---|---|
+
+`p50_duration_ms`: mediana dos `duration_ms` não-zero. Se todos zero (hook não capturou timing), omitir coluna.
+
+### Tabela 2 — Capital allocation (custo por resultado)
+
+Cruza registros de skill-usage.jsonl com os logs da sessão do dia para contar outcomes:
+
+| métrica | count | custo_total_usd | custo_médio_usd |
+|---|---|---|---|
+| artigos promovidos | N | X | X |
+| challenges válidos (outcome=APPROVED ou verdict=PUBLICÁVEL) | N | X | X |
+| patches auto-aplicados | N | X | X |
+| retrievals confirmados (completion_tracking) | N | X | X |
+| oracles concordantes (oracle.agreement=true) | N | X | X |
+| oracles em SPLIT (oracle.agreement=false) | N | X | X |
+
+Para counts: leia kb-state.yaml (`challenge.challenged_since_last_promote`, `completion_tracking`) e session logs do dia.
+
+### Tabela 3 — Custo oracle vs. Claude
+
+Agrupe registros com `oracle != null`:
+
+| model | calls | cost_usd | agreement_rate |
+|---|---|---|---|
+
+Linha final: `total_oracle_cost_usd / total_claude_cost_usd = ratio` — mede quanto do orçamento vai para validação externa.
+
+### Linha final
+
+```
+Custo total da sessão: $X.XXXX
+Oracle ratio: XX% (validação externa / custo Claude)
+```
+
+### Salva relatório
+
+Escreva em `outputs/reports/pipeline-cost-YYYY-MM-DD.md`:
+
+```markdown
+---
+date: YYYY-MM-DD
+total_cost_usd: X.XXXX
+oracle_ratio: X.XX
+---
+
+## Custo por Skill
+[tabela 1]
+
+## Capital Allocation
+[tabela 2]
+
+## Custo Oracle
+[tabela 3]
+
+## Total
+Custo total: $X.XXXX | Oracle ratio: XX%
+```
+
+---
+
 ## Passo 5 — Invoca /document-session
 
 Imediatamente após o Passo 4, execute o comando `/document-session`.
