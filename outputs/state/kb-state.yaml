@@ -94,9 +94,9 @@ ingest_chain:
   origin_article: null
   last_challenge: 2026-04-06  # raw-design-constraints — CHAIN_IGNORED (no INVALIDA)
   status: open # closed after 1 INVALIDA auto-ingested; reset on manual /ingest
-sessions_since_last_dream: 0  # reset após dream 2026-04-06 (2x)
+sessions_since_last_dream: 1
 ingest_count_since_last_lint: 0  # reset após lint 2026-04-06 run2
-last_session_documented: 2026-04-06 # part19
+last_session_documented: 2026-04-06 # part20
 # ── Ciclo lento ──────────────────────────────────────────────────────────────
 slow_cycle:
   lint:
