@@ -146,3 +146,6 @@
 | wiki/concepts/emergent-coordination-measurement.md | 2026-04-06 | source | primary | neutral | partial-information-decomposition,multi-agent-orchestration,groupthink-and-cascades | quarantine |
 | raw/papers/agents-of-chaos-shapira-2026.md | 2026-04-06 | paper | primary | confirming | autonomous-kb-failure-modes,agentic-security,cross-agent-propagation | processed |
 | raw/papers/neurosymbolic-grounding-luong-2026.md | 2026-04-06 | paper | primary | confirming | formal-ontology-for-kbs,inverse-parametric-knowledge,neurosymbolic | processed |
+| wiki/concepts/neurosymbolic-ai-for-kbs.md | 2026-04-06 | source | primary | confirming | neurosymbolic,formal-ontology-for-kbs,inverse-parametric-knowledge,llm-grounding | quarantine |
+| wiki/concepts/structural-coupling-maturana.md | 2026-04-06 | emergence | low | neutral | autopoiese,acoplamento-estrutural,co-evolução,viable-system-model-beer | quarantine |
+| wiki/concepts/upper-ontology-for-kbs.md | 2026-04-06 | synthesis | primary | confirming | ontology,class-hierarchy,bfo,hindsight-networks,formal-ontology-for-kbs,single-brain-data-ontology | quarantine |
