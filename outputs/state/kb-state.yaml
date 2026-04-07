@@ -111,6 +111,20 @@ emerge_queue:
     stability: tentative
     added_by: foresight
     added_on: "2026-04-07"
+  - pair:
+      - strategy/kalshib-t0-rag
+      - concepts/epistemic-necessity-tool-use
+    stability: tentative
+    note: epistemic-necessity-tool-use em quarentena
+    added_by: foresight
+    added_on: "2026-04-07"
+  - pair:
+      - strategy/kalshib-t0-rag
+      - strategy/metaxon-federation-protocol
+    stability: tentative
+    note: 'Propriedade 6: calibração ≠ concordância — Braço C testa este claim'
+    added_by: foresight
+    added_on: "2026-04-07"
 # resetado após sessão 9 (2026-04-06) — 4 artigos processados, 3 GENUINE: vsm×CLS, debate×JA, block×CLS
 
 ingest_chain:
