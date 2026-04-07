@@ -71,14 +71,13 @@ next_actions:
     added_on: "2026-04-06"
 readiness_signal:
   can_ingest: true
-  stance_status: "marginal — 23% challenging (limite ~25%). gbrain adicionado como challenging. Próxima fonte: neutral ou challenging."
-  quarantine_load: "10 artigos em quarentena (11.6% do corpus) — normal"
-  bradford: "pausado — Zone3/Zone2 ≈ 1.0"
+  stance_status: "borderline — 23.3% challenging cumulativo (OK), mas meses recentes exatamente em 20%. Próxima fonte DEVE ser challenging."
+  quarantine_load: "18 artigos em quarentena (18.0% do corpus) — ⚠️ acima de 15%"
+  bradford: "pausa — Zone3/Zone2 ≈ 0.85 (ok, sem alerta)"
   next_ingest_candidates:
-    - "Self-Preference Bias in LLM-as-a-Judge (2025) — neutral"
-    - "MAST taxonomy arXiv 2503.13657 (2025) — neutral"
-    - "Du et al. (2023) Multiagent Debate — neutral"
-  warning: null
+    - "Epistemic Diversity & Knowledge Collapse arXiv:2510.04226 — challenging (prioridade)"
+    - "MAST taxonomy arXiv 2503.13657 — neutral (postergar se stance não recuperar)"
+  warning: "quarantine_rate 18% > 15% — priorizar /challenge raw-design-constraints e evaluation-order-independence"
 # ── Estado do ciclo rápido ──────────────────────────────────────────────────────
 emerge_queue: []
 # resetado após sessão 9 (2026-04-06) — 4 artigos processados, 3 GENUINE: vsm×CLS, debate×JA, block×CLS
@@ -88,8 +87,8 @@ ingest_chain:
   origin_article: null
   last_challenge: null
   status: open # closed after 1 INVALIDA auto-ingested; reset on manual /ingest
-sessions_since_last_dream: 5
-ingest_count_since_last_lint: 5
+sessions_since_last_dream: 0  # reset após dream 2026-04-06 (2x)
+ingest_count_since_last_lint: 0  # reset após lint 2026-04-06 run2
 last_session_documented: 2026-04-06 # part19
 # ── Ciclo lento ──────────────────────────────────────────────────────────────
 slow_cycle:
@@ -97,19 +96,26 @@ slow_cycle:
     last_run: 2026-04-06
     alerts:
       - type: quarantine_rate
-        value: 14.6%
+        value: 18.0%
         threshold: 15%
-        message: "14 artigos quarentenados (14.6% de ~96). 3 promovidos nesta sessão — abaixo de 15%."
+        message: "18 artigos quarentenados (18.0% de 100). Acima de 15% — priorizar /challenge + /promote."
+      - type: stance_gauge_borderline
+        value: "20.0%"
+        threshold: 20%
+        message: "Meses 2026-04 e 2026-05 exatamente no limite de 20% challenging. Próxima ingestão deve ser challenging."
     findings:
-      stance_core: "26.1% challenging (69 core sources) — OK"
-      bradford: "Zone3/Zone2 = 0.855 — ok"
-      hub_health: "64.0% artigos reads=0 — normal para retrieval via /ask"
-      quarantine_count: "17 quarentenados (6 prontos para /promote)"
-    report: outputs/reports/epistemic-lint-2026-04-06.md
+      stance_core: "23.3% challenging (21/90 core sources) — OK cumulativo; meses recentes no limite"
+      bradford: "Zone3/Zone2 ≈ 0.85 — pausa (0.8–1.2)"
+      hub_health: "58% artigos reads=0; 23 hubs in-degree≥5 nunca lidos diretamente"
+      quarantine_count: "18 quarentenados (3 prontos para /promote: raw-design-constraints, evaluation-order-independence, prometheus-as-nlah-substrate)"
+      synthesis_ratio: "não mensurável — circuit breaker (86/100 artigos sem seções epistêmicas no formato esperado)"
+    report: outputs/reports/epistemic-lint-2026-04-06b.md
+    corpus:
+      quarantined_articles: 18
   dream:
-    last_run: 2026-04-05
-    context_before_pct: 11.9
-    triggered_by: manual
+    last_run: 2026-04-06
+    context_before_pct: 89.1
+    triggered_by: context
 # ── /ask ───────────────────────────────────────────────────────────────────────
 ask:
   articles_with_recent_gaps:
@@ -382,5 +388,76 @@ synthesize:
       status: quarantine # aguarda promote
 last_session_documented: "2026-04-06" # part17
 reading_list: outputs/reading-list.md # Gentner 1983 adicionado — gap 2 (emerge threshold)
+# Rastreia artigos auto-completados para validação de retrieval (Fase 0.5 do /dream)
+# Fase 0.4 escreve aqui; Fase 0.5 lê e preenche reads_after_7d
+completion_tracking: {}
+
+stub_completion_queue:
+  updated: 2026-04-06
+  total_stubs: 9
+  entries:
+    - stem: procurement-renegotiation
+      source: raw/papers/tirole-1986-procurement-renegotiation-jpe.md
+      in_degree: 5
+      reads: 1
+      completion_priority: 11
+      option_b_eligible: false
+      ineligibility_reason: "in_degree=5 >= 5"
+    - stem: information-asymmetry-b2g
+      source: raw/papers/tirole-1986-procurement-renegotiation-jpe.md
+      in_degree: 4
+      reads: 0
+      completion_priority: 8
+      option_b_eligible: true
+      ineligibility_reason: null
+    - stem: incentive-theory-procurement
+      source: raw/papers/laffont-tirole-1993-theory-incentives-procurement.md
+      in_degree: 2
+      reads: 1
+      completion_priority: 5
+      option_b_eligible: true
+      ineligibility_reason: null
+    - stem: audit-deterrence-corruption
+      source: raw/papers/olken-2007-monitoring-corruption.md
+      in_degree: 3
+      reads: 0
+      completion_priority: 6
+      option_b_eligible: true
+      ineligibility_reason: null
+    - stem: electoral-accountability-corruption
+      source: raw/papers/ferraz-finan-2011-electoral-accountability-corruption.md
+      in_degree: 2
+      reads: 0
+      completion_priority: 4
+      option_b_eligible: true
+      ineligibility_reason: null
+    - stem: procurement-contract-design
+      source: raw/papers/bajari-tadelis-2001-incentives-transaction-costs.md
+      in_degree: 2
+      reads: 1
+      completion_priority: 5
+      option_b_eligible: true
+      ineligibility_reason: null
+    - stem: audit-risk-rent-extraction
+      source: raw/papers/zamboni-litschig-2018-audit-risk-rent-extraction.md
+      in_degree: 1
+      reads: 0
+      completion_priority: 2
+      option_b_eligible: true
+      ineligibility_reason: null
+    - stem: corruption-dynamics
+      source: raw/papers/niehaus-sukhtankar-2013-corruption-dynamics.md
+      in_degree: 0
+      reads: 0
+      completion_priority: 0
+      option_b_eligible: true
+      ineligibility_reason: null
+    - stem: procurement-manipulation-signals
+      source: raw/papers/decarolis-2020-procurement-manipulation.md
+      in_degree: 0
+      reads: 0
+      completion_priority: 0
+      option_b_eligible: true
+      ineligibility_reason: null
 last_updated: "2026-04-06" # /emerge sessão 9: 3 GENUINE (vsm×CLS, debate×JA, block×CLS)
 last_emerge: 2026-04-05 # sessão 5: 1 GENUINE (vitality × VSM)

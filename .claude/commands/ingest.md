@@ -193,6 +193,51 @@ Compare raw/ com wiki/_registry.md. Para cada fonte nova:
     - _index.md: 1 ponteiro por artigo (~150 chars: título + contexto mínimo)
     Ordem importa: artigo primeiro → índice depois. Nunca o contrário.
 
+15.5. **Stub-wiki queue** — para cada fonte registrada com status `stub-wiki`:
+
+    Compute `completion_priority` para o(s) conceito(s) da fonte:
+    ```bash
+    python3 - <<'EOF'
+    import re, sys
+    from pathlib import Path
+    from collections import Counter
+
+    concept_slugs = sys.argv[1:]  # slugs dos concepts da fonte stub-wiki
+    wiki_dir = Path("wiki/concepts")
+    in_degree = Counter()
+    reads_map = {}
+    for f in wiki_dir.glob("*.md"):
+        if f.stem.startswith("_"): continue
+        text = f.read_text()
+        for link in re.findall(r'\[\[([^\]|#]+)', text):
+            in_degree[link.strip().lower().replace(' ', '-')] += 1
+        m = re.search(r'^reads:\s*(\d+)', text, re.MULTILINE)
+        reads_map[f.stem] = int(m.group(1)) if m else 0
+
+    for slug in concept_slugs:
+        deg = in_degree.get(slug, 0)
+        reads = reads_map.get(slug, 0)
+        print(f"{slug}  in_degree={deg}  reads={reads}  priority={deg*2+reads}")
+    EOF
+    ```
+    Passe os slugs dos concepts como argv (ex: `python3 - procurement-renegotiation incentive-theory-procurement`).
+
+    Adicione cada conceito a `stub_completion_queue` em `outputs/state/kb-state.yaml`:
+    ```yaml
+    stub_completion_queue:
+      updated: YYYY-MM-DD
+      entries:
+        - stem: concept-slug
+          source: raw/papers/fonte.md   # fonte raw/ que gerou o stub
+          in_degree: N
+          reads: N
+          completion_priority: N
+          option_b_eligible: true|false  # false se in_degree >= 5 ou sem fontes raw/
+          ineligibility_reason: null | "in_degree=N >= 5"
+    ```
+    Se o conceito já está na fila: atualize `in_degree`, `reads`, `completion_priority`.
+    Não duplicar entradas — use o stem como chave.
+
 16. **Log de occurrent:** Salve log da sessão em
     `outputs/logs/sessions/YYYY-MM-DD/ingest-[source-slug]-HH-MM.md`
     segundo schema em `wiki/meta/process-log.md`.

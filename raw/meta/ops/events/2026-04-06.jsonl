@@ -237,3 +237,17 @@
 {"ts":"2026-04-07T00:58:47Z","event":"article_written","surface":"wiki","file":"emergent-coordination-measurement.md","session":"11f29fba"}
 {"ts":"2026-04-07T00:59:10Z","event":"state_written","surface":"state","file":"_index.md","session":"0c40b500"}
 {"ts":"2026-04-07T00:59:20Z","event":"state_written","surface":"state","file":"_registry.md","session":"518755eb"}
+{"ts":"2026-04-07T01:18:57Z","event":"state_read","surface":"state","file":"kb-state.yaml","signal":"state_lookup","session":"524f3973"}
+{"ts":"2026-04-07T01:18:57Z","event":"state_read","surface":"state","file":"kb-state.yaml","signal":"state_lookup","session":"b3693b93"}
+{"ts":"2026-04-07T01:19:05Z","event":"state_read","surface":"state","file":"_registry.md","signal":"state_lookup","session":"36434d25"}
+{"ts":"2026-04-07T01:19:05Z","event":"state_read","surface":"state","file":"_registry.md","signal":"state_lookup","session":"cfbd52d1"}
+{"ts":"2026-04-07T01:27:52Z","event":"state_written","surface":"state","file":"kb-state.yaml","session":"0d70b617"}
+{"ts":"2026-04-07T01:28:04Z","event":"state_written","surface":"state","file":"kb-state.yaml","session":"13ca6a4c"}
+{"ts":"2026-04-07T01:28:15Z","event":"state_written","surface":"state","file":"kb-state.yaml","session":"97af218a"}
+{"ts":"2026-04-07T01:43:36Z","event":"state_written","surface":"state","file":"kb-state.yaml","session":"24fc326f"}
+{"ts":"2026-04-07T01:46:05Z","event":"state_read","surface":"state","file":"kb-state.yaml","signal":"state_lookup","session":"41d747ff"}
+{"ts":"2026-04-07T01:46:05Z","event":"state_read","surface":"state","file":"kb-state.yaml","signal":"state_lookup","session":"a6d30c72"}
+{"ts":"2026-04-07T01:46:08Z","event":"state_written","surface":"state","file":"kb-state.yaml","session":"84fda582"}
+{"ts":"2026-04-07T01:46:12Z","event":"state_written","surface":"state","file":"kb-state.yaml","session":"66407a9d"}
+{"ts":"2026-04-07T01:50:27Z","event":"state_written","surface":"state","file":"kb-state.yaml","session":"df3a0d52"}
+{"ts":"2026-04-07T01:50:59Z","event":"state_written","surface":"state","file":"kb-state.yaml","session":"60d3abbe"}

@@ -53,15 +53,34 @@ Zone3/Zone2 atual: X.XX → [expandir / pausa / ok]
 
 ## Passo 2 — Synthesis ratio
 
+O template atual usa `## Conteúdo` (claims factuais) e `## Interpretação` (síntese, analogias, "therefore" claims).
+Formatos legados com `### Especulação` / `### Descrição` também devem ser detectados.
+
 Para cada artigo em `wiki/concepts/*.md` (excluindo `_index*.md`):
-- Conte itens em seção `### Especulação` (linhas começando com `-` dentro dessa seção)
-- Conte itens em `### Descrição` + `### Interpretação` como proxy de claims totais
-- Compute: speculation_items / total_items por artigo
 
-Agregue: % de artigos com speculation_ratio > 50% (sinal de over-synthesis estrutural).
+**Detecção de seções (em ordem de prioridade):**
+1. Se tem `## Interpretação` → é o proxy de síntese (template atual)
+   Se tem `## Conteúdo` → é o proxy de claims factuais
+2. Se tem `### Especulação` → formato legado para síntese
+   Se tem `### Descrição` → formato legado para claims factuais
+3. Se nenhum dos dois formatos → artigo sem seções epistêmicas mensuráveis
 
-Não leia todos os arquivos de uma vez. Use Glob para listar, depois leia em lotes.
-Circuit breaker: se ≥10 artigos sem seções epistêmicas (sem `### Especulação` nem `### Descrição`), note como "artigos sem níveis epistêmicos" — não tente inferir.
+**Cômputo por artigo:**
+- `conteudo_items` = linhas começando com `-` em `## Conteúdo` (ou `### Descrição`)
+- `interpretacao_items` = linhas começando com `-` em `## Interpretação` (ou `### Especulação`)
+- `synthesis_ratio` = interpretacao_items / (conteudo_items + interpretacao_items)
+- Artigos onde `## Interpretação` está vazia têm ratio = 0 (puramente factuais — bom sinal)
+
+**Agregação:**
+- % de artigos com synthesis_ratio > 50% (sinal de over-synthesis estrutural)
+- % de artigos com `## Interpretação` vazia (puramente factuais)
+- Lista dos 3 com maior ratio
+
+Não leia todos os arquivos de uma vez. Use Bash com python3 para processar em lote.
+
+Circuit breaker: se ≥10 artigos sem NENHUMA seção epistêmica detectável (nem formato atual nem legado),
+note como "artigos sem seções epistêmicas" E reporte o formato encontrado como evidência —
+o problema pode ser de detecção, não de ausência real. Não tente inferir ratio nesses artigos.
 
 ## Passo 3 — Quarantine rate
 
