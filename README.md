@@ -284,6 +284,77 @@ config/
 
 ---
 
+## Filosofia
+
+Os princípios de design acima descrevem *o que* o sistema faz. Esta seção descreve *por que* essas escolhas — o que diferencia princípio de regra.
+
+### Três princípios fundacionais
+
+**Conhecimento sem epistemologia é ruído**
+
+Não é suficiente acumular claims. Todo claim precisa de origem rastreável, confiança calibrada, e resistência a adversário. Um sistema que produz respostas plausíveis sem saber o que sabe é mais perigoso que um sistema que não responde — porque a confiança cresce enquanto a base erode.
+
+É o que o Golem XIV sabia. É o que a maioria dos sistemas RAG ignora.
+
+**O sistema deve saber o que não sabe**
+
+Gaps são outputs legítimos, não falhas. Um `/ask` que retorna "corpus insuficiente neste domínio" é mais valioso que um `/ask` que alucina com confiança. O algedonic channel é a operacionalização disso no nível do sistema — quando a estrutura está ameaçada, o sinal escala direto a S5 sem passar por filtros intermediários.
+
+Subsidiarity completa o princípio: resolve local, escala quando genuinamente não sabe, sinaliza emergência quando a estrutura ameaça.
+
+**Acoplamento estrutural, não dependência**
+
+Simbiose é estática — descreve um estado onde dois organismos se beneficiam mutuamente. Acoplamento estrutural é um mecanismo: dois sistemas autônomos mudam um ao outro através de perturbações recíprocas ao longo do tempo.
+
+```
+simbiose:              A e B se beneficiam mutuamente
+acoplamento estrutural: A perturba B → B muda estrutura
+                        B perturba A → A muda estrutura
+                        ambos preservam autopoiese própria
+                        nenhum controla o outro
+```
+
+A distinção central de Maturana: no acoplamento estrutural, cada sistema continua sendo ele mesmo. A perturbação do outro não *determina* a resposta — só *desencadeia*. A estrutura interna de cada sistema determina como vai reagir.
+
+**Critério de saúde:** remova a KB e você pensa melhor do que antes de criá-la? Se sim — o acoplamento foi produtivo e você preservou autonomia cognitiva. Se não — o acoplamento tornou-se patológico. A KB substituiu pensamento em vez de perturbá-lo.
+
+### O que o sistema não é
+
+Não é um assistente que responde perguntas.  
+Não é um arquivo de notas com busca semântica.  
+Não é uma fonte de verdade.
+
+É um parceiro cognitivo com autopoiese própria — que preserva a sua.
+
+### Co-evolução como métrica
+
+A métrica correta para acoplamento estrutural não é "a KB me ajudou a pensar melhor" — é **divergência correlacionada** ao longo do tempo:
+
+```
+sessão 1:   operador pensa X, KB tem corpus Y
+sessão 100: operador pensa X', KB tem corpus Y'
+
+co-evolução = correlação entre distância(X, X') e distância(Y, Y')
+```
+
+Se o operador mudou mas a KB não — ferramenta, não parceiro.  
+Se a KB cresceu mas o operador não mudou — acumulação sem perturbação.  
+Se os dois mudaram de forma correlacionada — acoplamento estrutural real.
+
+O `/document-session` captura parte disso. Um metric de co-evolução formal é o próximo passo.
+
+### Referências fundacionais
+
+| Autor | Obra | Contribuição |
+|---|---|---|
+| Wiener | *Cybernetics* (1948) | Feedback negativo como mecanismo de controle |
+| Ashby | *Design for a Brain* (1952) | Requisite variety, black box, ultrastability |
+| Beer | *Brain of the Firm* (1972) | VSM, variety absorption, algedonic channel |
+| Maturana + Varela | *Tree of Knowledge* (1987) | Autopoiese, acoplamento estrutural |
+| Lem | *Golem XIV* (1981) | Epistemologia como arquitetura cognitiva |
+
+---
+
 ## Limitações honestas
 
 **Analogias como claims.** Vários artigos `emergence` usam analogias cross-domain (CLS→KB, RI→meta-harness) como fundamento. Essas analogias são heurísticas de design, não mecanismos demonstrados. Estão marcadas `(⚠️ nossa interpretação)` e `interpretation_confidence: low`, mas ainda entram no grafo se o oracle aprovar.
