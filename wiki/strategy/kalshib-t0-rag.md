@@ -3,7 +3,7 @@ title: "KalshiBench-T0-RAG — Calibração Epistêmica sob Contexto Temporalmen
 created: 2026-04-07
 updated: 2026-04-07
 tags: [strategy, calibration, epistemic, retrieval, forecasting, benchmark, conjecture]
-source_quality: low
+source_quality: medium
 interpretation_confidence: low
 provenance: conjecture
 epistemic_status: hypothesis
@@ -13,6 +13,11 @@ conjecture_trigger:
   context: "KalshiBench (arXiv:2512.16030) mostra sobreconfiança sistemática em todos os frontier models em predições de mercado. Pipeline de challenge adversarial desta KB pode ser testado como mecanismo de calibração."
 conjectured_on: 2026-04-07
 lifecycle_state: active
+sources:
+  - path: wiki/concepts/kalshib-epistemic-calibration.md
+    type: article
+    quality: primary
+    stance: confirming
 ---
 
 ## Resumo
@@ -137,4 +142,5 @@ O harness pode saber o contexto; não pode saber o futuro disfarçado de context
 
 ## Fontes
 
-- [KalshiBench arXiv:2512.16030](../../raw/) — benchmark de calibração em predições de mercado; documenta overconfidence sistemática em frontier models. (Fonte não ingerida ainda — candidata a /ingest)
+- [KalshiBench arXiv:2512.16030](../../raw/papers/kalshib-epistemic-calibration.md) — benchmark de calibração em predições de mercado; documenta overconfidence sistemática em frontier models
+- [wiki/concepts/kalshib-epistemic-calibration.md](../concepts/kalshib-epistemic-calibration.md) — artigo wiki com síntese do paper e implicações para pipeline T0-RAG
