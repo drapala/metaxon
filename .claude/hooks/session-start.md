@@ -43,6 +43,21 @@ Output:
 - Se pronto: "📋 [artigo] pronto para /promote — todos os critérios satisfeitos"
 - Se pendente: "⏳ [artigo] em quarentena — pendente: [critérios]"
 
+**Emissão algedônica — quarantine_stale:**
+Para cada artigo pronto (todos os critérios satisfeitos) com > 24h em quarentena:
+- Verifica se já existe evento `type: quarantine_stale, resolved: false` para o artigo em `algedonic_events`
+- Se não existe: emite DisturbanceEvent via `.claude/commands/algedonic.md`
+  - `type: quarantine_stale`, `origin: kb-state-scan`, `evidence: [artigo-slug]`
+
+**Emissão algedônica — quarantine_repeat:**
+Lê `slow_cycle.lint.alerts` de `outputs/state/kb-state.yaml`.
+Se alerta `type: quarantine_rate` presente (quarantine_rate > 15%):
+- Verifica se já existe evento `type: quarantine_repeat, resolved: false` em `algedonic_events`
+- Se não existe: emite DisturbanceEvent
+  - `type: quarantine_repeat`, `origin: session-start`
+  - `evidence`: lista de slugs dos artigos em quarentena (máx 10)
+  - `severity: high`, `bypass_s3: true`
+
 ### Check 2 — Inbox
 
 ```bash
@@ -90,8 +105,34 @@ Reporte apenas o que tem ação:
 Se `next_actions` tem itens com `blocked_by: null`:
   "▶ /auto disponível — executa [N] ações automaticamente sem confirmação"
 
+### Check 7 — Canal Algedônico
+
+Lê `algedonic_events` de `outputs/state/kb-state.yaml` onde `resolved: false`.
+
+**Se `system_state: degraded`** — exibe bloco proeminente ANTES de qualquer outro output:
+```
+⛔ SYSTEM DEGRADED — resolver eventos algedônicos antes de continuar
+```
+
+**Se há eventos não resolvidos com `bypass_s3: true`:**
+```
+⚠️ ALGEDÔNICO — [N] evento(s) com bypass_s3: true (escalam direto para S5):
+  critical  gate_failure — [evidence] ([ts])
+  high      quarantine_repeat — [evidence] ([ts])
+```
+
+**Se há eventos não resolvidos (qualquer severity):**
+```
+📡 Algedônico — [N] evento(s) não resolvidos:
+  [severity]  [type] — [evidence resumido] ([ts])
+```
+Ordenar: critical → high → medium.
+
+Se zero eventos não resolvidos E `system_state: healthy`: silêncio (não exibe nada).
+
 ## Formato
-Conciso. Check 0 sempre aparece. Checks 1-6 apenas se têm itens.
+Conciso. Check 0 sempre aparece. Check 7 (algedônico crítico) aparece ANTES de
+Check 0 se system_state: degraded. Checks 1-6 apenas se têm itens.
 
 ## O que NÃO faz
 - Não executa ações

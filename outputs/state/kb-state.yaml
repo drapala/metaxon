@@ -92,10 +92,10 @@ emerge_queue: []
 ingest_chain:
   depth: 0 # incremented per auto-ingest triggered by /challenge
   origin_article: null
-  last_challenge: 2026-04-06  # raw-design-constraints — CHAIN_IGNORED (no INVALIDA)
+  last_challenge: 2026-04-06 # raw-design-constraints — CHAIN_IGNORED (no INVALIDA)
   status: open # closed after 1 INVALIDA auto-ingested; reset on manual /ingest
 sessions_since_last_dream: 1
-ingest_count_since_last_lint: 0  # reset após lint 2026-04-06 run2
+ingest_count_since_last_lint: 0 # reset após lint 2026-04-06 run2
 last_session_documented: 2026-04-06 # part20
 # ── Ciclo lento ──────────────────────────────────────────────────────────────
 slow_cycle:
@@ -416,7 +416,6 @@ reading_list: outputs/reading-list.md # Gentner 1983 adicionado — gap 2 (emerg
 # Rastreia artigos auto-completados para validação de retrieval (Fase 0.5 do /dream)
 # Fase 0.4 escreve aqui; Fase 0.5 lê e preenche reads_after_7d
 completion_tracking: {}
-
 stub_completion_queue:
   updated: 2026-04-06
   total_stubs: 9
@@ -486,3 +485,15 @@ stub_completion_queue:
       ineligibility_reason: null
 last_updated: "2026-04-06" # /emerge sessão 9: 3 GENUINE (vsm×CLS, debate×JA, block×CLS)
 last_emerge: 2026-04-05 # sessão 5: 1 GENUINE (vitality × VSM)
+system_state: healthy
+algedonic_events:
+  - id: 368a6a74-6765-44fd-bd2a-5bbb85950dae
+    ts: "2026-04-07T02:45:10Z"
+    origin: kb-state-scan
+    type: quarantine_stale
+    severity: medium
+    evidence:
+      - raw-design-constraints
+    bypass_s3: false
+    resolved: false
+    resolved_at: null

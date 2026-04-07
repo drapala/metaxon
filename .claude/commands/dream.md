@@ -373,6 +373,14 @@ approval_rate < 0.3         → ⚠️ THROUGHPUT BAIXO — <30% dos challenges 
 Se zero alertas: imprimir `✓ metabolismo calibrado`.
 Se alertas: listar alertas e sugerir ação corretiva baseada no modo de postura.
 
+**Emissão algedônica — gate_failure:**
+Se `oracle_ratio > 0.5` (metabolismo defensivo):
+- Verifica se já existe evento `type: gate_failure, resolved: false` em `algedonic_events`
+- Se não existe: emite DisturbanceEvent via `.claude/commands/algedonic.md`
+  - `type: gate_failure`, `origin: dream`
+  - `evidence`: lista de artigos dos últimos challenges com gate3_claims_invalidated > 0
+  - `severity: critical`, `bypass_s3: true`
+
 ### Salva relatório
 
 Escreva em `outputs/reports/pipeline-cost-YYYY-MM-DD.md`:

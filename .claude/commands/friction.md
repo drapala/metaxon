@@ -44,6 +44,14 @@ Severidade default: `medium`. Só eleva para `high` se o evento gerou erro real,
 Tags sugeridas (não exaustivas):
 `memory-load` `state-ambiguity` `sequence-unclear` `naming-confusion` `next-action-missing` `protocol-gap` `too-many-options` `invisible-state` `manual-overhead`
 
+**Emissão algedônica — quarantine_stale:**
+Se o evento registrado tem tag `next-action-missing` E surface `quarantine`:
+- Pergunta (ou infere do contexto): qual artigo em quarentena gerou o atrito?
+- Verifica se o artigo satisfaz critérios de promoção E está em quarentena > 24h
+- Se sim E não existe evento `type: quarantine_stale, resolved: false` para o artigo:
+  - Emite DisturbanceEvent via `.claude/commands/algedonic.md`
+    - `type: quarantine_stale`, `origin: friction`, `evidence: [artigo-slug]`
+
 ## O que NÃO fazer
 
 - Não escrever a causa — só o sintoma observado
