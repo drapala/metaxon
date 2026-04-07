@@ -17,10 +17,10 @@ emergence_trigger:
   connection_type: EMERGE-DE
   pearl_level: L2
 emerged_on: 2026-04-04
-reads: 0
-retrievals_correct: 0
+reads: 1
+retrievals_correct: 1
 retrievals_gap: 0
-last_read: null
+last_read: 2026-04-06
 quarantine: false
 quarantine_created: 2026-04-04
 quarantine_reason: "3+ speculations in KB application"

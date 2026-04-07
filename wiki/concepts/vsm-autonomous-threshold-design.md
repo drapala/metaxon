@@ -13,10 +13,10 @@ tags: [vsm, autonomy, threshold, S5, variety-engineering, agent-design, zelox]
 source_quality: medium
 interpretation_confidence: low
 resolved_patches: []
-reads: 0
-retrievals_correct: 0
-retrievals_gap: 0
-last_read: null
+reads: 1
+retrievals_correct: 1
+retrievals_gap: 1
+last_read: 2026-04-06
 quarantine: false
 quarantine_created: 2026-04-06
 quarantine_reason: "Artigo emergido de /ask cross-domain — aguarda confirmação adversarial e review frio"
