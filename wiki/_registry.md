@@ -155,3 +155,9 @@
 | raw/papers/pedro-caranana-2011-propaganda-model-21st-century.pdf | 2026-04-08 | paper | secondary | neutral | propaganda-model,digital-media,21st-century-filters | processed |
 | raw/papers/tirole-1988-ch6-dynamic-price-competition-tacit-collusion.md | 2026-04-08 | paper | primary | neutral | tacit-collusion,folk-theorem,supergames,dynamic-price-competition | processed |
 | raw/articles/mills-1956-power-elite-summary.md | 2026-04-08 | article | secondary | neutral | power-elite,elite-theory,institutional-coordination,democratic-decline | processed |
+| raw/articles/stigler-1964-theory-of-oligopoly.md | 2026-04-08 | article | secondary | challenging | tacit-collusion,oligopoly,detection-problem,cartel-instability | processed |
+| raw/papers/stigler-1964-theory-of-oligopoly.pdf | 2026-04-08 | paper | primary | challenging | tacit-collusion,oligopoly,detection-problem,cartel-instability | processed |
+| raw/articles/olson-1965-logic-collective-action.md | 2026-04-08 | article | secondary | challenging | collective-action-problem,free-rider,group-theory,public-goods | processed |
+| raw/papers/olson-1965-logic-collective-action-ch1.pdf | 2026-04-08 | paper | primary | challenging | collective-action-problem,free-rider,group-theory,public-goods | processed |
+| raw/articles/dahl-1961-who-governs.md | 2026-04-08 | article | secondary | challenging | power-elite,pluralism,dispersal-of-power,polyarchy | processed |
+| wiki/concepts/collective-action-problem.md | 2026-04-08 | source | medium | challenging | collective-action-problem,free-rider,public-goods,group-theory,political-science | processed |
